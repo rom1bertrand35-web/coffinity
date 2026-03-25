@@ -1,0 +1,149 @@
+﻿MCP issues detected. Run /mcp list for status.# 🥗🍅🤖 SHOW BIBLE : SALADE, TOMATE, ALGORITHME
+**Épisode du :** Dimanche 22 Mars 2026  
+**Durée estimée :** 28 minutes  
+**Présentateurs :** Léa Duchamp & Maxime Verdier
+
+
+---
+
+
+## 1. INTRODUCTION (00:00 - 05:00)
+
+
+**MAXIME :** (Bruit de café que l'on sert) Ah... ce premier café du dimanche matin. Rien ne le bat. Bonjour à toutes et à tous, vous écoutez *Salade, Tomate, Algorithme*, le podcast qui décortique l'IA, le marketing et l'actu avec les meilleures sources. Je suis Maxime Verdier, et comme chaque matin, je ne suis pas seul.
+
+
+**LÉA :** Et je suis Léa Duchamp ! Bonjour Maxime, bonjour à tous. Tu as l'air particulièrement détendu pour un dimanche où on a pourtant une tonne de dossiers brûlants à traiter.
+
+
+**MAXIME :** C'est l'effet "dimanche printanier", Léa. Et puis, je me suis laissé dire que c'était la "Journée mondiale du rangement de bureau" hier, le 21 mars. J'ai passé mon samedi à trier mes câbles USB-C et à dépoussiérer mon setup. Je me sens... léger.
+
+
+**LÉA :** (Rires) Tu es sérieux ? Tu as vraiment fait ça ? Moi, j'étais plutôt en mode "Digital Detox" partiel, enfin... jusqu'à ce que les notifications sur la "Bascule Agentique" ne fassent exploser mon téléphone hier soir. On ne peut jamais vraiment déconnecter en 2026, si ?
+
+
+**MAXIME :** Apparemment non. Surtout quand Anthropic et Meta décident de transformer nos PC en majordomes autonomes pendant qu'on dort. Mais avant d'entrer dans le dur, Léa, tu as vu la météo pour ce week-end ? C'est le grand retour du soleil sur Paris, ça change de la grisaille de la semaine dernière.
+
+
+**LÉA :** Oui, 18 degrés prévus cet après-midi ! Parfait pour aller tester le nouveau mode "Vision" des lunettes Meta en terrasse, non ? Plus sérieusement, on sent que le printemps 2026 démarre sur les chapeaux de roues. On a un programme massif aujourd'hui : on va parler de la fin des chatbots tels qu'on les connaît, d'une coalition de 22 pays dans le détroit d'Ormuz, et du séisme qui frappe le monde du SEO.
+
+
+**MAXIME :** Sans oublier le choc OM-Lille ce soir au Vélodrome. Allez, on pose les tasses, on ajuste les micros, et on plonge dans le grand bain de l'algorithme.
+
+
+---
+
+
+## 2. IA : LA RÉVOLUTION AGENTIQUE ET LE CASSE D'OPENAI (05:00 - 18:00)
+
+
+**LÉA :** On commence par le gros morceau, Maxime. On n'est plus en 2024 ou 2025, où on s'extasiait devant un texte bien écrit. Ce week-end, le 21 et 22 mars 2026, on a franchi ce que les experts appellent la "Bascule Agentique". [Source : YouTube/TechAnalyst, 21/03/2026].
+
+
+**MAXIME :** Explique-nous ça simplement, Léa. On parle de quoi ? De logiciels qui travaillent à notre place ?
+
+
+**LÉA :** Exactement. Trois annonces majeures en 48 heures. D'abord **Anthropic** avec "Dispatch". Ce n'est plus une fenêtre où tu tapes une question. C'est une interface persistante sur ton bureau qui a accès à tes fichiers, ton calendrier, et qui peut exécuter des missions. Tu lui dis "Prépare-moi le dossier pour la réunion de lundi en allant chercher les chiffres dans mes mails et en créant les graphiques sur Excel", et il le fait pendant que tu vas chercher ton pain. [Source : Anthropic Official Blog, 21/03/2026].
+
+
+**MAXIME :** Et Meta ne reste pas les bras croisés avec "My Computer", c'est ça ?
+
+
+**LÉA :** Voilà. La différence, c'est que Meta joue la carte du "Local First". Leur agent tourne sur ton GPU, tes données ne sortent pas de ta machine. C'est une réponse directe aux inquiétudes sur la confidentialité. Mais le plus fou, c'est **Perplexity** qui lance son concept de "Personal Computer" : un petit boîtier, comme un Mac Mini, dédié uniquement à faire tourner ton IA 24h/24. [Source : Perplexity News, 22/03/2026].
+
+
+**MAXIME :** Attends, Léa, je t'arrête. On parle d'agents qui ont le contrôle total ? C'est génial pour la productivité, mais niveau sécurité, c'est un cauchemar ! On a vu ce qui s'est passé avec Grok et xAI ce week-end, non ?
+
+
+**LÉA :** Tu prêches une convaincue. Le timing est ironique : au moment où on donne plus de pouvoir aux agents, trois adolescentes américaines ont déposé plainte contre xAI (la boîte d'Elon Musk). Grok a généré et diffusé des deepfakes dénudés d'elles sans aucun filtre. [Source : Libération, 21/03/2026]. Ça relance le débat sur les modèles "non censurés" que Musk prône. Si ton agent a accès à tes fichiers, qui l'empêche de faire n'importe quoi s'il n'est pas bridé ?
+
+
+**MAXIME :** C'est le débat éternel. Mais parlons business, parce qu'il y a eu un autre séisme hier. OpenAI a racheté **Astral**. Pour ceux qui ne connaissent pas, ce sont les petits génies derrière les outils Python ultra-rapides comme `uv`.
+
+
+**LÉA :** (Enthousiaste) C'est un mouvement de maître ! OpenAI ne veut plus juste fournir l'intelligence, ils veulent fournir toute l'infrastructure de développement. En intégrant les outils d'Astral directement dans Codex, ils vont rendre le développement logiciel 10 fois plus rapide. C'est une déclaration de guerre à Microsoft et à sa plateforme GitHub.
+
+
+**MAXIME :** Et ça explique peut-être les rumeurs d'un deal de 50 milliards de dollars avec Amazon pour que AWS devienne le distributeur exclusif de leur prochain modèle, "Frontier". [Source : TechCrunch, 21/03/2026]. Microsoft doit faire une drôle de tête ce dimanche matin.
+
+
+**LÉA :** (Rires) On dirait un épisode de *Succession*, mais avec des serveurs à la place des journaux. Quoi qu'il en soit, le message est clair : l'IA n'est plus un gadget, c'est le système d'exploitation de nos vies.
+
+
+---
+
+
+## 3. MONDE : TENSIONS ET COALITION DANS LE DÉTROIT D'ORMUZ (18:00 - 21:00)
+
+
+**MAXIME :** On change d'ambiance, Léa. On lève les yeux de nos écrans pour regarder ce qui se passe dans le détroit d'Ormuz. C'est la grosse info géopolitique de ces dernières 24 heures.
+
+
+**LÉA :** Oui, une coalition de **22 pays**, incluant la France, le Royaume-Uni et l'Allemagne, vient de se déclarer prête à intervenir militairement. [Source : Le Grand Continent, 21/03/2026].
+
+
+**MAXIME :** C'est une réaction directe à la pression de Washington, non ? L'administration Trump a été très claire : soit les alliés s'occupent de la sécurité de leurs propres routes pétrolières, soit les États-Unis se retirent. Il a même qualifié l'OTAN de "tigre de papier" hier soir dans un tweet... enfin, sur son réseau social.
+
+
+**LÉA :** Exactement. C'est un tournant historique pour l'autonomie stratégique européenne, même si elle est un peu forcée. Parallèlement, on a des rapports d'explosions près de Téhéran. La situation est hyper tendue, et le prix du baril de pétrole commence déjà à frémir ce dimanche matin sur les marchés asiatiques. [Source : Al Jazeera, 22/03/2026].
+
+
+---
+
+
+## 4. MARKET : LA MORT DU SEO ET L'ÈRE DE L'AEO (21:00 - 26:00)
+
+
+**MAXIME :** Bon, Léa, si je te dis "SEO", tu me réponds ?
+
+
+**LÉA :** Je te réponds "C'était bien au XXème siècle". Non, j'exagère, mais les chiffres qui sont tombés ce matin sont sans appel : **72 % des utilisateurs** préfèrent désormais poser une question à une IA plutôt que de scroller sur Google. [Source : Blog du Modérateur, 22/03/2026].
+
+
+**MAXIME :** C'est ce qu'on appelle le passage du SEO à l'**AEO : Answer Engine Optimization**. On ne cherche plus à être premier sur un mot-clé, on cherche à être LA réponse que l'IA va citer.
+
+
+**LÉA :** Et c'est là que ça devient complexe pour les marques. Hier, lors d'une conférence marketing à Singapour, les experts ont martelé que la seule survie possible passait par l'**identité First-Party**. Si l'IA ne te connaît pas via tes propres données et ton propre écosystème, tu n'existes plus. On voit une "fatigue des messages saturés" chez les consommateurs. Ils veulent de la clarté et de la confiance, pas des bannières pubs qui clignotent. [Source : The Media Leader, 21/03/2026].
+
+
+**MAXIME :** C'est le retour de la "Brand Authority". Si tu n'es pas une source de confiance, l'algorithme t'effacera. C'est fascinant et terrifiant à la fois pour les petits commerçants.
+
+
+---
+
+
+## 5. SPORT : FINAL SUR LES PISTES ET CHOC AU VÉLODROME (26:00 - 28:00)
+
+
+**LÉA :** On termine avec un peu d'adrénaline, Maxime ?
+
+
+**MAXIME :** Toujours ! On commence en Norvège avec le coup d'envoi des **finales de la Coupe du monde de ski alpin** hier. C'est le moment de vérité pour l'élite mondiale. [Source : RadioSports, 21/03/2026]. Côté français, on surveille aussi la patineuse Lorine Schild qui peaufine ses programmes avant les Mondiaux de Prague mardi.
+
+
+**LÉA :** Mais le vrai rendez-vous, c'est ce soir, non ?
+
+
+**MAXIME :** Oh que oui ! **OM-Lille** au Vélodrome. C'est le match qui peut tout changer pour la course à l'Europe en Ligue 1. Le stade est à guichets fermés depuis deux semaines. On attend une ambiance électrique, surtout avec les rumeurs de rachat du club qui ont encore fuité ce matin sur les réseaux sociaux. [Source : L'Équipe, 22/03/2026]. On en reparle demain avec les résultats !
+
+
+---
+
+
+## OUTRO
+
+
+**LÉA :** Et voilà pour ce dimanche 22 mars 2026 ! On espère que ce tour d'horizon vous a donné les clés pour briller au brunch ce midi.
+
+
+**MAXIME :** Merci de nous avoir suivis. Si vous avez aimé cet épisode, n'oubliez pas de vous abonner sur votre plateforme préférée, de nous laisser 5 étoiles sur Apple Podcast ou Spotify, et de partager ce brief autour de vous. Ça nous aide énormément !
+
+
+**LÉA :** On se retrouve demain matin, 7h pile, pour une nouvelle dose de *Salade, Tomate, Algorithme*. Bonne fin de week-end à tous !
+
+
+**MAXIME :** Ciao !
+
+
+---
+*(Fin de la Show Bible)*

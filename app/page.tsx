@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Heart, Star, Loader2, UserPlus, UserCheck } from "lucide-react";
+import { Heart, Star, Loader2, UserPlus, UserCheck, MoreHorizontal } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { usePoints } from "@/components/PointsFeedback";

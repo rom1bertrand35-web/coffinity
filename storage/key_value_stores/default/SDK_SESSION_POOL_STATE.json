@@ -1,0 +1,102 @@
+{
+  "usableSessionsCount": 2,
+  "retiredSessionsCount": 0,
+  "sessions": [
+    {
+      "id": "session_bp4Fu2COP2",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.1",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-03-22T16:40:10.404Z",
+      "createdAt": "2026-03-22T15:50:10.404Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_WCiMFlI60x",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.1",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": [
+          {
+            "key": "maxiSessId",
+            "value": "daoiqj02hg1v1saguef3msol0h",
+            "expires": "2026-03-22T16:40:12.312Z",
+            "domain": "www.maxicoffee.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": true,
+            "creation": "2026-03-22T15:50:12.315Z",
+            "lastAccessed": "2026-03-22T15:50:12.315Z"
+          },
+          {
+            "key": "SERVERID",
+            "value": "G",
+            "expires": "2026-03-22T16:40:12.312Z",
+            "domain": "www.maxicoffee.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-03-22T15:50:12.315Z",
+            "lastAccessed": "2026-03-22T15:50:12.315Z"
+          },
+          {
+            "key": "frz-referrer",
+            "expires": "2026-03-22T16:40:12.312Z",
+            "domain": "www.maxicoffee.com",
+            "path": "/",
+            "secure": true,
+            "httpOnly": true,
+            "hostOnly": true,
+            "creation": "2026-03-22T15:50:12.315Z",
+            "lastAccessed": "2026-03-22T15:50:12.315Z"
+          },
+          {
+            "key": "frz_referrer_unique_id",
+            "value": "tm3NdLi73c2GE0G0rZpgyB2RpOOKGQrVJcdKv9wSi9HeVsppRjz0Qw==",
+            "expires": "2026-03-22T15:50:31.993Z",
+            "domain": "www.maxicoffee.com",
+            "path": "/",
+            "secure": true,
+            "httpOnly": true,
+            "hostOnly": true,
+            "creation": "2026-03-22T15:50:12.315Z",
+            "lastAccessed": "2026-03-22T15:50:12.315Z"
+          },
+          {
+            "key": "accessed_once",
+            "value": "1",
+            "expires": "2027-04-26T15:50:12.287Z",
+            "domain": "www.maxicoffee.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": true,
+            "creation": "2026-03-22T15:50:12.315Z",
+            "lastAccessed": "2026-03-22T15:50:12.315Z"
+          }
+        ]
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-03-22T16:40:10.406Z",
+      "createdAt": "2026-03-22T15:50:10.406Z",
+      "usageCount": 1,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    }
+  ]
+}

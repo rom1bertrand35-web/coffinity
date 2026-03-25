@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: hsl(40 33% 98%); /* crème très pâle */
+  --color-foreground: hsl(20 14% 4%);
+  
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(20 14% 4%);
+  
+  --color-primary: hsl(25 35% 25%); /* Espresso brown */
+  --color-primary-foreground: hsl(60 9% 98%);
+  
+  --color-secondary: hsl(30 15% 92%); /* Taupe léger */
+  --color-secondary-foreground: hsl(24 10% 10%);
+  
+  --color-accent: hsl(20 80% 50%); /* Cuivre */
+  --color-accent-foreground: hsl(60 9% 98%);
+  
+  --color-muted: hsl(60 5% 96%);
+  --color-muted-foreground: hsl(25 5% 45%);
+
+  --color-border: hsl(20 6% 92%);
+  --color-input: hsl(20 6% 92%);
+  
+  --radius: 1.5rem;
+
+  /* DARK MODE COLORS */
+  --color-dark-bg: hsl(20 14% 4%);
+  --color-dark-card: hsl(20 14% 7%);
+  --color-dark-primary: hsl(30 20% 80%);
+  --color-dark-border: hsl(20 14% 12%);
+  --color-dark-text: hsl(40 20% 90%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: Arial, Helvetica, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-background: var(--color-dark-bg);
+      --color-foreground: var(--color-dark-text);
+      --color-card: var(--color-dark-card);
+      --color-border: var(--color-dark-border);
+      --color-secondary: hsl(20 14% 10%);
+    }
+    body {
+      background-color: var(--color-background);
+      color: var(--color-foreground);
+    }
+    .bento-card {
+      background-color: var(--color-card);
+      border-color: var(--color-border);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+  }
+}
+
+@layer utilities {
+  .bento-card {
+    background-color: var(--color-card);
+    border-radius: 2.5rem;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.03);
+    border-width: 1.5px;
+    border-color: var(--color-border);
+    overflow: hidden;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+  }
+
+  .bento-card:active {
+    transform: scale(0.98);
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite linear;
+    border-radius: 0.75rem;
+  }
+
+  @keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .skeleton {
+      background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+      background-size: 200% 100%;
+    }
+  }
+
+  .tap-haptic {
+    transition: transform 0.1s ease;
+  }
+  .tap-haptic:active {
+    transform: scale(0.95);
+  }
+}

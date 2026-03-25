@@ -1,0 +1,9 @@
+{
+	"id": "a1PeeiQ37KjpKgj",
+	"json": "{\"id\":\"a1PeeiQ37KjpKgj\",\"url\":\"https://www.maxicoffee.com/cafe-en-grain-c-28_56.html\",\"loadedUrl\":\"https://www.maxicoffee.com/contenu-indisponible-sc-393.html\",\"uniqueKey\":\"https://www.maxicoffee.com/cafe-en-grain-c-28_56.html\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"LIST\",\"__crawlee\":{\"state\":4}},\"handledAt\":\"2026-03-22T15:50:14.098Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.maxicoffee.com/cafe-en-grain-c-28_56.html",
+	"url": "https://www.maxicoffee.com/cafe-en-grain-c-28_56.html"
+}

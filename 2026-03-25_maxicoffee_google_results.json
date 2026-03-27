@@ -1,0 +1,855 @@
+[
+  {
+    "#debug": {
+      "requestId": "BNZNdciaInLb9XQ",
+      "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com+%22caf%C3%A9+en+grain%22&lr=lang_fr",
+      "loadedUrl": "http://www.google.fr/search?q=site%3Amaxicoffee.com+%22caf%C3%A9+en+grain%22&lr=lang_fr",
+      "method": "GET",
+      "retryCount": 0,
+      "errorMessages": [],
+      "statusCode": 200
+    },
+    "#error": false,
+    "searchQuery": {
+      "term": "site:maxicoffee.com \"café en grain\"",
+      "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com+%22caf%C3%A9+en+grain%22&lr=lang_fr",
+      "device": "DESKTOP",
+      "page": 1,
+      "type": "SEARCH",
+      "domain": "google.fr",
+      "countryCode": "FR",
+      "languageCode": null,
+      "locationUule": null,
+      "resultsPerPage": 10
+    },
+    "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com+%22caf%C3%A9+en+grain%22&lr=lang_fr",
+    "hasNextPage": true,
+    "serpProviderCode": "N",
+    "resultsTotal": null,
+    "relatedQueries": [],
+    "paidResults": [],
+    "paidProducts": [],
+    "organicResults": [
+      {
+        "title": "Café en grains : + de 600 références au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-grain-c-58.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Café en grain : une expérience sensorielle incomparable · Quel café en grain choisir ? Nos conseils d'experts · Trouvez le café qui vous ressemble · Bien préparer ...Read more",
+        "emphasizedKeywords": [
+          "Café en grain",
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 1
+      },
+      {
+        "title": "Café en grain 1kg - Format économique pour plus de plaisir",
+        "url": "https://www.maxicoffee.com/cafe-grain-1kg-c-58_1260.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "Sélection de cafés en grain 1kg. Le café en grain 1kg est la solution idéale pour les amateurs de café qui recherchent un format pratique et économique .Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 2
+      },
+      {
+        "title": "Café en Grain d'Exception au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-grain-exception-c-58_1418.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "- la variété : un café en grain d'exception est bien souvent un 100 % arabica. Le café bourbon pointu de la Réunion, le café Geisha ou le café Blue Mountain de ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 3
+      },
+      {
+        "title": "Café en Grain Bio : achat des meilleurs cafés en ligne",
+        "url": "https://www.maxicoffee.com/cafe-grain-bio-c-58_1264.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "230 g - Café en grain - Roota Bio - GREEN LION COFFEE. Assemblage 100% arabica; Origines : Brésil, Guatemala, Salvador, Pérou; Notes : noisettes grillées, poire ...Read more",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 4
+      },
+      {
+        "title": "Café en grain crémeux au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-cremeux-c-58_2430.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Un café en grain crémeux se distingue par sa texture veloutée et son corps riche. La crème, ou \"crema\", qui se forme à la surface d'un espresso, est un ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 5
+      },
+      {
+        "title": "Café en Grain haut de gamme",
+        "url": "https://www.maxicoffee.com/cafe-grain-haut-gamme-c-58_1442.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "- Aux meilleurs cafés en grain haut de gamme triés par variété (café 100 % arabica, café en grain Blue Mountain, Café en grain bourbon…), par marque (Ditta ...Read more",
+        "emphasizedKeywords": [
+          "café en grain",
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 6
+      },
+      {
+        "title": "Café en Grain par Marque",
+        "url": "https://www.maxicoffee.com/cafe-grain-marque-c-58_1357.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Nos catégories : Café en Grain par Marque · Café en grain Lugat · Café en grain Perléo · Café en grain Green Lion Coffee · Café en grain Les Petits Torréfacteurs ...Read more",
+        "emphasizedKeywords": [
+          "Café en Grain",
+          "Café en grain",
+          "Café en grain",
+          "Café en grain",
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 7
+      },
+      {
+        "title": "Passez au café en grain, oubliez les capsules et dosettes.",
+        "url": "https://www.maxicoffee.com/passez-cafe-grain-c-58_1801.html",
+        "displayedUrl": "https://www.maxicoffee.com › pas...",
+        "description": "Qu'est-ce que le café en grain ? Le café en grain est directement issu du caféier, l'arbre sur lequel poussent les cerises de café.Read more",
+        "emphasizedKeywords": [
+          "café en grain",
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 8
+      },
+      {
+        "title": "Comment choisir son café en grain pour préparer son café ?",
+        "url": "https://www.coffee-spirit.maxicoffee.com/guide/comment-choisir-son-cafe-en-grains-2/",
+        "displayedUrl": "https://www.coffee-spirit.maxicoffee.com › ...",
+        "description": "Arabica ou robusta ? Café du Brésil ou d'Éthiopie ? Voici tous nos conseils pour savoir comment choisir son café en grain.",
+        "date": "2023-10-01T12:00:00.000Z",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 9
+      },
+      {
+        "title": "Café en grain Bazzara Pack découverte 3 cafés - 3x1kg",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-bazzara-packdecouverte-3cafes-3x1kg-p-184863.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "Ce lot de café en grain comporte des blends arabica, le Panaméricain, le ... Découvrez le café en grain Bazzara et le pack découverte 3 cafés - 3x1kg.",
+        "emphasizedKeywords": [
+          "café en grain",
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 10
+      }
+    ],
+    "suggestedResults": [],
+    "peopleAlsoAsk": [],
+    "customData": null,
+    "htmlSnapshotUrl": "https://api.apify.com/v2/key-value-stores/FVgiUfcdFlNLuhC0V/records/BNZNdciaInLb9XQ-0.html?signature=6hTDu7KnRId4xLJwtDou"
+  },
+  {
+    "#debug": {
+      "requestId": "uj77PXLxe8tYxo6",
+      "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=10",
+      "loadedUrl": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=10",
+      "method": "GET",
+      "retryCount": 0,
+      "errorMessages": [],
+      "statusCode": 200
+    },
+    "#error": false,
+    "searchQuery": {
+      "term": "site:maxicoffee.com \"café en grain\"",
+      "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=10",
+      "device": "DESKTOP",
+      "page": 2,
+      "type": "SEARCH",
+      "domain": "google.fr",
+      "countryCode": "FR",
+      "languageCode": null,
+      "locationUule": null,
+      "resultsPerPage": 10
+    },
+    "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=10",
+    "hasNextPage": true,
+    "serpProviderCode": "N",
+    "resultsTotal": null,
+    "relatedQueries": [],
+    "paidResults": [],
+    "paidProducts": [],
+    "organicResults": [
+      {
+        "title": "Café en grain Bazzara Pack découverte 3 cafés - 3x1kg",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-bazzara-packdecouverte-3cafes-3x1kg-p-184863.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "Ce lot de café en grain comporte des blends arabica, le Panaméricain, le ... Découvrez le café en grain Bazzara et le pack découverte 3 cafés - 3x1kg.",
+        "emphasizedKeywords": [
+          "café en grain",
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 11
+      },
+      {
+        "title": "Passez au café en grain, oubliez les capsules et dosettes.",
+        "url": "https://www.maxicoffee.com/passez-cafe-grain-c-58_1801.html",
+        "displayedUrl": "https://www.maxicoffee.com › pas...",
+        "description": "Qu'est-ce que le café en grain ? Le café en grain est directement issu du caféier, l'arbre sur lequel poussent les cerises de café.Read more",
+        "emphasizedKeywords": [
+          "café en grain",
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 12
+      },
+      {
+        "title": "Café frais - Achetez du café en grain fraichement torréfié",
+        "url": "https://www.maxicoffee.com/cafe-frais-c-58_1688.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Vous aimez vos légumes frais ? Alors pourquoi pas votre café ? ; 4 x 250 g – Café en grain – Pack découverte 4 origines Éthiopie Brésil Colombie Pérou – LUGAT.Read more",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 13
+      },
+      {
+        "title": "Café en grain 500g au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-500g-c-58_2428.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "Les cafés en grain 500 g sont parfaits pour savourer des arômes intenses et conserver la fraîcheur de chaque tasse. Opter pour un café en grain 500 g, ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 14
+      },
+      {
+        "title": "Café en grain du Brésil au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-bresil-c-58_2268.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "1 kg - Café en grain - Gustoso - PERLÉO · 230 g - Café en grain - Roota Bio - GREEN LION COFFEE · 4 x 230 g - Café en grain - Black Spice - LUGAT · 1 kg - Café en ...Read more",
+        "emphasizedKeywords": [
+          "Café en grain",
+          "Café en grain",
+          "Café en grain",
+          "Café en"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 15
+      },
+      {
+        "title": "Café en grain arabica sur MaxiCoffee au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-grain-arabica-c-58_1636.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Un grand choix de café vous est proposé dans la rubrique café en grain arabica, avec plus de 500 produits et les plus grandes marques (Terres de Café, Caffè ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 16
+      },
+      {
+        "title": "Comparatif Café et Thé : nos meilleurs classements",
+        "url": "https://www.coffee-spirit.maxicoffee.com/comparatif-deguster/cafe-grains/",
+        "displayedUrl": "https://www.coffee-spirit.maxicoffee.com › ...",
+        "description": "Vous venez d'acquérir une machine De'Longhi et vous souhaitez choisir le meilleur café en grain pour votre machine à café… Rédigé par Apolline. 1 Oct 2024.Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 17
+      },
+      {
+        "title": "Café en grain Lavazza : achat en ligne au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-grain-lavazza-c-58_1357_1298.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Sélection de cafés en grain Lavazza ; 500 g - Café en grain - Pack Tales of Roma et Tales of Napoli - LAVAZZA · 14 · 0€21/tasse ; 1 kg - Café en grain - Espresso ...Read more",
+        "emphasizedKeywords": [
+          "Café en grain",
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 18
+      },
+      {
+        "title": "2 kg Café en grain pour professionnels GustoItaliano - Bazzara",
+        "url": "https://www.maxicoffee.com/2kg-cafe-grain-professionnels-gustoitaliano-bazzara-p-235786.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "2 kg Café en grain pour professionnels GustoItaliano - Bazzara · Blend · Origines variées · Torréfaction italienne · Véritable expresso italien · Conditionnement : ...",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 19
+      },
+      {
+        "title": "250 g - Café en grain - Rwanda Taba Bio - CAFE MOKXA",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-cafemokxa-rwanda-taba-bio-250g-p-224224.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "Découvrez le café en grain Rwanda Taba Bio 250g de CAFE MOKXA, aux notes fruitées et gourmandes. Un café bio de spécialité à savourer intensément.",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 20
+      }
+    ],
+    "suggestedResults": [],
+    "peopleAlsoAsk": [],
+    "customData": null,
+    "htmlSnapshotUrl": "https://api.apify.com/v2/key-value-stores/FVgiUfcdFlNLuhC0V/records/uj77PXLxe8tYxo6-0.html?signature=JRh0IhV48o7PSWcMsMuv"
+  },
+  {
+    "#debug": {
+      "requestId": "MEoCREQNAcX2oYM",
+      "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=20",
+      "loadedUrl": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=20",
+      "method": "GET",
+      "retryCount": 0,
+      "errorMessages": [],
+      "statusCode": 200
+    },
+    "#error": false,
+    "searchQuery": {
+      "term": "site:maxicoffee.com \"café en grain\"",
+      "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=20",
+      "device": "DESKTOP",
+      "page": 3,
+      "type": "SEARCH",
+      "domain": "google.fr",
+      "countryCode": "FR",
+      "languageCode": null,
+      "locationUule": null,
+      "resultsPerPage": 10
+    },
+    "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=20",
+    "hasNextPage": true,
+    "serpProviderCode": "N",
+    "resultsTotal": null,
+    "relatedQueries": [],
+    "paidResults": [],
+    "paidProducts": [],
+    "organicResults": [
+      {
+        "title": "Café en grain arabica sur MaxiCoffee au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-grain-arabica-c-58_1636.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Un grand choix de café vous est proposé dans la rubrique café en grain arabica, avec plus de 500 produits et les plus grandes marques (Terres de Café, Caffè ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 21
+      },
+      {
+        "title": "Café en grain bio pas cher - Qualité et économies",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-bio-pas-cher-c-58_1264_2544.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Opter pour du café en grain bio, c'est faire le choix d'un produit respectueux de l'environnement et de la santé. Cultivé sans pesticides ni engrais chimiques, ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 22
+      },
+      {
+        "title": "2 kg Café en grain pour professionnels GustoItaliano - Bazzara",
+        "url": "https://www.maxicoffee.com/2kg-cafe-grain-professionnels-gustoitaliano-bazzara-p-235786.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "2 kg Café en grain pour professionnels GustoItaliano - Bazzara · Blend · Origines variées · Torréfaction italienne · Véritable expresso italien · Conditionnement : ...",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 23
+      },
+      {
+        "title": "250 g - Café en grain - Rwanda Taba Bio - CAFE MOKXA",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-cafemokxa-rwanda-taba-bio-250g-p-224224.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "Découvrez le café en grain Rwanda Taba Bio 250g de CAFE MOKXA, aux notes fruitées et gourmandes. Un café bio de spécialité à savourer intensément.",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 24
+      },
+      {
+        "title": "Café en grain en gros - 25kg - Antica - Perleo",
+        "url": "https://www.maxicoffee.com/25kg-cafe-grain-antica-perleo-professionnel-p-165514.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "25 Kg Café en grain pour professionnels Antica - Perléo · Blend · Mélange d'origines · Puissant et aromatique · Conditionnement : 25 x 1 kilo.Read more",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 25
+      },
+      {
+        "title": "1 kg - Café en grain - Pur Arabica - SAN MARCO",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-san-marco-san-marco-1kg-p-190965.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "Café en grain San Marco, torréfié en France par San Marco, 1kg.Blend arabica(Amérique du Sud et Afrique), à la torréfaction italienne. Filtre ou expresso.",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 26
+      },
+      {
+        "title": "MaxiCoffee: Expert machine à café, café et thé",
+        "url": "https://www.maxicoffee.com/",
+        "displayedUrl": "https://www.maxicoffee.com",
+        "description": "1 kg - Café en grain - Gustoso - PERLÉO · Assemblage 100 % arabica · Brésil, Guatemala, Salvador, Pérou · Notes : noisettes grillées, poire, herbes sauvages, ...",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 27
+      },
+      {
+        "title": "Grossiste Café en grains Professionel Bar 1kg - Zicaffè",
+        "url": "https://www.maxicoffee.com/cafe-grains-professional-zicaffe-1kg-p-140348.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "Café en grain Zicaffè Professional Bar : blend, torréfié en Italie, 1kg, livraison offerte, à retrouver chez MaxiCoffee.",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 28
+      },
+      {
+        "title": "Lavazza : café en grain, moulu ou en dosettes au meilleur ...",
+        "url": "https://www.maxicoffee.com/lavazza-m-201.html",
+        "displayedUrl": "https://www.maxicoffee.com › lav...",
+        "description": "Le café en grain Lavazza est très apprécié des professionnels, la restauration et la distribution automatique. En effet, Lavazza est LA marque de café pionnière ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 29
+      },
+      {
+        "title": "1Kg café en grains Italien - Los Primos",
+        "url": "https://www.maxicoffee.com/cafe-grains-italien-1kg-primos-p-34488.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "1 kg - Café en grain - Italien - LOS PRIMOS ; Pays de torréfaction, France ; Conditions de conservation, A l'abri de la lumière, Dans un endroit sec ; Famille ...Read more",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 30
+      }
+    ],
+    "suggestedResults": [],
+    "peopleAlsoAsk": [],
+    "customData": null,
+    "htmlSnapshotUrl": "https://api.apify.com/v2/key-value-stores/FVgiUfcdFlNLuhC0V/records/MEoCREQNAcX2oYM-0.html?signature=STeIp4YJoPpCKicsHF2z"
+  },
+  {
+    "#debug": {
+      "requestId": "xiLOiR5FwLstLkq",
+      "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=30",
+      "loadedUrl": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=30",
+      "method": "GET",
+      "retryCount": 0,
+      "errorMessages": [],
+      "statusCode": 200
+    },
+    "#error": false,
+    "searchQuery": {
+      "term": "site:maxicoffee.com \"café en grain\"",
+      "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=30",
+      "device": "DESKTOP",
+      "page": 4,
+      "type": "SEARCH",
+      "domain": "google.fr",
+      "countryCode": "FR",
+      "languageCode": null,
+      "locationUule": null,
+      "resultsPerPage": 10
+    },
+    "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=30",
+    "hasNextPage": true,
+    "serpProviderCode": "N",
+    "resultsTotal": null,
+    "relatedQueries": [],
+    "paidResults": [],
+    "paidProducts": [],
+    "organicResults": [
+      {
+        "title": "1 kg - Café en grain - Intensité 10 - L'OR",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-lor-intensite-10-arabica-robusta-1kg-p-178503.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "1 kg - Café en grain - Intensité 10 - L'OR ; Notes de dégustation, Cacao, Caramel, Noix ; Conditions de conservation, A l'abri de la lumière, Dans un endroit sec.Read more",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 31
+      },
+      {
+        "title": "Coffret de Café en grain au meilleur prix",
+        "url": "https://www.maxicoffee.com/coffret-cafe-grain-c-58_121.html",
+        "displayedUrl": "https://www.maxicoffee.com › cof...",
+        "description": "Les grains de café conservent leur fraîcheur pendant environ 2 à 3 mois s'ils sont stockés correctement. Explorez notre collection de coffrets de café en grain ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 32
+      },
+      {
+        "title": "Café en Grain Starbucks au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-grain-starbucks-c-58_1357_1292.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Notre sélection de café en grains Starbucks ; 450 g - Café en grain - Blonde Espresso Roast - STARBUCKS · 4.6 · 28 · 100 % Arabica; Notes douces et sucrées ; 4 x 450 ...Read more",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 33
+      },
+      {
+        "title": "Café en Grain Café Richard",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-cafe-richard-c-58_1357_1444.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Café en grain BIO Moka d'Ethiopie. Ce café en grains signé Café Richard est issu de l'Agriculture Biologique. Il s'agit d'un café 100% Arabica Pure Origine ...Read more",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 34
+      },
+      {
+        "title": "Café en grain Destination au meilleur prix",
+        "url": "https://cdn.maxicoffee.com/cafe-grain-destination-c-58_1357_1513.html?tradeCampaignId=2025&tradeBandName=DESTINATION&tradeWeekNumber=year&tradePosition=CARRDESMARQUES&tradeCategory=CafeGrain",
+        "displayedUrl": "https://cdn.maxicoffee.com › cafe-...",
+        "description": "Découvrez les cafés en grains Destination. Du café en grain bio créé par une marque engagée qui fabrique et torréfie en France. Plusieurs formats : 250g ...",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 35
+      },
+      {
+        "title": "Café en grain Puissant Grand Mère 1kg",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-grand-mere-puissant-1kg-p-220254.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "Conçu pour les machines à café à grain, ce café en grain 1kg vous promet une expérience gustative profonde et généreuse. Composé d'un assemblage équilibré ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 36
+      },
+      {
+        "title": "Café en grain Café Royal : large choix au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-grain-cafe-royal-c-58_1357_1577.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Le café en grain Royal séduit autant les amateurs éclairés que les curieux en quête de nouvelles saveurs. Grâce à des recettes bien pensées, souvent équilibrées ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 37
+      },
+      {
+        "title": "Les 5 bonnes raisons de découvrir le café en grains",
+        "url": "https://www.coffee-spirit.maxicoffee.com/guide/passer-au-cafe-en-grain/",
+        "displayedUrl": "https://www.coffee-spirit.maxicoffee.com › ...",
+        "description": "Contrairement à la capsule, le café en grain est très écologique. ... Comment choisir son café en grain ? Arabica ou robusta ? Café du ...Read more",
+        "date": "2023-01-19T12:00:00.000Z",
+        "emphasizedKeywords": [
+          "café en grain",
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 38
+      },
+      {
+        "title": "Café en grain Pellini au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-grain-pellini-c-58_1357_1507.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Notre sélection café en grain Pellini. Découvrez Pellini : l'espresso intense et équilibré , fidèle au style italien, avec une torréfaction foncée et des arômes ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 39
+      },
+      {
+        "title": "Café en grain en promo",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-promo-c-58_2241.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Les offres promotionnelles sur le café en grain vous permettent d'explorer une variété de saveurs sans dépasser votre budget. Café corsé, fruité ou équilibré, ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 40
+      }
+    ],
+    "suggestedResults": [],
+    "peopleAlsoAsk": [],
+    "customData": null,
+    "htmlSnapshotUrl": "https://api.apify.com/v2/key-value-stores/FVgiUfcdFlNLuhC0V/records/xiLOiR5FwLstLkq-0.html?signature=unmdbAeMLLCajE4yIrjJ"
+  },
+  {
+    "#debug": {
+      "requestId": "ppS75LTy6HiPDlf",
+      "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=40",
+      "loadedUrl": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=40",
+      "method": "GET",
+      "retryCount": 0,
+      "errorMessages": [],
+      "statusCode": 200
+    },
+    "#error": false,
+    "searchQuery": {
+      "term": "site:maxicoffee.com \"café en grain\"",
+      "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=40",
+      "device": "DESKTOP",
+      "page": 5,
+      "type": "SEARCH",
+      "domain": "google.fr",
+      "countryCode": "FR",
+      "languageCode": null,
+      "locationUule": null,
+      "resultsPerPage": 10
+    },
+    "url": "http://www.google.fr/search?q=site%3Amaxicoffee.com%20%22caf%C3%A9%20en%20grain%22&lr=lang_fr&start=40",
+    "hasNextPage": true,
+    "serpProviderCode": "N",
+    "resultsTotal": null,
+    "relatedQueries": [],
+    "paidResults": [],
+    "paidProducts": [],
+    "organicResults": [
+      {
+        "title": "Café Moulu : large choix de cafés au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-moulu-c-6_206_24.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "C'est sûr vous allez trouver un café bio et équitable à votre goût ! Aussi, si vous préférez acheter du café en grain , nous vous proposons également les ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 41
+      },
+      {
+        "title": "Café en Grain La Semeuse au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-grain-la-semeuse-c-58_1357_2056.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Le café en grain La Semeuse classique incarne la tradition suisse de l'excellence et de la qualité dans chaque tasse. Avec des décennies d'expérience, une ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 42
+      },
+      {
+        "title": "Café - Achat de café au Meilleur Prix - MaxiCoffee",
+        "url": "https://www.maxicoffee.com/cafe-c-6.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Tout l'univers du café : café en grain, café moulu, café en capsules ou dosettes compatibles, café de spécialité. Il y en a pour tous les goûts.",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 43
+      },
+      {
+        "title": "Café en grain Terres de Café au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-grain-terres-cafe-c-58_1357_2226.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Sélection de café en grain Terres de café. Terres De Café propose une gamme de café en grains haut de gamme , de torréfaction traditionnelle ainsi que des ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 44
+      },
+      {
+        "title": "Les cafés en grain Kimbo",
+        "url": "https://www.maxicoffee.com/cafe-grain-kimbo-c-58_1357_1806.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Café en grain Kimbo : l'essence du café napolitain. L'hommage au savoir-faire italien , une torréfaction maîtrisée qui révèle des arômes intenses et une belle ...Read more",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 45
+      },
+      {
+        "title": "Café en grain Jura : le choix au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-jura-c-58_1357_2603.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Sélection de cafés en grains par Jura. Découvrez le café en grain de la marque Jura, idéal pour votre expresso broyeur.Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 46
+      },
+      {
+        "title": "Lot Découverte - Café en grains L'Or - 2x500gr",
+        "url": "https://www.maxicoffee.com/cafe-grain-espresso-500g-p-118886.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "Avis client sur 2 x 500 g - Café en grain - Lot Découverte Espresso x Brésil - L'OR · 5/5. Avis vérifié. Très bon café je vien vers vous pour en commander à ...Read more",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 47
+      },
+      {
+        "title": "Café en grain Bazzara Espresso au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-grain-bazzara-espresso-c-58_1357_1762.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Découvrez notre sélection de café en grain Bazzara Expresso. Choisir son café Bazzara c'est la garantie d'un café frais , sélectionnés dans les meilleures ...Read more",
+        "emphasizedKeywords": [
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 48
+      },
+      {
+        "title": "Café en grain Delta : le café portugais au meilleur prix",
+        "url": "https://www.maxicoffee.com/cafe-grain-delta-c-58_1357_1324.html",
+        "displayedUrl": "https://www.maxicoffee.com › caf...",
+        "description": "Découvrez la marque emblématique de café en grain Delta, originaire du Portugal : café en grain bio, 100% arabica, décaféiné. Plusieurs choix possibles.",
+        "emphasizedKeywords": [
+          "café en grain",
+          "café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 49
+      },
+      {
+        "title": "LAVAZZA 1Kg café en grain pour professionnels Crema & ...",
+        "url": "https://www.maxicoffee.com/cafe-en-grain-pour-professionnels-lavazza-crema-aroma-1kg-p-141587.html",
+        "displayedUrl": "https://www.maxicoffee.com › ...",
+        "description": "Café en grain Lavazza pour pros, blend Arabica/Robusta au goût fort et épicé. Torréfié en Italie pour un espresso riche, constant et authentique.",
+        "emphasizedKeywords": [
+          "Café en grain"
+        ],
+        "siteLinks": [],
+        "productInfo": {},
+        "type": "organic",
+        "position": 50
+      }
+    ],
+    "suggestedResults": [],
+    "peopleAlsoAsk": [],
+    "customData": null,
+    "htmlSnapshotUrl": "https://api.apify.com/v2/key-value-stores/FVgiUfcdFlNLuhC0V/records/ppS75LTy6HiPDlf-0.html?signature=Q3VZga2E8YvTZeRDO9G1"
+  }
+]

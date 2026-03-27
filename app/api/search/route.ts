@@ -11,7 +11,6 @@ export async function GET(request: Request) {
   }
 
   try {
-    // Initialiser Supabase pour chercher dans notre propre base
     const cookieStore = await cookies();
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -19,34 +18,36 @@ export async function GET(request: Request) {
       {
         cookies: {
           getAll() { return cookieStore.getAll() },
-          setAll() {}, // Mode lecture seule
+          setAll() {},
         },
       }
     );
 
-    // 1. Chercher dans notre table premium "coffees" (Grains de spécialité)
-    // On nettoie la requête pour améliorer la recherche (ex: ignorer les apostrophes)
+    // 1. Recherche dans notre base "Premium"
     const cleanQuery = query.replace(/[']/g, '%');
     
+    // On cherche d'abord les correspondances exactes sur la marque pour les mettre en haut
     const { data: dbCoffees, error: dbError } = await supabase
       .from('coffees')
-      .select('name, brand, image_url, id')
+      .select('name, brand, image_url, id, url')
       .or(`name.ilike.%${cleanQuery}%,brand.ilike.%${cleanQuery}%`)
-      .limit(15);
+      .order('brand', { ascending: true }) // Petit hack pour grouper
+      .limit(20);
 
-    if (!dbError && dbCoffees && dbCoffees.length > 0) {
-      // Si on trouve dans notre base, on renvoie tout de suite ces résultats haute qualité
+    if (!dbError && dbCoffees && dbCoffees.length >= 10) {
       const formattedProducts = dbCoffees.map(c => ({
         id: c.id,
         name: c.name,
         brand: c.brand || '',
-        image: c.image_url || '',
+        image_url: c.image_url || '',
+        url: c.url || '',
+        source: 'premium'
       }));
       return NextResponse.json({ products: formattedProducts });
     }
 
-    // 2. FALLBACK : Si rien n'est trouvé dans notre base, on cherche sur OpenFoodFacts
-    const searchUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&tagtype_0=categories&tag_contains_0=contains&tag_0=coffee&search_simple=1&action=process&json=1&page_size=15&fields=code,product_name,brands,image_url,categories`;
+    // 2. FALLBACK : OpenFoodFacts (seulement si on a peu de résultats premium)
+    const searchUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&tagtype_0=categories&tag_contains_0=contains&tag_0=coffee&search_simple=1&action=process&json=1&page_size=20&fields=code,product_name,brands,image_url,categories`;
     
     const response = await fetch(searchUrl, {
       next: { revalidate: 3600 } 
@@ -57,26 +58,32 @@ export async function GET(request: Request) {
     }
     
     const data = await response.json();
+    const offProducts = (data.products || [])
+      .filter((p: any) => {
+         if (!p.product_name) return false;
+         const cats = (p.categories || "").toLowerCase();
+         const name = p.product_name.toLowerCase();
+         return cats.includes("coffee") || cats.includes("café") || cats.includes("cafes") || name.includes("coffee") || name.includes("café") || name.includes("cafe");
+      })
+      .map((p: any) => ({
+        id: p.code,
+        name: p.product_name,
+        brand: p.brands ? p.brands.split(',')[0] : 'Inconnu', 
+        image_url: p.image_url || '',
+        source: 'off'
+      }));
 
-    if (data.products && data.products.length > 0) {
-      const formattedProducts = data.products
-        .filter((p: any) => {
-           if (!p.product_name) return false;
-           const cats = (p.categories || "").toLowerCase();
-           const name = p.product_name.toLowerCase();
-           return cats.includes("coffee") || cats.includes("café") || cats.includes("cafes") || name.includes("coffee") || name.includes("café") || name.includes("cafe");
-        })
-        .map((p: any) => ({
-          id: p.code,
-          name: p.product_name,
-          brand: p.brands ? p.brands.split(',')[0] : '', 
-          image: p.image_url || '',
-        }));
+    // Fusionner les résultats Premium existants avec les résultats OFF
+    const existingPremium = dbCoffees?.map(c => ({
+      id: c.id,
+      name: c.name,
+      brand: c.brand || '',
+      image_url: c.image_url || '',
+      url: c.url || '',
+      source: 'premium'
+    })) || [];
 
-      return NextResponse.json({ products: formattedProducts });
-    }
-
-    return NextResponse.json({ products: [] });
+    return NextResponse.json({ products: [...existingPremium, ...offProducts].slice(0, 20) });
 
   } catch (error) {
     console.error('Search API error:', error);

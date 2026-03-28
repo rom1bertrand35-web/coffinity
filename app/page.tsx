@@ -220,13 +220,13 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
   };
 
   return (
-    <article className="bento-card bg-white flex flex-col animate-in fade-in zoom-in-95 duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all overflow-hidden mb-6">
+    <article className="bento-card bg-[var(--color-card)] flex flex-col animate-in fade-in zoom-in-95 duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all overflow-hidden mb-6">
       {/* HEADER: Avatar & Info */}
       <div className="flex justify-between items-center p-4">
         <div className="flex items-center gap-3">
           <button 
             onClick={() => router.push(`/profile/${post.user_id}`)}
-            className="w-10 h-10 rounded-full overflow-hidden border border-white shadow-sm hover:scale-105 transition-transform"
+            className="w-10 h-10 rounded-full overflow-hidden border border-[var(--color-border)] shadow-sm hover:scale-105 transition-transform"
           >
             <CoffeeAvatar 
               config={post.profiles?.avatar_config || {
@@ -246,7 +246,7 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
             <div className="flex items-center gap-2">
               <button 
                 onClick={() => router.push(`/profile/${post.user_id}`)}
-                className="font-semibold text-sm hover:underline underline-offset-2 text-left"
+                className="font-semibold text-sm hover:underline underline-offset-2 text-left text-[var(--color-foreground)]"
               >
                 {post.profiles?.username || "Anonymous Brewer"}
               </button>
@@ -256,7 +256,7 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
                   disabled={isFollowLoading}
                   className={`text-[10px] font-bold px-2.5 py-1 rounded-full border transition-all flex items-center gap-1 ${
                     isFollowing 
-                      ? "bg-stone-100 text-gray-400 border-stone-200" 
+                      ? "bg-[var(--color-secondary)] text-gray-400 border-[var(--color-border)]" 
                       : "bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-sm active:scale-95"
                   }`}
                 >
@@ -294,7 +294,7 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
       </div>
 
       {/* IMAGE (INSTA STYLE) */}
-      <div className="w-full aspect-[4/5] bg-stone-100 relative overflow-hidden group border-y border-stone-100">
+      <div className="w-full aspect-[4/5] bg-[var(--color-secondary)] relative overflow-hidden group border-y border-[var(--color-border)]">
         {post.image_url ? (
           <img src={post.image_url} alt="bag" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
         ) : (
@@ -309,24 +309,24 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
 
       {/* ACTIONS (Under Image) */}
       <div className="flex items-center gap-4 px-4 pt-4">
-        <button onClick={handleLike} className={`flex items-center gap-1.5 transition-colors hover:scale-110 active:scale-90 ${isLiked ? 'text-red-500' : 'text-stone-800 hover:text-stone-500'}`}>
+        <button onClick={handleLike} className={`flex items-center gap-1.5 transition-colors hover:scale-110 active:scale-90 ${isLiked ? 'text-red-500' : 'text-[var(--color-foreground)] hover:text-stone-500'}`}>
           <Heart size={26} className={isLiked ? "fill-red-500" : ""} strokeWidth={isLiked ? 1.5 : 2} />
         </button>
-        <button onClick={() => { hapticFeedback(5); setIsCommentsOpen(true); }} className="flex items-center gap-1.5 text-stone-800 hover:text-stone-500 transition-colors hover:scale-110 active:scale-90">
+        <button onClick={() => { hapticFeedback(5); setIsCommentsOpen(true); }} className="flex items-center gap-1.5 text-[var(--color-foreground)] hover:text-stone-500 transition-colors hover:scale-110 active:scale-90">
           <MessageCircle size={26} strokeWidth={2} />
         </button>
       </div>
       
       {/* LIKES COUNT */}
       <div className="px-4 pt-2">
-        <span className="text-sm font-black text-stone-900">{likesCount} J'aime</span>
+        <span className="text-sm font-black text-[var(--color-foreground)]">{likesCount} J'aime</span>
       </div>
 
       {/* CONTENT (Name, Brand, Review) */}
       <div className="px-4 pb-5 pt-2 flex flex-col gap-2">
         <div>
-          <h3 className="font-extrabold text-lg leading-tight tracking-tight text-stone-900 inline mr-2">{post.coffee_name}</h3>
-          <span className="text-sm text-stone-500 font-medium">{post.brand}</span>
+          <h3 className="font-extrabold text-lg leading-tight tracking-tight text-[var(--color-foreground)] inline mr-2">{post.coffee_name}</h3>
+          <span className="text-sm text-[var(--color-muted-foreground)] font-medium">{post.brand}</span>
         </div>
         
         <div className="flex gap-1 my-1">
@@ -336,8 +336,8 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
         </div>
 
         {post.review && (
-          <p className="text-[14px] leading-relaxed text-stone-700 mt-1">
-            <span className="font-bold text-stone-900 mr-2">{post.profiles?.username || "Anonyme"}</span>
+          <p className="text-[14px] leading-relaxed text-[var(--color-foreground)] opacity-90 mt-1">
+            <span className="font-bold text-[var(--color-foreground)] mr-2">{post.profiles?.username || "Anonyme"}</span>
             {post.review}
           </p>
         )}

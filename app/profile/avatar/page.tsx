@@ -204,9 +204,9 @@ function ColorCircle({ color, active, onClick }: any) {
 
 function ItemCard({ label, price, active, owned, onClick, onBuy, previewConfig }: any) {
   return (
-    <div className={`p-4 rounded-[2.5rem] border-2 transition-all relative flex flex-col items-center gap-3 ${active ? 'border-[var(--color-primary)] bg-stone-50' : 'border-stone-100'}`}>
-      <div className="w-20 h-20"><CoffeeAvatar config={previewConfig} size={80} noBackground /></div>
-      <div className="text-center">
+    <div className={`p-4 rounded-[2.5rem] border-2 transition-all duration-500 relative flex flex-col items-center gap-3 group hover:-translate-y-1 hover:shadow-[inset_0_4px_12px_rgba(0,0,0,0.03),0_12px_24px_rgba(0,0,0,0.06)] cursor-pointer overflow-hidden ${active ? 'border-[var(--color-primary)] bg-orange-50/30' : 'border-stone-100 bg-white hover:border-stone-200'}`}>
+      <div className="w-20 h-20 transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6 origin-bottom"><CoffeeAvatar config={previewConfig} size={80} noBackground /></div>
+      <div className="text-center relative z-10">
         <p className="text-[11px] font-black text-stone-800 uppercase tracking-tight">{label}</p>
         {!owned ? (
           <button onClick={onBuy} className="mt-2 bg-amber-100 text-amber-700 px-3 py-1 rounded-full flex items-center gap-1 text-[10px] font-black hover:bg-amber-200 transition-colors">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Heart, Star, Loader2, UserPlus, UserCheck, MoreHorizontal } from "lucide-react";
+import { Heart, Star, Loader2, UserPlus, UserCheck, MoreHorizontal, MessageCircle } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { usePoints } from "@/components/PointsFeedback";
@@ -9,6 +9,7 @@ import CoffeeAvatar from "@/components/CoffeeAvatar";
 import { FeedSkeleton } from "@/components/Skeletons";
 import { hapticFeedback } from "@/utils/haptics";
 import TastingActions from "@/components/TastingActions";
+import CommentsSheet from "@/components/CommentsSheet";
 
 export default function FeedPage() {
   const router = useRouter();
@@ -164,6 +165,7 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
   const [isLiked, setIsLiked] = useState(post.isLiked);
   const [likesCount, setLikesCount] = useState(post.likes_count || 0);
   const [isFollowLoading, setIsFollowLoading] = useState(false);
+  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 
   const isOwnPost = post.user_id === currentUserId;
 
@@ -218,7 +220,7 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
   };
 
   return (
-    <article className="bento-card p-5 flex flex-col gap-4 animate-in fade-in zoom-in-95 duration-300">
+    <article className="bento-card p-6 flex flex-col gap-5 animate-in fade-in zoom-in-95 duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_20px_60px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
           <button 
@@ -290,16 +292,16 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
         )}
       </div>
 
-      <div className="bg-[var(--color-background)] rounded-2xl p-4 border border-[var(--color-border)] relative overflow-hidden">
+      <div className="bg-[var(--color-background)] rounded-[2rem] p-5 border border-[var(--color-border)] relative overflow-hidden group">
         {post.image_url && (
-           <div className="absolute top-0 right-0 w-24 h-full opacity-10 flex items-center justify-center pointer-events-none">
-             <img src={post.image_url} alt="bag" className="h-[150%] object-cover blur-[2px]" />
+           <div className="absolute inset-0 w-full h-full opacity-10 dark:opacity-20 flex items-center justify-center pointer-events-none transition-opacity duration-500 group-hover:opacity-20 dark:group-hover:opacity-30">
+             <img src={post.image_url} alt="bag" className="w-full h-full object-cover blur-[4px] scale-110" />
            </div>
         )}
         <div className="relative z-10">
-          <h3 className="font-bold text-lg leading-tight pr-10">{post.coffee_name}</h3>
-          <p className="text-sm text-gray-500 mb-2">{post.brand}</p>
-          <div className="flex gap-1 mb-3">
+          <h3 className="font-extrabold text-xl leading-tight pr-10 tracking-tight">{post.coffee_name}</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400 font-medium mb-3">{post.brand}</p>
+          <div className="flex gap-1 mb-4">
             {[...Array(5)].map((_, i) => (
               <Star key={i} size={16} className={i < post.rating ? "fill-[var(--color-accent)] text-[var(--color-accent)]" : "text-gray-300"} />
             ))}
@@ -315,17 +317,28 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
       </div>
 
       {post.review && (
-        <p className="text-sm leading-relaxed text-gray-700 italic border-l-2 border-[var(--color-secondary)] pl-3 ml-1">
+        <p className="text-[15px] leading-relaxed text-gray-700 dark:text-gray-300 italic border-l-4 border-[var(--color-accent)] pl-4 ml-1 my-1">
           "{post.review}"
         </p>
       )}
 
-      <div className="flex items-center gap-4 mt-2 pt-4 border-t border-gray-100">
-        <button onClick={handleLike} className={`flex items-center gap-1.5 transition-colors ${isLiked ? 'text-red-500' : 'text-gray-500 hover:text-red-500'}`}>
-          <Heart size={20} className={isLiked ? "fill-red-500" : ""} />
-          <span className="text-xs font-medium">{likesCount}</span>
+      <div className="flex items-center gap-6 mt-2 pt-4 border-t border-gray-100">
+        <button onClick={handleLike} className={`flex items-center gap-2 transition-colors hover:scale-105 ${isLiked ? 'text-red-500' : 'text-gray-500 hover:text-red-500'}`}>
+          <Heart size={22} className={isLiked ? "fill-red-500" : ""} />
+          <span className="text-xs font-bold">{likesCount}</span>
+        </button>
+        <button onClick={() => { hapticFeedback(5); setIsCommentsOpen(true); }} className="flex items-center gap-2 text-gray-500 hover:text-[var(--color-primary)] transition-colors hover:scale-105">
+          <MessageCircle size={22} />
+          <span className="text-xs font-bold">Commenter</span>
         </button>
       </div>
+
+      <CommentsSheet 
+        tastingId={post.id} 
+        isOpen={isCommentsOpen} 
+        onClose={() => setIsCommentsOpen(false)} 
+        currentUserId={currentUserId} 
+      />
     </article>
   );
 }

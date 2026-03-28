@@ -2,6 +2,7 @@
 
 import { useState, useEffect, createContext, useContext } from "react";
 import { Sparkles } from "lucide-react";
+import confetti from "canvas-confetti";
 
 type PointsToast = {
   id: string;
@@ -21,6 +22,15 @@ export function PointsProvider({ children }: { children: React.ReactNode }) {
   const showPoints = (points: number, message: string) => {
     const id = Math.random().toString(36).substr(2, 9);
     setToasts((prev) => [...prev, { id, points, message }]);
+    
+    // 🔥 Effet WOW !
+    confetti({
+      particleCount: 120,
+      spread: 80,
+      origin: { y: 0.6 },
+      colors: ['#b45309', '#f59e0b', '#fcd34d', '#ffffff'],
+      disableForReducedMotion: true
+    });
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
     }, 2500);

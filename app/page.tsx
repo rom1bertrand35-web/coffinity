@@ -220,8 +220,9 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
   };
 
   return (
-    <article className="bento-card p-6 flex flex-col gap-5 animate-in fade-in zoom-in-95 duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_20px_60px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all">
-      <div className="flex justify-between items-center">
+    <article className="bento-card bg-white flex flex-col animate-in fade-in zoom-in-95 duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all overflow-hidden mb-6">
+      {/* HEADER: Avatar & Info */}
+      <div className="flex justify-between items-center p-4">
         <div className="flex items-center gap-3">
           <button 
             onClick={() => router.push(`/profile/${post.user_id}`)}
@@ -292,46 +293,67 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
         )}
       </div>
 
-      <div className="bg-[var(--color-background)] rounded-[2rem] p-5 border border-[var(--color-border)] relative overflow-hidden group">
-        {post.image_url && (
-           <div className="absolute inset-0 w-full h-full opacity-10 dark:opacity-20 flex items-center justify-center pointer-events-none transition-opacity duration-500 group-hover:opacity-20 dark:group-hover:opacity-30">
-             <img src={post.image_url} alt="bag" className="w-full h-full object-cover blur-[4px] scale-110" />
-           </div>
-        )}
-        <div className="relative z-10">
-          <h3 className="font-extrabold text-xl leading-tight pr-10 tracking-tight">{post.coffee_name}</h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400 font-medium mb-3">{post.brand}</p>
-          <div className="flex gap-1 mb-4">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} size={16} className={i < post.rating ? "fill-[var(--color-accent)] text-[var(--color-accent)]" : "text-gray-300"} />
-            ))}
+      {/* IMAGE (INSTA STYLE) */}
+      <div className="w-full aspect-[4/5] bg-stone-100 relative overflow-hidden group border-y border-stone-100">
+        {post.image_url ? (
+          <img src={post.image_url} alt="bag" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#fdfbfb] to-[#ebedee] opacity-80 mix-blend-multiply">
+             <div className="w-full h-full absolute inset-0 bg-gradient-to-tr from-[var(--color-primary)] to-[var(--color-accent)] opacity-10"></div>
+             <div className="z-10 bg-white/50 backdrop-blur-md p-6 rounded-3xl shadow-sm border border-white/50 animate-pulse">
+                <CoffeeAvatar config={post.profiles?.avatar_config || {}} size={80} noBackground className="opacity-80" />
+             </div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {post.tags?.map((tag: string) => (
-              <span key={tag} className="text-[10px] uppercase tracking-wider font-semibold bg-white border border-[var(--color-border)] text-gray-600 px-2 py-1 rounded-md shadow-sm">
-                {tag}
+        )}
+      </div>
+
+      {/* ACTIONS (Under Image) */}
+      <div className="flex items-center gap-4 px-4 pt-4">
+        <button onClick={handleLike} className={`flex items-center gap-1.5 transition-colors hover:scale-110 active:scale-90 ${isLiked ? 'text-red-500' : 'text-stone-800 hover:text-stone-500'}`}>
+          <Heart size={26} className={isLiked ? "fill-red-500" : ""} strokeWidth={isLiked ? 1.5 : 2} />
+        </button>
+        <button onClick={() => { hapticFeedback(5); setIsCommentsOpen(true); }} className="flex items-center gap-1.5 text-stone-800 hover:text-stone-500 transition-colors hover:scale-110 active:scale-90">
+          <MessageCircle size={26} strokeWidth={2} />
+        </button>
+      </div>
+      
+      {/* LIKES COUNT */}
+      <div className="px-4 pt-2">
+        <span className="text-sm font-black text-stone-900">{likesCount} J'aime</span>
+      </div>
+
+      {/* CONTENT (Name, Brand, Review) */}
+      <div className="px-4 pb-5 pt-2 flex flex-col gap-2">
+        <div>
+          <h3 className="font-extrabold text-lg leading-tight tracking-tight text-stone-900 inline mr-2">{post.coffee_name}</h3>
+          <span className="text-sm text-stone-500 font-medium">{post.brand}</span>
+        </div>
+        
+        <div className="flex gap-1 my-1">
+          {[...Array(5)].map((_, i) => (
+            <Star key={i} size={14} className={i < post.rating ? "fill-[var(--color-accent)] text-[var(--color-accent)]" : "text-stone-200"} />
+          ))}
+        </div>
+
+        {post.review && (
+          <p className="text-[14px] leading-relaxed text-stone-700 mt-1">
+            <span className="font-bold text-stone-900 mr-2">{post.profiles?.username || "Anonyme"}</span>
+            {post.review}
+          </p>
+        )}
+
+        {post.tags && post.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mt-2">
+            {post.tags.map((tag: string) => (
+              <span key={tag} className="text-[10px] uppercase tracking-wider font-extrabold text-[var(--color-primary)]">
+                #{tag.replace(/\s+/g, '')}
               </span>
             ))}
           </div>
-        </div>
+        )}
       </div>
 
-      {post.review && (
-        <p className="text-[15px] leading-relaxed text-gray-700 dark:text-gray-300 italic border-l-4 border-[var(--color-accent)] pl-4 ml-1 my-1">
-          "{post.review}"
-        </p>
-      )}
 
-      <div className="flex items-center gap-6 mt-2 pt-4 border-t border-gray-100">
-        <button onClick={handleLike} className={`flex items-center gap-2 transition-colors hover:scale-105 ${isLiked ? 'text-red-500' : 'text-gray-500 hover:text-red-500'}`}>
-          <Heart size={22} className={isLiked ? "fill-red-500" : ""} />
-          <span className="text-xs font-bold">{likesCount}</span>
-        </button>
-        <button onClick={() => { hapticFeedback(5); setIsCommentsOpen(true); }} className="flex items-center gap-2 text-gray-500 hover:text-[var(--color-primary)] transition-colors hover:scale-105">
-          <MessageCircle size={22} />
-          <span className="text-xs font-bold">Commenter</span>
-        </button>
-      </div>
 
       <CommentsSheet 
         tastingId={post.id} 

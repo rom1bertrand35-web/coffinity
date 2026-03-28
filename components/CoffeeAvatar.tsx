@@ -242,39 +242,73 @@ export default function CoffeeAvatar({ config, size = 100, className = "", noBac
     <div style={{ width: size, height: size }} className={`relative overflow-hidden ${noBackground ? "" : "bg-stone-100 dark:bg-stone-900 rounded-[2.5rem] border border-white/50 shadow-inner"} ${className}`}>
       <svg viewBox="0 0 100 100" className="w-full h-full">
         <defs>
-          <radialGradient id={`skinGrad-${id}`} cx="50%" cy="40%" r="60%">
-            <stop offset="0%" stopColor={skinColor} />
-            <stop offset="100%" stopColor={adjustColor(skinColor || "#F3D2B3", -20)} />
+          <radialGradient id={`skinGrad-${id}`} cx="35%" cy="30%" r="75%">
+            <stop offset="0%" stopColor={adjustColor(skinColor || "#F3D2B3", 30)} />
+            <stop offset="40%" stopColor={skinColor} />
+            <stop offset="85%" stopColor={adjustColor(skinColor || "#F3D2B3", -30)} />
+            <stop offset="100%" stopColor={adjustColor(skinColor || "#F3D2B3", -50)} />
           </radialGradient>
-          <linearGradient id={`hairGrad-${id}`} x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor={adjustColor(hairColor || "#4B2C20", 20)} />
-            <stop offset="100%" stopColor={hairColor} />
+          <linearGradient id={`hairGrad-${id}`} x1="10%" y1="0%" x2="90%" y2="100%">
+            <stop offset="0%" stopColor={adjustColor(hairColor || "#4B2C20", 40)} />
+            <stop offset="50%" stopColor={hairColor} />
+            <stop offset="100%" stopColor={adjustColor(hairColor || "#4B2C20", -40)} />
           </linearGradient>
-          <linearGradient id={`clothGrad-${id}`} x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor={clothingColor} />
-            <stop offset="100%" stopColor={adjustColor(clothingColor || "#E5E7EB", -30)} />
+          <linearGradient id={`clothGrad-${id}`} x1="20%" y1="0%" x2="80%" y2="100%">
+            <stop offset="0%" stopColor={adjustColor(clothingColor || "#E5E7EB", 20)} />
+            <stop offset="50%" stopColor={clothingColor} />
+            <stop offset="100%" stopColor={adjustColor(clothingColor || "#E5E7EB", -40)} />
           </linearGradient>
+          <radialGradient id={`eyeGrad-${id}`} cx="50%" cy="50%" r="50%">
+            <stop offset="70%" stopColor="white" />
+            <stop offset="100%" stopColor="#e0e0e0" />
+          </radialGradient>
+          {/* Filtres 3D Pixar */}
           <filter id="shadow-small" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="1" stdDeviation="1" floodOpacity="0.2"/>
+            <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#2c1e16" floodOpacity="0.15"/>
+          </filter>
+          <filter id="shadow-medium" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#2c1e16" floodOpacity="0.25"/>
+          </filter>
+          <filter id="blur-blush" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" />
           </filter>
         </defs>
 
-        <path d="M20 55 C20 30 30 15 50 15 C70 15 80 30 80 55 C80 80 65 90 50 90 C35 90 20 80 20 55 Z" fill={`url(#skinGrad-${id})`} filter="url(#shadow-small)" />
-        <circle cx="32" cy="68" r="8" fill="#ff4d4d" opacity="0.1" />
-        <circle cx="68" cy="68" r="8" fill="#ff4d4d" opacity="0.1" />
+        {/* Tête (Face 3D Mesh) */}
+        <path d="M20 52 C20 25 30 10 50 10 C70 10 80 25 80 52 C80 82 65 92 50 92 C35 92 20 82 20 52 Z" fill={`url(#skinGrad-${id})`} filter="url(#shadow-small)" />
+        
+        {/* Blush (Subsurface scattering) */}
+        <ellipse cx="30" cy="65" rx="6" ry="4" fill="#ff4d4d" opacity="0.3" filter="url(#blur-blush)" />
+        <ellipse cx="70" cy="65" rx="6" ry="4" fill="#ff4d4d" opacity="0.3" filter="url(#blur-blush)" />
+        
+        {/* Yeux Pixar (Glazed / Specular) */}
         <g filter="url(#shadow-small)">
-          <ellipse cx="38" cy="58" rx="6" ry="7" fill="white" />
-          <ellipse cx="62" cy="58" rx="6" ry="7" fill="white" />
-          <circle cx="39" cy="58" r="3.5" fill="#1a1a1a" />
-          <circle cx="61" cy="58" r="3.5" fill="#1a1a1a" />
-          <circle cx="38" cy="56.5" r="1.2" fill="white" />
-          <circle cx="60" cy="56.5" r="1.2" fill="white" />
+          {/* Blanc de l'oeil avec relief */}
+          <ellipse cx="38" cy="56" rx="7" ry="8.5" fill={`url(#eyeGrad-${id})`} />
+          <ellipse cx="62" cy="56" rx="7" ry="8.5" fill={`url(#eyeGrad-${id})`} />
+          
+          {/* Iris & Pupille */}
+          <circle cx="39" cy="56" r="4.5" fill="#2c1e16" />
+          <circle cx="61" cy="56" r="4.5" fill="#2c1e16" />
+          
+          {/* Brillance (Specular highlights) */}
+          <circle cx="37.5" cy="54" r="1.8" fill="white" />
+          <circle cx="59.5" cy="54" r="1.8" fill="white" />
+          <circle cx="40.5" cy="57.5" r="0.8" fill="white" opacity="0.7" />
+          <circle cx="62.5" cy="57.5" r="0.8" fill="white" opacity="0.7" />
         </g>
-        {renderExpression()}
-        {renderClothing()}
-        {renderFacialHair()}
-        {renderAccessory()}
-        {renderHair()}
+
+        {/* Nez 3D */}
+        <ellipse cx="50" cy="64" rx="4.5" ry="3.5" fill={adjustColor(skinColor || "#F3D2B3", -15)} opacity="0.8" />
+        <ellipse cx="50" cy="63.2" rx="2.5" ry="1.5" fill="white" opacity="0.3" />
+
+        <g filter="url(#shadow-medium)">
+          {renderExpression()}
+          {renderClothing()}
+          {renderFacialHair()}
+          {renderAccessory()}
+          {renderHair()}
+        </g>
       </svg>
     </div>
   );

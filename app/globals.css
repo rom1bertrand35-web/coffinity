@@ -23,13 +23,6 @@
   --color-input: hsl(20 6% 92%);
   
   --radius: 1.5rem;
-
-  /* DARK MODE COLORS - Midnight Espresso / Deep Mocha */
-  --color-dark-bg: hsl(220 20% 7%);
-  --color-dark-card: hsl(220 22% 10%);
-  --color-dark-primary: hsl(30 70% 60%); /* Sharp Copper */
-  --color-dark-border: hsl(220 20% 14%);
-  --color-dark-text: hsl(40 30% 92%);
 }
 
 @layer base {
@@ -42,28 +35,6 @@
                       radial-gradient(at 100% 0%, hsla(40, 100%, 80%, 0.1) 0px, transparent 50%);
     background-attachment: fixed;
     color: var(--color-foreground);
-    transition: background-color 0.4s ease, color 0.4s ease;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --color-background: var(--color-dark-bg);
-      --color-foreground: var(--color-dark-text);
-      --color-card: var(--color-dark-card);
-      --color-border: var(--color-dark-border);
-      --color-secondary: hsl(20 14% 10%);
-    }
-    body {
-      background-color: var(--color-background);
-      background-image: radial-gradient(at 0% 0%, hsla(220, 50%, 40%, 0.05) 0px, transparent 50%),
-                        radial-gradient(at 100% 0%, hsla(30, 80%, 60%, 0.05) 0px, transparent 50%);
-      color: var(--color-foreground);
-    }
-    .bento-card {
-      background-color: var(--color-card);
-      border-color: var(--color-border);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-    }
   }
 }
 
@@ -92,13 +63,6 @@
   @keyframes skeleton-loading {
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .skeleton {
-      background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
-      background-size: 200% 100%;
-    }
   }
 
   .tap-haptic {

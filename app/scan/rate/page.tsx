@@ -172,34 +172,39 @@ function RateCoffeeForm() {
 
           <div 
             onClick={() => fileInputRef.current?.click()}
-            className="w-full h-48 bg-stone-100 rounded-3xl border-2 border-dashed border-stone-300 flex flex-col items-center justify-center cursor-pointer overflow-hidden relative group hover:border-[var(--color-primary)] transition-colors"
+            className={`w-full h-64 rounded-[2.5rem] border-4 border-dashed transition-all flex flex-col items-center justify-center cursor-pointer overflow-hidden relative group shadow-inner ${
+              userPhoto ? "border-[var(--color-primary)] bg-white" : "border-stone-200 bg-stone-100 hover:border-[var(--color-primary)]"
+            }`}
           >
             {userPhoto ? (
-              <img src={userPhoto} alt="Your coffee" className="w-full h-full object-cover" />
+              <img src={userPhoto} alt="Your coffee" className="w-full h-full object-cover animate-in fade-in duration-500" />
             ) : initialImage ? (
               <>
-                <img src={initialImage} alt="Database coffee" className="w-full h-full object-contain p-4 opacity-50 group-hover:opacity-30 transition-opacity" />
+                <img src={initialImage} alt="Database coffee" className="w-full h-full object-contain p-8 opacity-40 group-hover:opacity-20 transition-opacity" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Camera size={32} className="text-[var(--color-primary)] mb-2" />
-                  <span className="font-bold text-[var(--color-primary)]">Take your own photo</span>
+                  <div className="bg-white/90 backdrop-blur-md p-4 rounded-full shadow-xl mb-3">
+                    <Camera size={32} className="text-[var(--color-primary)]" />
+                  </div>
+                  <span className="font-black text-[var(--color-primary)] uppercase tracking-widest text-xs">Prendre ma propre photo</span>
                 </div>
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center text-gray-400 group-hover:text-[var(--color-primary)] transition-colors">
-                <ImagePlus size={40} className="mb-3" />
-                <span className="font-semibold">Add a photo</span>
-                <span className="text-xs mt-1">Show us your beans or cup!</span>
+              <div className="flex flex-col items-center justify-center text-stone-400 group-hover:text-[var(--color-primary)] transition-colors p-6">
+                <div className="bg-white p-5 rounded-full shadow-sm mb-4">
+                  <ImagePlus size={40} className="text-stone-300 group-hover:text-[var(--color-primary)] transition-colors" />
+                </div>
+                <span className="font-black uppercase tracking-widest text-xs mb-1">Ajouter une photo</span>
+                <span className="text-[10px] font-bold text-stone-400">Montrez-nous vos grains ou votre tasse !</span>
               </div>
             )}
 
             {userPhoto && (
-              <div className="absolute bottom-3 right-3 bg-black/50 backdrop-blur-sm text-white p-2 rounded-full">
-                <Camera size={16} />
+              <div className="absolute bottom-4 right-4 bg-[var(--color-primary)] text-white p-3 rounded-2xl shadow-xl animate-in zoom-in">
+                <Camera size={20} />
               </div>
             )}
           </div>
         </div>
-
         {/* Détails du produit (si on a scanné) */}
         {(initialName || initialBrand) && (
           <div className="flex flex-col items-center text-center px-4">

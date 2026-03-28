@@ -39,7 +39,7 @@ export async function GET(request: Request) {
         id: c.id,
         name: c.name,
         brand: c.brand || '',
-        image_url: c.image_url || '',
+        image_url: c.image_url || '', // Harmonisé
         url: c.url || '',
         source: 'premium'
       }));

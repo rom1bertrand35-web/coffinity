@@ -26,16 +26,10 @@ export default function SearchCoffeePage() {
   const searchCoffee = async (searchTerm: string) => {
     setIsLoading(true);
     try {
-      // Dans le MVP, l'API OpenFoodFacts ne gère pas parfaitement la notion de "grains" (beans).
-      // Dans la V2 (avec Apify et MaxiCoffee), on aura une base dédiée aux grains.
-      // Pour l'instant, on ajoute le mot "grains" en coulisse si l'utilisateur ne l'a pas mis 
-      // pour biaiser les résultats vers les cafés en grains (coeur de cible).
-      const biasTerm = searchTerm.toLowerCase().includes('grain') ? searchTerm : `${searchTerm} grains`;
-      
-      const res = await fetch(`/api/search?q=${encodeURIComponent(biasTerm)}`);
+      // On retire le biais "grains" qui peut être trop restrictif
+      const res = await fetch(`/api/search?q=${encodeURIComponent(searchTerm)}`);
       const data = await res.json();
       
-      // On simule un tri de popularité (OpenFoodFacts trie par pertinence, on ajoute juste une icône)
       setResults(data.products || []);
     } catch (err) {
       console.error(err);
@@ -45,7 +39,7 @@ export default function SearchCoffeePage() {
   };
 
   const selectCoffee = (product: any) => {
-    router.push(`/scan/rate?name=${encodeURIComponent(product.name)}&brand=${encodeURIComponent(product.brand || '')}&image=${encodeURIComponent(product.image || '')}`);
+    router.push(`/scan/rate?name=${encodeURIComponent(product.name)}&brand=${encodeURIComponent(product.brand || '')}&image=${encodeURIComponent(product.image_url || '')}`);
   };
 
   return (
@@ -109,8 +103,8 @@ export default function SearchCoffeePage() {
                 onClick={() => selectCoffee(product)}
                 className="flex items-center gap-4 bg-transparent p-3 rounded-2xl text-left hover:bg-gray-50 transition-colors"
               >
-                {product.image ? (
-                  <img src={product.image} alt={product.name} className="w-12 h-12 object-contain rounded-lg bg-stone-100 p-1" />
+                {product.image_url ? (
+                  <img src={product.image_url} alt={product.name} className="w-12 h-12 object-contain rounded-lg bg-stone-100 p-1" />
                 ) : (
                   <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
                     <Coffee size={20} className="text-gray-400" />

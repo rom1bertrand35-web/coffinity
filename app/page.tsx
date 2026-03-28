@@ -123,7 +123,7 @@ export default function FeedPage() {
                : "The community is quiet today."}
            </p>
            <button 
-            onClick={() => setActiveTab('global')}
+            onClick={() => router.push('/discover?mode=people')}
             className="bg-[var(--color-primary)] text-white px-6 py-3 rounded-2xl font-bold hover:scale-105 transition-transform"
            >
              {activeTab === 'following' ? "Discover people to follow" : "Start the conversation"}

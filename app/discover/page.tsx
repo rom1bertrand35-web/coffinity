@@ -1,22 +1,33 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { supabase } from "@/lib/supabase";
 import { DiscoverSkeleton } from "@/components/Skeletons";
 import SearchHeader from "@/components/SearchHeader";
 import CoffeeResultCard from "@/components/CoffeeResultCard";
 import BaristaResultCard from "@/components/BaristaResultCard";
+import { useSearchParams } from "next/navigation";
 
 type Mode = 'coffee' | 'people';
 
-export default function DiscoverPage() {
-  const [mode, setMode] = useState<Mode>('coffee');
+function DiscoverContent() {
+  const searchParams = useSearchParams();
+  const initialMode = (searchParams.get('mode') as Mode) || 'coffee';
+  
+  const [mode, setMode] = useState<Mode>(initialMode);
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
-  // Charger l'ID utilisateur courant pour les actions sociales
+  // Mettre à jour le mode si l'URL change
+  useEffect(() => {
+    const urlMode = searchParams.get('mode') as Mode;
+    if (urlMode && (urlMode === 'coffee' || urlMode === 'people')) {
+      setMode(urlMode);
+    }
+  }, [searchParams]);
+
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       setCurrentUserId(data.user?.id || null);
@@ -105,5 +116,13 @@ export default function DiscoverPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function DiscoverPage() {
+  return (
+    <Suspense fallback={<DiscoverSkeleton />}>
+      <DiscoverContent />
+    </Suspense>
   );
 }

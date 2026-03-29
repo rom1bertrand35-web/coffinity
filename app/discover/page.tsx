@@ -75,8 +75,12 @@ function DiscoverContent() {
   }, [searchTerm, mode, performSearch]);
 
   const handleBrandClick = (brand: string) => {
-    setSearchTerm(brand);
-    setMode('coffee');
+    if (searchTerm === brand) {
+      setSearchTerm("");
+    } else {
+      setSearchTerm(brand);
+      setMode('coffee');
+    }
   };
 
   return (

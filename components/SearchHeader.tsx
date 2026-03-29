@@ -12,12 +12,16 @@ interface SearchHeaderProps {
 }
 
 const POPULAR_BRANDS = [
-  { name: "Lavazza", icon: "☕️" },
+  { name: "Lavazza", icon: "🇮🇹" },
+  { name: "Nespresso", icon: "☕️" },
+  { name: "Starbucks", icon: "🧜‍♀️" },
+  { name: "L'Or", icon: "🥇" },
+  { name: "Carte Noire", icon: "⚫️" },
   { name: "Terres de Café", icon: "🌱" },
   { name: "Lugat", icon: "🦁" },
-  { name: "Bazzara", icon: "🔥" },
-  { name: "Café Mokxa", icon: "💎" },
-  { name: "L'Arbre à Café", icon: "🌳" },
+  { name: "Coutume", icon: "💎" },
+  { name: "Malongo", icon: "🇫🇷" },
+  { name: "Belleville", icon: "🗼" },
 ];
 
 export default function SearchHeader({ mode, setMode, searchTerm, setSearchTerm, onBrandClick }: SearchHeaderProps) {

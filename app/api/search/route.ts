@@ -33,52 +33,49 @@ export async function GET(request: Request) {
       .order('brand', { ascending: true })
       .limit(20);
 
-    let allProducts = [];
+    let premiumProducts = dbCoffees?.map(c => ({
+      id: c.id,
+      name: c.name,
+      brand: c.brand || '',
+      image_url: c.image_url || '',
+      url: c.url || '',
+      source: 'premium'
+    })) || [];
 
-    if (!dbError && dbCoffees && dbCoffees.length >= 10) {
-      allProducts = dbCoffees.map(c => ({
-        id: c.id,
-        name: c.name,
-        brand: c.brand || '',
-        image_url: c.image_url || '',
-        url: c.url || '',
-        source: 'premium'
-      }));
-    } else {
-      // 2. FALLBACK : OpenFoodFacts
-      const searchUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&tagtype_0=categories&tag_contains_0=contains&tag_0=coffee&search_simple=1&action=process&json=1&page_size=20&fields=code,product_name,brands,image_url,categories`;
-      
-      const response = await fetch(searchUrl, { next: { revalidate: 3600 } });
-      const data = await response.json();
-      
-      const offProducts = (data.products || [])
-        .filter((p: any) => {
-           if (!p.product_name) return false;
-           const name = p.product_name.toLowerCase();
-           return name.includes("coffee") || name.includes("café") || name.includes("cafe");
-        })
-        .map((p: any) => ({
-          id: p.code,
-          name: p.product_name,
-          brand: p.brands ? p.brands.split(',')[0] : 'Inconnu', 
-          image_url: p.image_url || '',
-          source: 'off'
-        }));
+    let allProducts = [...premiumProducts];
 
-      const existingPremium = dbCoffees?.map(c => ({
-        id: c.id,
-        name: c.name,
-        brand: c.brand || '',
-        image_url: c.image_url || '',
-        url: c.url || '',
-        source: 'premium'
-      })) || [];
+    // 2. FALLBACK / COMPLÉMENT : OpenFoodFacts
+    // On ne va chercher sur OFF que si on a moins de 20 résultats premium
+    if (allProducts.length < 20) {
+      try {
+        const searchUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&tagtype_0=categories&tag_contains_0=contains&tag_0=coffee&search_simple=1&action=process&json=1&page_size=20&fields=code,product_name,brands,image_url,categories`;
+        
+        const response = await fetch(searchUrl, { next: { revalidate: 3600 } });
+        const data = await response.json();
+        
+        const offProducts = (data.products || [])
+          .filter((p: any) => {
+             if (!p.product_name) return false;
+             const name = p.product_name.toLowerCase();
+             // S'assurer que ce n'est pas déjà dans nos résultats premium (via le nom ou la marque approximative)
+             const isDuplicate = premiumProducts.some(pp => pp.name.toLowerCase() === p.product_name.toLowerCase());
+             return !isDuplicate && (name.includes("coffee") || name.includes("café") || name.includes("cafe"));
+          })
+          .map((p: any) => ({
+            id: p.code,
+            name: p.product_name,
+            brand: p.brands ? p.brands.split(',')[0] : 'Inconnu', 
+            image_url: p.image_url || '',
+            source: 'off'
+          }));
 
-      allProducts = [...existingPremium, ...offProducts].slice(0, 20);
+        allProducts = [...allProducts, ...offProducts].slice(0, 20);
+      } catch (offErr) {
+        console.error("OpenFoodFacts search failed:", offErr);
+      }
     }
 
     // 3. ENRICHISSEMENT : Note moyenne et derniers commentaires
-    // On boucle sur chaque produit pour chercher ses stats dans 'tastings'
     const enrichedProducts = await Promise.all(allProducts.map(async (product) => {
       const { data: statsData } = await supabase
         .from('tastings')

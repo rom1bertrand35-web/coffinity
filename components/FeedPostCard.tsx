@@ -88,7 +88,7 @@ export default function FeedPostCard({
         <div className="flex items-center gap-4">
           <button 
             onClick={() => router.push(`/profile/${post.user_id}`)}
-            className="w-14 h-14 rounded-full overflow-hidden border-3 border-[#1A0F0A] shadow-[4px_4px_0_#1A0F0A] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all flex-shrink-0 bg-white"
+            className="w-14 h-14 rounded-full overflow-hidden hover:scale-105 transition-transform flex-shrink-0"
           >
             <CoffeeAvatar 
               config={post.profiles?.avatar_config || {

@@ -174,7 +174,7 @@ export default function ProfilePage() {
               {tastings.map((item) => (
                 <button 
                   key={item.id}
-                  onClick={() => router.push(`/?id=${item.id}`)} // Suggestion: ouvrir le post dans le feed
+                  onClick={() => router.push(`/tasting/${item.id}`)}
                   className="aspect-square bg-white border-2 border-[#1A0F0A] rounded-xl overflow-hidden shadow-[2px_2px_0_#1A0F0A] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all relative group"
                 >
                   {item.image_url ? (

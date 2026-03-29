@@ -162,7 +162,10 @@ export default function FeedPostCard({
       </div>
 
       {/* IMAGE (INSTA STYLE) */}
-      <div className="w-full aspect-[4/5] bg-[var(--color-background)] relative overflow-hidden group border-y-2 border-[#1A0F0A]">
+      <div 
+        onClick={() => router.push(`/tasting/${post.id}`)}
+        className="w-full aspect-[4/5] bg-[var(--color-background)] relative overflow-hidden group border-y-2 border-[#1A0F0A] cursor-pointer"
+      >
         {post.image_url ? (
           <img src={post.image_url} alt="bag" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
         ) : (
@@ -189,8 +192,11 @@ export default function FeedPostCard({
 
       {/* CONTENT (Name, Brand, Review) */}
       <div className="px-4 pb-5 pt-2 flex flex-col gap-2">
-        <div>
-          <h3 className="text-2xl font-serif text-[#1A0F0A] inline mr-2 font-bold">{post.coffee_name}</h3>
+        <div 
+          onClick={() => router.push(`/tasting/${post.id}`)}
+          className="cursor-pointer group/title"
+        >
+          <h3 className="text-2xl font-serif text-[#1A0F0A] inline mr-2 font-bold group-hover/title:underline decoration-2 underline-offset-4">{post.coffee_name}</h3>
           <span className="text-sm text-[#1A0F0A] uppercase tracking-[0.2em] font-black">{post.brand}</span>
         </div>
         

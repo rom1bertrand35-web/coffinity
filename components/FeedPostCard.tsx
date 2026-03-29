@@ -108,11 +108,17 @@ export default function FeedPostCard({
             <div className="flex items-center gap-2">
               <button 
                 onClick={() => router.push(`/profile/${post.user_id}`)}
-                className="font-semibold text-sm hover:underline underline-offset-2 text-left text-[var(--color-foreground)]"
+                className="font-black text-sm uppercase tracking-tighter hover:underline underline-offset-2 text-left text-[var(--color-foreground)]"
               >
                 {post.profiles?.username || "Anonymous Brewer"}
               </button>
-              {!isOwnPost && currentUserId && (
+              {post.is_official && (
+                <span className="bg-[#B44222] text-[#EBE2D4] text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest border border-[#1A0F0A]">
+                  Officiel
+                </span>
+              )}
+              {!isOwnPost && !post.is_official && currentUserId && (
+
                 <button 
                   onClick={handleFollow}
                   disabled={isFollowLoading}

@@ -8,6 +8,9 @@ import { hapticFeedback } from "@/utils/haptics";
 export default function NavigationBar() {
   const pathname = usePathname();
 
+  // Hide on certain pages
+  if (pathname === "/profile/avatar") return null;
+
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
       <nav className="w-full max-w-md bg-[var(--color-primary)] text-[var(--color-background)] rounded-t-[3rem] px-8 pt-6 pb-6 flex items-center justify-between pointer-events-auto relative">

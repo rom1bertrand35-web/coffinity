@@ -46,7 +46,7 @@ export function PointsProvider({ children }: { children: React.ReactNode }) {
             className="flex items-center gap-2 bg-[var(--color-primary)] text-white px-6 py-3 rounded-full shadow-lg border-2 border-[var(--color-accent)] animate-in fade-in slide-in-from-top-4 duration-500 fill-mode-forwards"
           >
             <Sparkles className="text-[var(--color-accent)]" size={20} />
-            <span className="font-bold">+{toast.points} Points</span>
+            <span className="font-bold">+{toast.points} Beans</span>
             <span className="text-xs opacity-80">{toast.message}</span>
           </div>
         ))}

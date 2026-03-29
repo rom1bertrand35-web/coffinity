@@ -42,7 +42,7 @@ export default function AvatarShopPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [coins, setCoins] = useState(0);
+  const [points, setPoints] = useState(0);
   const [inventory, setInventory] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<TabType>('face');
   const [config, setConfig] = useState<AvatarConfig>({
@@ -65,12 +65,12 @@ export default function AvatarShopPage() {
 
       const { data: profile } = await supabase
         .from('profiles')
-        .select('avatar_config, coins, inventory')
+        .select('avatar_config, points, inventory')
         .eq('id', session.user.id)
         .maybeSingle();
 
       if (profile) {
-        setCoins(profile.coins || 0);
+        setPoints(profile.points || 0);
         // Toujours offrir les éléments de base s'ils sont manquants
         const baseItems = ['short', 'none', 'tshirt', 'smile'];
         const userInventory = profile.inventory || [];
@@ -81,11 +81,9 @@ export default function AvatarShopPage() {
       setIsLoading(false);
     }
     loadData();
-  }, [router]);
-
   const handlePurchase = async (itemId: string, price: number) => {
     if (inventory.includes(itemId)) return;
-    if (coins < price) {
+    if (points < price) {
       alert("Tu n'as pas assez de Beans ! ☕️ Goûte des cafés ou écris des avis pour en gagner.");
       return;
     }
@@ -95,19 +93,22 @@ export default function AvatarShopPage() {
     if (!session) return;
 
     const newInventory = [...inventory, itemId];
-    const newCoins = coins - price;
+    const newPoints = points - price;
 
     const { error } = await supabase
       .from('profiles')
       .update({ 
-        inventory: newInventory, 
-        coins: newCoins 
+        inventory: newInventory,
+        points: newPoints
       })
       .eq('id', session.user.id);
 
     if (!error) {
       setInventory(newInventory);
-      setCoins(newCoins);
+      setPoints(newPoints);
+    }
+  };
+
       hapticFeedback(20);
     }
   };
@@ -126,7 +127,8 @@ export default function AvatarShopPage() {
   if (isLoading) return <div className="min-h-screen flex items-center justify-center bg-[#EBE2D4]"><Loader2 className="animate-spin text-[#1A0F0A]" size={32} /></div>;
 
   return (
-    <div className="min-h-screen bg-[#EBE2D4] flex flex-col md:flex-row overflow-hidden pb-20 md:pb-0 font-sans text-[#1A0F0A]">
+    <div className="min-h-screen bg-[#EBE2D4] flex flex-col md:flex-row overflow-hidden pb-32 md:pb-0 font-sans text-[#1A0F0A]">
+      <style dangerouslySetInnerHTML={{__html: `nav { display: none !important; }`}} />
       
       {/* PREVIEW PANEL */}
       <div className="w-full md:w-[450px] bg-[#EBE2D4] border-b md:border-r border-[#1A0F0A]/10 p-6 flex flex-col items-center justify-center relative z-20">
@@ -134,7 +136,7 @@ export default function AvatarShopPage() {
            <button onClick={() => router.back()} className="p-3 bg-white shadow-[0_4px_0_#1A0F0A] rounded-full border-2 border-[#1A0F0A] hover:translate-y-1 hover:shadow-none transition-all active:scale-95"><ArrowLeft size={20} /></button>
            <div className="bg-[#1A0F0A] text-[#EBE2D4] px-5 py-2 rounded-full flex items-center gap-2 shadow-lg">
               <Wallet size={16} />
-              <span className="font-black text-sm">{coins} BEANS</span>
+              <span className="font-black text-sm">{points} BEANS</span>
            </div>
         </div>
 
@@ -170,17 +172,17 @@ export default function AvatarShopPage() {
               </OptionSection>
               <OptionSection title="Expressions Papiers">
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                  <ItemCard id="smile" label="Sourire Simple" price={PRICES['smile']} active={config.expression === 'smile'} owned={inventory.includes('smile')} previewConfig={{...config, expression: 'smile'}} onBuy={() => handlePurchase('smile', PRICES['smile'])} onClick={() => setConfig({...config, expression: 'smile'})} />
-                  <ItemCard id="angry_brows" label="Fronceur" price={PRICES['angry_brows']} active={config.expression === 'angry_brows'} owned={inventory.includes('angry_brows')} previewConfig={{...config, expression: 'angry_brows'}} onBuy={() => handlePurchase('angry_brows', PRICES['angry_brows'])} onClick={() => setConfig({...config, expression: 'angry_brows'})} />
-                  <ItemCard id="wide_smile_teeth" label="Rire Énorme" price={PRICES['wide_smile_teeth']} active={config.expression === 'wide_smile_teeth'} owned={inventory.includes('wide_smile_teeth')} previewConfig={{...config, expression: 'wide_smile_teeth'}} onBuy={() => handlePurchase('wide_smile_teeth', PRICES['wide_smile_teeth'])} onClick={() => setConfig({...config, expression: 'wide_smile_teeth'})} />
+                  <ItemCard id="smile" label="Sourire Simple" price={PRICES['smile']} active={config.expression === 'smile'} owned={inventory.includes('smile')} canAfford={points >= PRICES['smile']} previewConfig={{...config, expression: 'smile'}} onBuy={() => handlePurchase('smile', PRICES['smile'])} onClick={() => setConfig({...config, expression: 'smile'})} />
+                  <ItemCard id="angry_brows" label="Fronceur" price={PRICES['angry_brows']} active={config.expression === 'angry_brows'} owned={inventory.includes('angry_brows')} canAfford={points >= PRICES['angry_brows']} previewConfig={{...config, expression: 'angry_brows'}} onBuy={() => handlePurchase('angry_brows', PRICES['angry_brows'])} onClick={() => setConfig({...config, expression: 'angry_brows'})} />
+                  <ItemCard id="wide_smile_teeth" label="Rire Énorme" price={PRICES['wide_smile_teeth']} active={config.expression === 'wide_smile_teeth'} owned={inventory.includes('wide_smile_teeth')} canAfford={points >= PRICES['wide_smile_teeth']} previewConfig={{...config, expression: 'wide_smile_teeth'}} onBuy={() => handlePurchase('wide_smile_teeth', PRICES['wide_smile_teeth'])} onClick={() => setConfig({...config, expression: 'wide_smile_teeth'})} />
                 </div>
               </OptionSection>
               <OptionSection title="Brousaille (Barbes)">
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                  <ItemCard id="none" label="Rasé" price={PRICES['none']} active={config.facialHair === 'none'} owned={inventory.includes('none')} previewConfig={{...config, facialHair: 'none'}} onBuy={() => handlePurchase('none', PRICES['none'])} onClick={() => setConfig({...config, facialHair: 'none'})} />
-                  <ItemCard id="mustache" label="Moustache" price={PRICES['mustache']} active={config.facialHair === 'mustache'} owned={inventory.includes('mustache')} previewConfig={{...config, facialHair: 'mustache'}} onBuy={() => handlePurchase('mustache', PRICES['mustache'])} onClick={() => setConfig({...config, facialHair: 'mustache'})} />
-                  <ItemCard id="handlebar" label="Guidon" price={PRICES['handlebar']} active={config.facialHair === 'handlebar'} owned={inventory.includes('handlebar')} previewConfig={{...config, facialHair: 'handlebar'}} onBuy={() => handlePurchase('handlebar', PRICES['handlebar'])} onClick={() => setConfig({...config, facialHair: 'handlebar'})} />
-                  <ItemCard id="full_bushy_beard" label="Explorateur" price={PRICES['full_bushy_beard']} active={config.facialHair === 'full_bushy_beard'} owned={inventory.includes('full_bushy_beard')} previewConfig={{...config, facialHair: 'full_bushy_beard'}} onBuy={() => handlePurchase('full_bushy_beard', PRICES['full_bushy_beard'])} onClick={() => setConfig({...config, facialHair: 'full_bushy_beard'})} />
+                  <ItemCard id="none" label="Rasé" price={PRICES['none']} active={config.facialHair === 'none'} owned={inventory.includes('none')} canAfford={points >= PRICES['none']} previewConfig={{...config, facialHair: 'none'}} onBuy={() => handlePurchase('none', PRICES['none'])} onClick={() => setConfig({...config, facialHair: 'none'})} />
+                  <ItemCard id="mustache" label="Moustache" price={PRICES['mustache']} active={config.facialHair === 'mustache'} owned={inventory.includes('mustache')} canAfford={points >= PRICES['mustache']} previewConfig={{...config, facialHair: 'mustache'}} onBuy={() => handlePurchase('mustache', PRICES['mustache'])} onClick={() => setConfig({...config, facialHair: 'mustache'})} />
+                  <ItemCard id="handlebar" label="Guidon" price={PRICES['handlebar']} active={config.facialHair === 'handlebar'} owned={inventory.includes('handlebar')} canAfford={points >= PRICES['handlebar']} previewConfig={{...config, facialHair: 'handlebar'}} onBuy={() => handlePurchase('handlebar', PRICES['handlebar'])} onClick={() => setConfig({...config, facialHair: 'handlebar'})} />
+                  <ItemCard id="full_bushy_beard" label="Explorateur" price={PRICES['full_bushy_beard']} active={config.facialHair === 'full_bushy_beard'} owned={inventory.includes('full_bushy_beard')} canAfford={points >= PRICES['full_bushy_beard']} previewConfig={{...config, facialHair: 'full_bushy_beard'}} onBuy={() => handlePurchase('full_bushy_beard', PRICES['full_bushy_beard'])} onClick={() => setConfig({...config, facialHair: 'full_bushy_beard'})} />
                 </div>
               </OptionSection>
             </div>
@@ -196,10 +198,10 @@ export default function AvatarShopPage() {
               </OptionSection>
               <OptionSection title="Coupes Texturées">
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                  <ItemCard id="short" label="Court" price={PRICES['short']} active={config.hairStyle === 'short'} owned={inventory.includes('short')} previewConfig={{...config, hairStyle: 'short'}} onBuy={() => handlePurchase('short', PRICES['short'])} onClick={() => setConfig({...config, hairStyle: 'short'})} />
-                  <ItemCard id="shaggy" label="Bordélique" price={PRICES['shaggy']} active={config.hairStyle === 'shaggy'} owned={inventory.includes('shaggy')} previewConfig={{...config, hairStyle: 'shaggy'}} onBuy={() => handlePurchase('shaggy', PRICES['shaggy'])} onClick={() => setConfig({...config, hairStyle: 'shaggy'})} />
-                  <ItemCard id="pompadour" label="Pompadour" price={PRICES['pompadour']} active={config.hairStyle === 'pompadour'} owned={inventory.includes('pompadour')} previewConfig={{...config, hairStyle: 'pompadour'}} onBuy={() => handlePurchase('pompadour', PRICES['pompadour'])} onClick={() => setConfig({...config, hairStyle: 'pompadour'})} />
-                  <ItemCard id="man_bun_thick" label="Chignon XXL" price={PRICES['man_bun_thick']} active={config.hairStyle === 'man_bun_thick'} owned={inventory.includes('man_bun_thick')} previewConfig={{...config, hairStyle: 'man_bun_thick'}} onBuy={() => handlePurchase('man_bun_thick', PRICES['man_bun_thick'])} onClick={() => setConfig({...config, hairStyle: 'man_bun_thick'})} />
+                  <ItemCard id="short" label="Court" price={PRICES['short']} active={config.hairStyle === 'short'} owned={inventory.includes('short')} canAfford={points >= PRICES['short']} previewConfig={{...config, hairStyle: 'short'}} onBuy={() => handlePurchase('short', PRICES['short'])} onClick={() => setConfig({...config, hairStyle: 'short'})} />
+                  <ItemCard id="shaggy" label="Bordélique" price={PRICES['shaggy']} active={config.hairStyle === 'shaggy'} owned={inventory.includes('shaggy')} canAfford={points >= PRICES['shaggy']} previewConfig={{...config, hairStyle: 'shaggy'}} onBuy={() => handlePurchase('shaggy', PRICES['shaggy'])} onClick={() => setConfig({...config, hairStyle: 'shaggy'})} />
+                  <ItemCard id="pompadour" label="Pompadour" price={PRICES['pompadour']} active={config.hairStyle === 'pompadour'} owned={inventory.includes('pompadour')} canAfford={points >= PRICES['pompadour']} previewConfig={{...config, hairStyle: 'pompadour'}} onBuy={() => handlePurchase('pompadour', PRICES['pompadour'])} onClick={() => setConfig({...config, hairStyle: 'pompadour'})} />
+                  <ItemCard id="man_bun_thick" label="Chignon XXL" price={PRICES['man_bun_thick']} active={config.hairStyle === 'man_bun_thick'} owned={inventory.includes('man_bun_thick')} canAfford={points >= PRICES['man_bun_thick']} previewConfig={{...config, hairStyle: 'man_bun_thick'}} onBuy={() => handlePurchase('man_bun_thick', PRICES['man_bun_thick'])} onClick={() => setConfig({...config, hairStyle: 'man_bun_thick'})} />
                 </div>
               </OptionSection>
             </div>
@@ -215,9 +217,9 @@ export default function AvatarShopPage() {
               </OptionSection>
               <OptionSection title="Garde-robe Éditoriale">
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                  <ItemCard id="tshirt" label="T-Shirt Simple" price={PRICES['tshirt']} active={config.clothing === 'tshirt'} owned={inventory.includes('tshirt')} previewConfig={{...config, clothing: 'tshirt'}} onBuy={() => handlePurchase('tshirt', PRICES['tshirt'])} onClick={() => setConfig({...config, clothing: 'tshirt'})} />
-                  <ItemCard id="green_v_pattern_shirt" label="Chemise 'V'" price={PRICES['green_v_pattern_shirt']} active={config.clothing === 'green_v_pattern_shirt'} owned={inventory.includes('green_v_pattern_shirt')} previewConfig={{...config, clothing: 'green_v_pattern_shirt', clothingColor: "#4ADE80"}} onBuy={() => handlePurchase('green_v_pattern_shirt', PRICES['green_v_pattern_shirt'])} onClick={() => setConfig({...config, clothing: 'green_v_pattern_shirt'})} />
-                  <ItemCard id="barista_apron_over_tee" label="Tablier Barista" price={PRICES['barista_apron_over_tee']} active={config.clothing === 'barista_apron_over_tee'} owned={inventory.includes('barista_apron_over_tee')} previewConfig={{...config, clothing: 'barista_apron_over_tee'}} onBuy={() => handlePurchase('barista_apron_over_tee', PRICES['barista_apron_over_tee'])} onClick={() => setConfig({...config, clothing: 'barista_apron_over_tee'})} />
+                  <ItemCard id="tshirt" label="T-Shirt Simple" price={PRICES['tshirt']} active={config.clothing === 'tshirt'} owned={inventory.includes('tshirt')} canAfford={points >= PRICES['tshirt']} previewConfig={{...config, clothing: 'tshirt'}} onBuy={() => handlePurchase('tshirt', PRICES['tshirt'])} onClick={() => setConfig({...config, clothing: 'tshirt'})} />
+                  <ItemCard id="green_v_pattern_shirt" label="Chemise 'V'" price={PRICES['green_v_pattern_shirt']} active={config.clothing === 'green_v_pattern_shirt'} owned={inventory.includes('green_v_pattern_shirt')} canAfford={points >= PRICES['green_v_pattern_shirt']} previewConfig={{...config, clothing: 'green_v_pattern_shirt', clothingColor: "#4ADE80"}} onBuy={() => handlePurchase('green_v_pattern_shirt', PRICES['green_v_pattern_shirt'])} onClick={() => setConfig({...config, clothing: 'green_v_pattern_shirt'})} />
+                  <ItemCard id="barista_apron_over_tee" label="Tablier Barista" price={PRICES['barista_apron_over_tee']} active={config.clothing === 'barista_apron_over_tee'} owned={inventory.includes('barista_apron_over_tee')} canAfford={points >= PRICES['barista_apron_over_tee']} previewConfig={{...config, clothing: 'barista_apron_over_tee'}} onBuy={() => handlePurchase('barista_apron_over_tee', PRICES['barista_apron_over_tee'])} onClick={() => setConfig({...config, clothing: 'barista_apron_over_tee'})} />
                 </div>
               </OptionSection>
             </div>
@@ -228,9 +230,9 @@ export default function AvatarShopPage() {
             <div className="space-y-10 animate-in slide-in-from-right-4">
               <OptionSection title="Breloques & Lunettes">
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                  <ItemCard id="none" label="Rien" price={0} active={config.accessory === 'none' || !config.accessory} owned={true} previewConfig={{...config, accessory: 'none'}} onClick={() => setConfig({...config, accessory: 'none'})} />
-                  <ItemCard id="glasses" label="Lunettes Épaisses" price={PRICES['glasses']} active={config.accessory === 'glasses'} owned={inventory.includes('glasses')} previewConfig={{...config, accessory: 'glasses'}} onBuy={() => handlePurchase('glasses', PRICES['glasses'])} onClick={() => setConfig({...config, accessory: 'glasses'})} />
-                  <ItemCard id="gold_earring" label="Boucle Artisan" price={PRICES['gold_earring']} active={config.accessory === 'gold_earring'} owned={inventory.includes('gold_earring')} previewConfig={{...config, accessory: 'gold_earring'}} onBuy={() => handlePurchase('gold_earring', PRICES['gold_earring'])} onClick={() => setConfig({...config, accessory: 'gold_earring'})} />
+                  <ItemCard id="none" label="Rien" price={0} active={config.accessory === 'none' || !config.accessory} owned={true} canAfford={true} previewConfig={{...config, accessory: 'none'}} onClick={() => setConfig({...config, accessory: 'none'})} />
+                  <ItemCard id="glasses" label="Lunettes Épaisses" price={PRICES['glasses']} active={config.accessory === 'glasses'} owned={inventory.includes('glasses')} canAfford={points >= PRICES['glasses']} previewConfig={{...config, accessory: 'glasses'}} onBuy={() => handlePurchase('glasses', PRICES['glasses'])} onClick={() => setConfig({...config, accessory: 'glasses'})} />
+                  <ItemCard id="gold_earring" label="Boucle Artisan" price={PRICES['gold_earring']} active={config.accessory === 'gold_earring'} owned={inventory.includes('gold_earring')} canAfford={points >= PRICES['gold_earring']} previewConfig={{...config, accessory: 'gold_earring'}} onBuy={() => handlePurchase('gold_earring', PRICES['gold_earring'])} onClick={() => setConfig({...config, accessory: 'gold_earring'})} />
                 </div>
               </OptionSection>
             </div>
@@ -272,7 +274,7 @@ function ColorCircle({ color, active, onClick }: any) {
   );
 }
 
-function ItemCard({ label, price, active, owned, onClick, onBuy, previewConfig }: any) {
+function ItemCard({ label, price, active, owned, canAfford, onClick, onBuy, previewConfig }: any) {
   return (
     <div 
       className={`p-4 rounded-[2.5rem] border-[3px] transition-all duration-300 relative flex flex-col items-center gap-3 group overflow-hidden ${
@@ -281,16 +283,30 @@ function ItemCard({ label, price, active, owned, onClick, onBuy, previewConfig }
           : 'border-[#1A0F0A]/10 bg-white hover:border-[#1A0F0A]/30 shadow-sm'
       }`}
     >
-      <div className="w-20 h-20 transition-transform duration-500 group-hover:scale-110 origin-bottom">
+      <div className={`w-20 h-20 transition-transform duration-500 origin-bottom ${!owned && !canAfford ? 'opacity-40 grayscale' : 'group-hover:scale-110'}`}>
          <CoffeeAvatar config={previewConfig} size={80} noBackground />
       </div>
       
+      {/* Icon Lock pour item inabordable */}
+      {!owned && !canAfford && (
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#1A0F0A]/80 text-[#EBE2D4] p-2 rounded-full shadow-lg">
+           <ShoppingCart size={16} />
+        </div>
+      )}
+
       <div className="text-center relative z-10 w-full">
         <p className="text-[11px] font-black text-[#1A0F0A] uppercase tracking-tight truncate px-1">{label}</p>
         
         {!owned ? (
-          <button onClick={onBuy} className="mt-2 mx-auto bg-[#EBE2D4] text-[#B44222] border-2 border-[#B44222] w-full py-1.5 rounded-full flex justify-center items-center gap-1 text-[10px] font-black transition-colors hover:bg-[#B44222] hover:text-[#EBE2D4]">
-            <ShoppingCart size={12} /> {price} B
+          <button 
+            onClick={onBuy} 
+            className={`mt-2 mx-auto w-full py-1.5 rounded-full flex justify-center items-center gap-1 text-[10px] font-black transition-colors ${
+              canAfford 
+              ? "bg-[#EBE2D4] text-[#B44222] border-2 border-[#B44222] hover:bg-[#B44222] hover:text-[#EBE2D4] cursor-pointer" 
+              : "bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed"
+            }`}
+          >
+            {price} B
           </button>
         ) : (
           <button onClick={onClick} className={`mt-2 w-full py-1.5 rounded-full text-[10px] border-2 font-black transition-colors ${active ? 'bg-[#1A0F0A] text-white border-[#1A0F0A]' : 'bg-[#FAFAF8] text-[#1A0F0A] border-[#1A0F0A]/20 hover:border-[#1A0F0A]/50'}`}>

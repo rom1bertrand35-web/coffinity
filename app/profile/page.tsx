@@ -116,7 +116,7 @@ export default function ProfilePage() {
             </div>
             <div className="flex flex-col">
               <span className="text-2xl font-black text-[var(--color-accent)]">{profile?.points || 0}</span>
-              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Points</span>
+              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest text-center">Beans</span>
             </div>
           </div>
         </div>

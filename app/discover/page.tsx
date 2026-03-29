@@ -19,18 +19,20 @@ function DiscoverContent() {
   const [results, setResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
-
-  // Mettre à jour le mode si l'URL change
-  useEffect(() => {
-    const urlMode = searchParams.get('mode') as Mode;
-    if (urlMode && (urlMode === 'coffee' || urlMode === 'people')) {
-      setMode(urlMode);
-    }
-  }, [searchParams]);
+  const [followingIds, setFollowingIds] = useState<string[]>([]);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
-      setCurrentUserId(data.user?.id || null);
+      const userId = data.user?.id || null;
+      setCurrentUserId(userId);
+      if (userId) {
+        supabase.from('follows')
+          .select('following_id')
+          .eq('follower_id', userId)
+          .then(({ data: followsData }) => {
+            if (followsData) setFollowingIds(followsData.map(f => f.following_id));
+          });
+      }
     });
   }, []);
 
@@ -109,6 +111,7 @@ function DiscoverContent() {
                   key={item.id} 
                   profile={item} 
                   currentUserId={currentUserId}
+                  initialIsFollowing={followingIds.includes(item.id)}
                 />
               )
             ))}

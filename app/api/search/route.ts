@@ -28,27 +28,27 @@ export async function GET(request: Request) {
       .from('coffees')
       .select('name, brand, image_url, id, url, category', { count: 'exact' });
 
+    // IMPORTANT: On ne veut QUE des cafés avec photo
+    dbQuery = dbQuery.not('image_url', 'is', null).neq('image_url', '');
+
     // Filtrage par catégorie
     if (category && category !== 'All') {
       dbQuery = dbQuery.eq('category', category);
     }
 
-    // Filtrage par texte (si présent)
     if (query && query.length >= 2 && query.toLowerCase() !== 'café' && query.toLowerCase() !== 'coffee') {
       const cleanQuery = query.replace(/[']/g, '%');
       dbQuery = dbQuery.or(`name.ilike.%${cleanQuery}%,brand.ilike.%${cleanQuery}%`);
+      dbQuery = dbQuery.order('brand', { ascending: true });
+    } else {
+      dbQuery = dbQuery.order('created_at', { ascending: false });
     }
-
-    // IMPORTANT: On ne veut QUE des cafés avec photo
-    dbQuery = dbQuery.not('image_url', 'is', null).neq('image_url', '');
 
     // Pagination
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;
     
-    const { data: dbCoffees, error: dbError, count } = await dbQuery
-      .order('brand', { ascending: true })
-      .range(from, to);
+    const { data: dbCoffees, error: dbError, count } = await dbQuery.range(from, to);
 
     let premiumProducts = dbCoffees?.map(c => ({
       id: c.id,

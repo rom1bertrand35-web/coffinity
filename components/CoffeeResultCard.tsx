@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { ShoppingBag, Coffee, Plus, Star, MessageSquareQuote } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -25,6 +26,7 @@ interface CoffeeResultCardProps {
 
 export default function CoffeeResultCard({ coffee }: CoffeeResultCardProps) {
   const router = useRouter();
+  const [imgError, setImgError] = useState(false);
 
   const handleRate = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -34,10 +36,18 @@ export default function CoffeeResultCard({ coffee }: CoffeeResultCardProps) {
   return (
     <div className="bg-white rounded-[2rem] border-[3px] border-[#1A0F0A] shadow-[0_6px_0_rgba(26,15,10,1)] overflow-hidden flex flex-col animate-in fade-in zoom-in-95 group">
       <div className="h-32 bg-stone-100/50 flex items-center justify-center p-4 relative border-b-2 border-[#1A0F0A]/10">
-        {coffee.image_url ? (
-          <img src={coffee.image_url} alt={coffee.name} className="h-full object-contain group-hover:scale-110 transition-transform duration-500" />
+        {coffee.image_url && !imgError ? (
+          <img 
+            src={coffee.image_url} 
+            alt={coffee.name} 
+            className="h-full object-contain group-hover:scale-110 transition-transform duration-500" 
+            onError={() => setImgError(true)}
+          />
         ) : (
-          <Coffee className="text-stone-200" size={32} />
+          <div className="flex flex-col items-center justify-center opacity-20 group-hover:opacity-40 transition-opacity">
+            <Coffee size={32} />
+            <p className="text-[8px] font-black uppercase mt-1">Image Archives</p>
+          </div>
         )}
         
         <button 

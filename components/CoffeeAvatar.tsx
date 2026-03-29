@@ -51,6 +51,17 @@ export default function CoffeeAvatar({ config, size = 100, className = "", noBac
 
   const renderHair = () => {
     switch (hairStyle) {
+      case 'cap':
+        return (
+          <g stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+            {/* Main Cap Part */}
+            <path d="M22 45 C20 15 80 15 78 45 Z" fill="#1A0F0A" />
+            {/* Visor */}
+            <path d="M22 45 L5 50 Q5 55 25 55 L75 55 Q95 55 95 50 L78 45" fill="#1A0F0A" />
+            {/* Top Button */}
+            <circle cx="50" cy="18" r="3" fill="#1A0F0A" />
+          </g>
+        );
       case 'man_bun_thick':
         return (
           <g fill={hairColor} stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">

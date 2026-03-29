@@ -24,14 +24,20 @@ export async function GET(request: Request) {
     );
 
     // 1. Recherche dans notre base "Premium"
-    const cleanQuery = query.replace(/[']/g, '%');
-    
-    const { data: dbCoffees, error: dbError } = await supabase
+    let dbQuery = supabase
       .from('coffees')
-      .select('name, brand, image_url, id, url')
-      .or(`name.ilike.%${cleanQuery}%,brand.ilike.%${cleanQuery}%`)
-      .order('brand', { ascending: true })
-      .limit(20);
+      .select('name, brand, image_url, id, url');
+
+    if (query.toLowerCase() === 'café' || query.toLowerCase() === 'coffee') {
+      // Pour une recherche générique (accueil de l'onglet), on montre les plus récents
+      dbQuery = dbQuery.order('created_at', { ascending: false });
+    } else {
+      const cleanQuery = query.replace(/[']/g, '%');
+      dbQuery = dbQuery.or(`name.ilike.%${cleanQuery}%,brand.ilike.%${cleanQuery}%`)
+                       .order('brand', { ascending: true });
+    }
+    
+    const { data: dbCoffees, error: dbError } = await dbQuery.limit(50);
 
     let premiumProducts = dbCoffees?.map(c => ({
       id: c.id,
@@ -45,10 +51,10 @@ export async function GET(request: Request) {
     let allProducts = [...premiumProducts];
 
     // 2. FALLBACK / COMPLÉMENT : OpenFoodFacts
-    // On ne va chercher sur OFF que si on a moins de 20 résultats premium
-    if (allProducts.length < 20) {
+    // On ne va chercher sur OFF que si on a moins de 50 résultats premium
+    if (allProducts.length < 50) {
       try {
-        const searchUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&tagtype_0=categories&tag_contains_0=contains&tag_0=coffee&search_simple=1&action=process&json=1&page_size=20&fields=code,product_name,brands,image_url,categories`;
+        const searchUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&tagtype_0=categories&tag_contains_0=contains&tag_0=coffee&search_simple=1&action=process&json=1&page_size=50&fields=code,product_name,brands,image_url,categories`;
         
         const response = await fetch(searchUrl, { next: { revalidate: 3600 } });
         const data = await response.json();
@@ -69,7 +75,7 @@ export async function GET(request: Request) {
             source: 'off'
           }));
 
-        allProducts = [...allProducts, ...offProducts].slice(0, 20);
+        allProducts = [...allProducts, ...offProducts].slice(0, 50);
       } catch (offErr) {
         console.error("OpenFoodFacts search failed:", offErr);
       }

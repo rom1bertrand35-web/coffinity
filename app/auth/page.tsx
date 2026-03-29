@@ -1,51 +1,55 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Coffee, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { loginWithServerAction } from "./actions";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   
   const router = useRouter();
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!isLogin && !captchaToken) {
+      setError("Veuillez valider le captcha.");
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
     setMessage(null);
 
     try {
       if (isLogin) {
-        // --- CONNEXION via SERVER ACTION ---
-        // Cela force le cookie à être écrit par le serveur, ce qui est beaucoup
-        // plus fiable sur mobile en développement local (http://192.168.x.x)
         const result = await loginWithServerAction(email, password);
         
         if (!result.success) {
           setError(result.error || "Échec de la connexion. Veuillez vérifier vos identifiants.");
         } else {
-          console.log("Login successful via server action!");
-          // Redirection si succès
           router.push("/");
           router.refresh();
         }
         
       } else {
-        // --- INSCRIPTION (Reste côté client pour l'instant) ---
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
+            captchaToken: captchaToken || undefined,
             data: {
               username: username,
             }
@@ -57,12 +61,13 @@ export default function AuthPage() {
         if (data.user && data.user.identities && data.user.identities.length === 0) {
            setError("Cet email est déjà utilisé.");
         } else {
-           setMessage("Inscription réussie ! Vous pouvez maintenant vous connecter.");
-           setIsLogin(true); // Bascule sur la vue login
+           setMessage("Vérifiez vos emails ! Un lien de confirmation vous a été envoyé pour activer votre compte.");
+           setIsLogin(true);
         }
       }
     } catch (err: any) {
       setError(err.message || "Une erreur est survenue lors de l'authentification.");
+      turnstileRef.current?.reset();
     } finally {
       setIsLoading(false);
     }
@@ -153,6 +158,22 @@ export default function AuthPage() {
               </button>
             </div>
           </div>
+
+          {!isLogin && (
+            <div className="flex justify-center my-2">
+              <Turnstile 
+                ref={turnstileRef}
+                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"} 
+                onSuccess={(token) => setCaptchaToken(token)}
+                onExpire={() => setCaptchaToken(null)}
+                onError={() => setCaptchaToken(null)}
+                options={{
+                  theme: 'light',
+                  size: 'normal',
+                }}
+              />
+            </div>
+          )}
 
           <button 
             type="submit" 

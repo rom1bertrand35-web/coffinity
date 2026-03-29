@@ -108,13 +108,13 @@ export default async function TastingDetailPage({ params }: { params: Promise<{ 
 
             {/* Author & Date */}
             <div className="pt-8 border-t-2 border-[#1A0F0A]/5 flex items-center justify-between">
-              <Link href={`/profile/${post.user_id}`} className="flex items-center gap-3 group">
-                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#1A0F0A] group-hover:scale-110 transition-transform">
-                  <CoffeeAvatar config={post.profiles?.avatar_config || {}} size={48} />
+              <Link href={`/profile/${post.user_id}`} className="flex items-center gap-4 group">
+                <div className="w-14 h-14 rounded-full overflow-hidden border-3 border-[#1A0F0A] shadow-[4px_4px_0_#1A0F0A] group-hover:translate-x-0.5 group-hover:translate-y-0.5 group-hover:shadow-none transition-all flex-shrink-0 bg-white">
+                  <CoffeeAvatar config={post.profiles?.avatar_config || {}} size={56} />
                 </div>
                 <div className="text-left">
                   <p className="text-[10px] font-black uppercase text-[#1A0F0A]/40 leading-none mb-1">Archivé par</p>
-                  <p className="font-black text-[#1A0F0A] group-hover:underline">{post.profiles?.username}</p>
+                  <p className="font-black text-[#1A0F0A] group-hover:underline text-lg uppercase tracking-tighter">{post.profiles?.username}</p>
                 </div>
               </Link>
               <div className="text-right">

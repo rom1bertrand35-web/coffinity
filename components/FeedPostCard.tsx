@@ -84,11 +84,11 @@ export default function FeedPostCard({
   return (
     <article className="bento-card bg-[var(--color-card)] flex flex-col animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all overflow-hidden mb-6">
       {/* HEADER: Avatar & Info */}
-      <div className="flex justify-between items-center p-4">
-        <div className="flex items-center gap-3">
+      <div className="flex justify-between items-center p-5">
+        <div className="flex items-center gap-4">
           <button 
             onClick={() => router.push(`/profile/${post.user_id}`)}
-            className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#1A0F0A] shadow-sm hover:scale-105 transition-transform"
+            className="w-14 h-14 rounded-full overflow-hidden border-3 border-[#1A0F0A] shadow-[4px_4px_0_#1A0F0A] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all flex-shrink-0 bg-white"
           >
             <CoffeeAvatar 
               config={post.profiles?.avatar_config || {
@@ -101,31 +101,30 @@ export default function FeedPostCard({
                 clothingColor: "#E5E7EB",
                 skinColor: "#F3D2B3"
               }} 
-              size={40} 
+              size={56} 
             />
           </button>
-          <div>
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2 flex-wrap">
               <button 
                 onClick={() => router.push(`/profile/${post.user_id}`)}
-                className="font-black text-sm uppercase tracking-tighter hover:underline underline-offset-2 text-left text-[var(--color-foreground)]"
+                className="font-black text-base uppercase tracking-tighter hover:underline underline-offset-2 text-left text-[var(--color-foreground)]"
               >
                 {post.profiles?.username || "Anonymous Brewer"}
               </button>
               {post.is_official && (
-                <span className="bg-[#B44222] text-[#EBE2D4] text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest border border-[#1A0F0A]">
+                <span className="bg-[#B44222] text-[#EBE2D4] text-[8px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest border-2 border-[#1A0F0A] shadow-md">
                   Officiel
                 </span>
               )}
               {!isOwnPost && !post.is_official && currentUserId && (
-
                 <button 
                   onClick={handleFollow}
                   disabled={isFollowLoading}
-                  className={`text-[10px] font-bold px-2.5 py-1 rounded-full border-2 transition-all flex items-center gap-1 ${
+                  className={`text-[9px] font-black px-3 py-1 rounded-full border-2 uppercase tracking-wider transition-all flex items-center gap-1 ${
                     isFollowing 
-                      ? "bg-[var(--color-secondary)] text-gray-400 border-[var(--color-border)]" 
-                      : "bg-[#1A0F0A] text-[#EBE2D4] border-[#1A0F0A] shadow-sm active:scale-95"
+                      ? "bg-[var(--color-secondary)] text-gray-400 border-[#1A0F0A]/20" 
+                      : "bg-[#1A0F0A] text-[#EBE2D4] border-[#1A0F0A] shadow-[2px_2px_0_#B44222] active:translate-y-0.5 active:shadow-none"
                   }`}
                 >
                   {isFollowLoading ? (
@@ -133,18 +132,20 @@ export default function FeedPostCard({
                   ) : isFollowing ? (
                     <>
                       <UserCheck size={10} />
-                      Following
+                      Suivi
                     </>
                   ) : (
                     <>
                       <UserPlus size={10} />
-                      Follow
+                      Suivre
                     </>
                   )}
                 </button>
               )}
             </div>
-            <p className="text-xs text-gray-400 font-bold">{post.profiles?.level || "Beginner"} • {timeAgo()}</p>
+            <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest opacity-60">
+              {post.profiles?.level || "Beginner"} • {timeAgo()}
+            </p>
           </div>
         </div>
         

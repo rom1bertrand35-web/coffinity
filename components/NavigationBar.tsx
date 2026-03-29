@@ -13,9 +13,9 @@ export default function NavigationBar() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
-      <nav className="w-full max-w-md bg-[var(--color-primary)] text-[var(--color-background)] rounded-t-[3rem] px-8 pt-6 pb-6 flex items-center justify-between pointer-events-auto relative">
-        <NavItem href="/" icon={<Home size={26} strokeWidth={1.5} />} isActive={pathname === "/"} label="Feed" onClick={() => hapticFeedback(5)} />
-        <NavItem href="/discover" icon={<Compass size={26} strokeWidth={1.5} />} isActive={pathname === "/discover"} label="Discover" onClick={() => hapticFeedback(5)} />
+      <nav className="w-full max-w-md bg-[var(--color-primary)] text-[var(--color-background)] rounded-t-[3rem] px-8 pt-6 pb-6 flex items-center justify-between pointer-events-auto relative border-t-[4px] border-[#1A0F0A] shadow-[0_-8px_0_rgba(26,15,10,0.1)]">
+        <NavItem href="/" icon={<Home size={26} strokeWidth={2.5} />} isActive={pathname === "/"} label="Feed" onClick={() => hapticFeedback(5)} />
+        <NavItem href="/discover" icon={<Compass size={26} strokeWidth={2.5} />} isActive={pathname === "/discover"} label="Discover" onClick={() => hapticFeedback(5)} />
         
         {/* Scan Button (Botanical Square style) */}
         <Link 
@@ -29,10 +29,10 @@ export default function NavigationBar() {
           <div className="absolute top-1/2 -left-3 -translate-y-1/2 w-1 h-6 border-l border-[var(--color-background)] rounded-l-full opacity-50"></div>
           <div className="absolute top-1/2 -right-3 -translate-y-1/2 w-1 h-6 border-r border-[var(--color-background)] rounded-r-full opacity-50"></div>
           
-          <ScanLine size={28} strokeWidth={1.5} className="group-hover:rotate-12 transition-transform duration-300" />
+          <ScanLine size={28} strokeWidth={2.5} className="group-hover:rotate-12 transition-transform duration-300" />
         </Link>
         
-        <NavItem href="/profile" icon={<User size={26} strokeWidth={1.5} />} isActive={pathname === "/profile"} label="Profile" onClick={() => hapticFeedback(5)} />
+        <NavItem href="/profile" icon={<User size={26} strokeWidth={2.5} />} isActive={pathname === "/profile"} label="Profile" onClick={() => hapticFeedback(5)} />
       </nav>
     </div>
   );

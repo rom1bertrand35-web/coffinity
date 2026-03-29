@@ -81,6 +81,8 @@ export default function AvatarShopPage() {
       setIsLoading(false);
     }
     loadData();
+  }, [router]);
+
   const handlePurchase = async (itemId: string, price: number) => {
     if (inventory.includes(itemId)) return;
     if (points < price) {
@@ -106,10 +108,6 @@ export default function AvatarShopPage() {
     if (!error) {
       setInventory(newInventory);
       setPoints(newPoints);
-    }
-  };
-
-      hapticFeedback(20);
     }
   };
 

@@ -82,67 +82,70 @@ export default function CommentsSheet({ tastingId, isOpen, onClose, currentUserI
   return (
     <Drawer.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 bg-black/60 z-[100] backdrop-blur-sm" />
-        <Drawer.Content className="bg-[var(--color-primary)] flex flex-col rounded-t-[3rem] h-[85%] fixed bottom-0 left-0 right-0 z-[100] outline-none">
-          <div className="p-6 bg-[var(--color-primary)] text-[var(--color-background)] rounded-t-[3rem] flex-1 flex flex-col overflow-hidden">
-            <div className="mx-auto w-12 h-1 flex-shrink-0 rounded-full bg-[var(--color-background)] opacity-20 mb-8" />
+        <Drawer.Overlay className="fixed inset-0 bg-black/40 z-[100] backdrop-blur-sm" />
+        <Drawer.Content className="bg-[#EBE2D4] flex flex-col rounded-t-[3rem] h-[85%] fixed bottom-0 left-0 right-0 z-[100] outline-none border-t-4 border-[#1A0F0A]">
+          <div className="p-6 text-[#1A0F0A] flex-1 flex flex-col overflow-hidden relative">
+            <div className="mx-auto w-16 h-2 flex-shrink-0 rounded-full bg-[#1A0F0A] opacity-20 mb-8" />
             
-            <div className="flex justify-between items-center mb-6 px-2 tracking-tight">
-              <Drawer.Title className="text-3xl font-serif text-[var(--color-background)] flex items-center gap-3">
-                <MessageCircle size={28} strokeWidth={1.5} /> Comments
+            <div className="flex justify-between items-center mb-10 px-2">
+              <Drawer.Title className="text-4xl font-serif text-[#1A0F0A] flex items-center gap-4 font-black italic tracking-tighter uppercase">
+                <MessageCircle size={32} strokeWidth={3} className="-rotate-12" /> Avis
               </Drawer.Title>
-              <button onClick={onClose} className="p-2 border border-[var(--color-background)]/20 rounded-full text-[var(--color-background)] hover:bg-[var(--color-background)] hover:text-[var(--color-primary)] transition-colors">
-                <X size={20} />
+              <button onClick={onClose} className="p-3 bg-[#1A0F0A] text-[#EBE2D4] rounded-full border-2 border-[#1A0F0A] hover:translate-y-1 transition-all shadow-[0_4px_0_rgba(0,0,0,0.2)]">
+                <X size={20} strokeWidth={3} />
               </button>
             </div>
 
             {/* Comments List */}
-            <div className="flex-1 overflow-y-auto px-2 space-y-5 pb-4">
+            <div className="flex-1 overflow-y-auto px-2 space-y-6 pb-4">
               {isLoading ? (
-                <div className="flex justify-center py-10"><Loader2 className="animate-spin text-stone-300" /></div>
+                <div className="flex justify-center py-10"><Loader2 className="animate-spin text-[#1A0F0A]/20" size={32} /></div>
               ) : comments.length === 0 ? (
-                <div className="text-center py-16 text-stone-400">
-                  <p className="font-bold">Aucun commentaire</p>
-                  <p className="text-sm">Soyez le premier à donner votre avis !</p>
+                <div className="text-center py-20 bg-white/30 rounded-[2.5rem] border-3 border-dashed border-[#1A0F0A]/10">
+                  <p className="font-extrabold text-[#1A0F0A] text-xl mb-2">Le calme plat...</p>
+                  <p className="text-sm font-bold opacity-60">Partage ta science du grain en premier !</p>
                 </div>
               ) : (
                 comments.map((comment) => (
-                  <div key={comment.id} className="flex gap-4 animate-in fade-in slide-in-from-bottom-2">
-                    <div className="w-10 h-10 shrink-0 rounded-full border border-[var(--color-background)]/20 overflow-hidden">
-                      <CoffeeAvatar config={comment.profiles?.avatar_config || {}} size={40} />
+                  <div key={comment.id} className="flex gap-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div className="w-12 h-12 shrink-0 rounded-full border-3 border-[#1A0F0A] overflow-hidden shadow-sm bg-white">
+                      <CoffeeAvatar config={comment.profiles?.avatar_config || {}} size={48} noBackground />
                     </div>
                     <div className="flex flex-col pt-1">
-                      <p className="font-bold text-[11px] text-[var(--color-background)]/60 uppercase tracking-widest mb-1">{comment.profiles?.username || "Anonyme"}</p>
-                      <p className="text-[15px] font-medium text-[var(--color-background)] leading-relaxed">{comment.content}</p>
+                      <p className="font-black text-[10px] text-[#B44222] uppercase tracking-[0.2em] mb-1.5">{comment.profiles?.username || "Anonyme"}</p>
+                      <div className="bg-white border-2 border-[#1A0F0A] rounded-2xl rounded-tl-none p-4 shadow-[0_4px_0_rgba(26,15,10,0.1)]">
+                        <p className="text-[15px] font-bold text-[#1A0F0A] leading-relaxed">{comment.content}</p>
+                      </div>
                     </div>
                   </div>
                 ))
               )}
             </div>
 
-            {/* Input Area */}
+            {/* Input Area Brutaliste */}
             {currentUserId ? (
-              <form onSubmit={handleSubmit} className="mt-auto pt-4 pb-safe relative">
-                <div className="relative flex items-center">
+              <form onSubmit={handleSubmit} className="mt-auto pt-6 pb-safe relative">
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-[#1A0F0A] rounded-full translate-y-1 translate-x-1 opacity-0 group-focus-within:opacity-100 transition-opacity"></div>
                   <input
                     type="text"
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Add a comment..."
-                    className="w-full bg-[var(--color-primary)] border border-[var(--color-background)]/30 rounded-full py-4 pl-6 pr-14 focus:outline-none focus:border-[var(--color-accent)] text-sm font-medium text-[var(--color-background)] placeholder-[var(--color-background)]/40 transition-colors"
+                    placeholder="Écris ton avis..."
+                    className="relative w-full bg-white border-3 border-[#1A0F0A] rounded-full py-5 pl-8 pr-16 focus:outline-none focus:translate-y-[-2px] focus:translate-x-[-2px] text-sm font-black text-[#1A0F0A] placeholder:text-[#1A0F0A]/30 shadow-[0_4px_0_#1A0F0A] transition-all"
                   />
                   <button 
                     type="submit" 
                     disabled={!newComment.trim() || isSubmitting}
-                    className="absolute right-2 p-2.5 bg-[var(--color-background)] text-[var(--color-primary)] rounded-full disabled:opacity-30 hover:scale-110 active:scale-95 transition-all"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-12 h-12 bg-[#1A0F0A] text-[#EBE2D4] rounded-full border-2 border-[#1A0F0A] disabled:opacity-30 hover:-rotate-12 active:scale-90 transition-all flex items-center justify-center shadow-lg"
                   >
-                    {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} strokeWidth={2} className="ml-px" />}
+                    {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : <Send size={20} strokeWidth={2.5} className="ml-1" />}
                   </button>
                 </div>
               </form>
             ) : (
-              <div className="mt-auto pt-4 pb-safe text-center text-sm font-bold text-[var(--color-background)]/50">
-                Vous devez être connecté pour commenter.
+              <div className="mt-auto pt-6 pb-12 text-center text-xs font-black uppercase tracking-widest text-[#1A0F0A]/40 bg-white/20 rounded-full border-2 border-dashed border-[#1A0F0A]/10">
+                Connecte-toi pour briller en société.
               </div>
             )}
           </div>

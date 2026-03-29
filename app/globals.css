@@ -19,8 +19,8 @@
   --color-muted: #D1C5B4;
   --color-muted-foreground: #7C6D60;
 
-  --color-border: #D1C5B4; /* Ligne fine beige plus foncé */
-  --color-input: #D1C5B4;
+  --color-border: #1A0F0A; /* Ligne épaisse et pure noire type bande-dessinée/Vectoriel */
+  --color-input: #1A0F0A;
   
   --radius: 2rem;
   
@@ -54,10 +54,11 @@
 @layer utilities {
   .bento-card {
     background-color: var(--color-background);
-    border-radius: 0;
-    box-shadow: none;
-    border-color: rgba(0,0,0,0.08); /* Ligne très fine */
-    border-width: 0 0 1px 0;
+    border-radius: 2.5rem;
+    box-shadow: 0 4px 0 rgba(26,15,10,1);
+    border-color: #1A0F0A;
+    border-width: 3px;
+    border-style: solid;
   }
 
   .bento-card:active {

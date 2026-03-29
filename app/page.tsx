@@ -195,6 +195,7 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
         showPoints(5, "Tasting liked!");
       } else {
         await supabase.from('likes').delete().match({ user_id: currentUserId, tasting_id: post.id });
+        awardBeans(currentUserId, -5); // -5 Beans (Retrait du bonus)
       }
     } catch (err) {
       setIsLiked(!newIsLiked);

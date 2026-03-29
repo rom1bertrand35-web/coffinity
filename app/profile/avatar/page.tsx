@@ -2,16 +2,41 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Save, Lock, Check, Loader2, Sparkles, User, Scissors, Shirt, Glasses, Smile, ShoppingCart, Wallet } from "lucide-react";
+import { ArrowLeft, Loader2, Smile, Scissors, Shirt, Glasses, ShoppingCart, Wallet, Check } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import CoffeeAvatar, { AvatarConfig } from "@/components/CoffeeAvatar";
 import { hapticFeedback } from "@/utils/haptics";
 
 const SKIN_COLORS = ["#F3D2B3", "#E0B696", "#C68642", "#8D5524", "#FFDBAC", "#E5C298"];
-const HAIR_COLORS = ["#4B2C20", "#2C1810", "#8D5524", "#D6B08D", "#1A1A1A", "#634E34", "#B55239", "#8E8E8E"];
-const CLOTHING_COLORS = ["#E5E7EB", "#4B2C20", "#253525", "#1E3A8A", "#7F1D1D", "#FCD34D", "#FFFFFF", "#101010", "#5B21B6"];
+const HAIR_COLORS = ["#1A1A1A", "#4B2C20", "#2C1810", "#8D5524", "#D6B08D", "#634E34", "#B55239", "#8E8E8E", "#D8D8D8", "#FCD34D"];
+const CLOTHING_COLORS = ["#4ADE80", "#E5E7EB", "#4B2C20", "#253525", "#1E3A8A", "#7F1D1D", "#FFFFFF", "#101010", "#5B21B6", "#FFB6C1"];
 
 type TabType = 'face' | 'hair' | 'clothing' | 'accessories';
+
+// Prix en Beans (0 = Gratuits/Possédés de base)
+const PRICES: Record<string, number> = {
+  // Expressions
+  'smile': 0,
+  'wide_smile_teeth': 150,
+  'angry_brows': 50,
+  // Hair
+  'short': 0,
+  'shaggy': 100,
+  'pompadour': 250,
+  'man_bun_thick': 400,
+  // Facial Hair
+  'none': 0,
+  'mustache': 50,
+  'handlebar': 200,
+  'full_bushy_beard': 300,
+  // Clothing
+  'tshirt': 0,
+  'green_v_pattern_shirt': 300,
+  'barista_apron_over_tee': 500,
+  // Accessories
+  'glasses': 150,
+  'gold_earring': 200,
+};
 
 export default function AvatarShopPage() {
   const router = useRouter();
@@ -22,15 +47,15 @@ export default function AvatarShopPage() {
   const [activeTab, setActiveTab] = useState<TabType>('face');
   const [config, setConfig] = useState<AvatarConfig>({
     gender: "neutral",
-    hairStyle: "short",
-    hairColor: "#4B2C20",
-    facialHair: "none",
-    facialHairColor: "#4B2C20",
-    clothing: "tshirt",
-    clothingColor: "#E5E7EB",
+    hairStyle: "man_bun_thick",
+    hairColor: "#1A1A1A",
+    facialHair: "full_bushy_beard",
+    facialHairColor: "#1A1A1A",
+    clothing: "green_v_pattern_shirt",
+    clothingColor: "#4ADE80",
     skinColor: "#F3D2B3",
-    accessory: "none",
-    expression: "smile"
+    accessory: "gold_earring",
+    expression: "wide_smile_teeth"
   });
 
   useEffect(() => {
@@ -46,7 +71,11 @@ export default function AvatarShopPage() {
 
       if (profile) {
         setCoins(profile.coins || 0);
-        setInventory(profile.inventory || ['short', 'none', 'tshirt', 'smile']);
+        // Toujours offrir les éléments de base s'ils sont manquants
+        const baseItems = ['short', 'none', 'tshirt', 'smile'];
+        const userInventory = profile.inventory || [];
+        setInventory([...new Set([...baseItems, ...userInventory])]);
+        
         if (profile.avatar_config) setConfig(profile.avatar_config);
       }
       setIsLoading(false);
@@ -57,7 +86,7 @@ export default function AvatarShopPage() {
   const handlePurchase = async (itemId: string, price: number) => {
     if (inventory.includes(itemId)) return;
     if (coins < price) {
-      alert("Pas assez de Beans ! ☕️ Goûte des cafés pour en gagner.");
+      alert("Tu n'as pas assez de Beans ! ☕️ Goûte des cafés ou écris des avis pour en gagner.");
       return;
     }
 
@@ -79,6 +108,7 @@ export default function AvatarShopPage() {
     if (!error) {
       setInventory(newInventory);
       setCoins(newCoins);
+      hapticFeedback(20);
     }
   };
 
@@ -93,85 +123,125 @@ export default function AvatarShopPage() {
     setIsSaving(false);
   };
 
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center bg-stone-50"><Loader2 className="animate-spin text-[var(--color-primary)]" size={32} /></div>;
+  if (isLoading) return <div className="min-h-screen flex items-center justify-center bg-[#EBE2D4]"><Loader2 className="animate-spin text-[#1A0F0A]" size={32} /></div>;
 
   return (
-    <div className="min-h-screen bg-white flex flex-col md:flex-row overflow-hidden pb-20 md:pb-0">
+    <div className="min-h-screen bg-[#EBE2D4] flex flex-col md:flex-row overflow-hidden pb-20 md:pb-0 font-sans text-[#1A0F0A]">
       
       {/* PREVIEW PANEL */}
-      <div className="w-full md:w-[450px] bg-stone-50 border-b md:border-r border-stone-200 p-6 flex flex-col items-center justify-center relative z-20">
+      <div className="w-full md:w-[450px] bg-[#EBE2D4] border-b md:border-r border-[#1A0F0A]/10 p-6 flex flex-col items-center justify-center relative z-20">
         <div className="w-full flex justify-between items-center mb-10 md:absolute md:top-8 md:px-8">
-           <button onClick={() => router.back()} className="p-3 bg-white shadow-sm rounded-full border border-stone-200"><ArrowLeft size={20} /></button>
-           <div className="bg-[var(--color-primary)] text-white px-5 py-2 rounded-full flex items-center gap-2 shadow-lg shadow-[var(--color-primary)]/20">
+           <button onClick={() => router.back()} className="p-3 bg-white shadow-[0_4px_0_#1A0F0A] rounded-full border-2 border-[#1A0F0A] hover:translate-y-1 hover:shadow-none transition-all active:scale-95"><ArrowLeft size={20} /></button>
+           <div className="bg-[#1A0F0A] text-[#EBE2D4] px-5 py-2 rounded-full flex items-center gap-2 shadow-lg">
               <Wallet size={16} />
               <span className="font-black text-sm">{coins} BEANS</span>
            </div>
         </div>
 
         <div className="relative scale-110 md:scale-150 transition-all duration-500">
-          <div className="absolute inset-0 bg-white/50 blur-3xl rounded-full scale-150"></div>
-          <CoffeeAvatar config={config} size={220} className="shadow-2xl border-8 border-white rounded-[3.5rem] relative z-10" />
+          <CoffeeAvatar config={config} size={220} className="shadow-2xl shadow-[#1A0F0A]/20 relative z-10" />
         </div>
 
         <div className="mt-16 hidden md:flex flex-col w-full max-w-xs gap-4">
-           <button onClick={handleSave} disabled={isSaving} className="w-full bg-[var(--color-primary)] text-white py-5 rounded-[2rem] font-black shadow-xl hover:scale-105 active:scale-95 transition-all">
-             {isSaving ? <Loader2 className="animate-spin mx-auto" size={24} /> : "ENREGISTRER MON STYLE"}
+           <button onClick={handleSave} disabled={isSaving} className="w-full bg-[#1A0F0A] text-[#EBE2D4] py-5 rounded-[2rem] font-black shadow-xl hover:scale-105 active:scale-95 transition-all">
+             {isSaving ? <Loader2 className="animate-spin mx-auto" size={24} /> : "SAUVEGARDER L'ARTWORK"}
            </button>
         </div>
       </div>
 
       {/* SHOP PANEL */}
-      <div className="flex-1 flex flex-col h-full bg-white relative">
-        <div className="flex gap-2 p-4 md:p-8 overflow-x-auto no-scrollbar border-b border-stone-50 sticky top-0 bg-white/80 backdrop-blur-md z-10">
+      <div className="flex-1 flex flex-col h-full bg-[#FAFAF8] relative rounded-t-[3rem] md:rounded-none md:rounded-l-[3rem] shadow-[-10px_0_40px_rgba(0,0,0,0.05)] border-l border-t border-[#1A0F0A]/10 mt-[-2rem] md:mt-0 z-30">
+        <div className="flex gap-2 p-6 md:p-8 overflow-x-auto no-scrollbar border-b border-[#1A0F0A]/10 sticky top-0 bg-[#FAFAF8]/90 backdrop-blur-md z-10 pt-10 md:pt-8">
           <TabButton active={activeTab === 'face'} onClick={() => setActiveTab('face')} icon={<Smile size={20} />} label="VISAGE" />
           <TabButton active={activeTab === 'hair'} onClick={() => setActiveTab('hair')} icon={<Scissors size={20} />} label="CHEVEUX" />
-          <TabButton active={activeTab === 'clothing'} onClick={() => setActiveTab('clothing')} icon={<Shirt size={20} />} label="SHOP" />
-          <TabButton active={activeTab === 'accessories'} onClick={() => setActiveTab('accessories')} icon={<Glasses size={20} />} label="EXTRAS" />
+          <TabButton active={activeTab === 'clothing'} onClick={() => setActiveTab('clothing')} icon={<Shirt size={20} />} label="VÊTEMENTS" />
+          <TabButton active={activeTab === 'accessories'} onClick={() => setActiveTab('accessories')} icon={<Glasses size={20} />} label="ACCESSOIRES" />
         </div>
 
         <div className="flex-1 overflow-y-auto p-6 md:p-10 space-y-12">
           
+          {/* FACE & BEARD TAB */}
           {activeTab === 'face' && (
             <div className="space-y-10 animate-in slide-in-from-right-4">
-              <OptionSection title="Teint">
+              <OptionSection title="Teint (Gratuit)">
                 <div className="grid grid-cols-6 gap-3">
                   {SKIN_COLORS.map(c => <ColorCircle key={c} color={c} active={config.skinColor === c} onClick={() => setConfig({...config, skinColor: c})} />)}
                 </div>
               </OptionSection>
-              <OptionSection title="Expressions">
+              <OptionSection title="Expressions Papiers">
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                  <ItemCard label="Basic Smile" id="smile" price={0} active={config.expression === 'smile'} owned={true} previewConfig={{...config, expression: 'smile'}} onClick={() => setConfig({...config, expression: 'smile'})} />
-                  <ItemCard label="Cool Vibes" id="cool" price={150} active={config.expression === 'cool'} owned={inventory.includes('cool')} previewConfig={{...config, expression: 'cool'}} onBuy={() => handlePurchase('cool', 150)} onClick={() => setConfig({...config, expression: 'cool'})} />
-                  <ItemCard label="Surprise" id="surprised" price={50} active={config.expression === 'surprised'} owned={inventory.includes('surprised')} previewConfig={{...config, expression: 'surprised'}} onBuy={() => handlePurchase('surprised', 50)} onClick={() => setConfig({...config, expression: 'surprised'})} />
+                  <ItemCard id="smile" label="Sourire Simple" price={PRICES['smile']} active={config.expression === 'smile'} owned={inventory.includes('smile')} previewConfig={{...config, expression: 'smile'}} onBuy={() => handlePurchase('smile', PRICES['smile'])} onClick={() => setConfig({...config, expression: 'smile'})} />
+                  <ItemCard id="angry_brows" label="Fronceur" price={PRICES['angry_brows']} active={config.expression === 'angry_brows'} owned={inventory.includes('angry_brows')} previewConfig={{...config, expression: 'angry_brows'}} onBuy={() => handlePurchase('angry_brows', PRICES['angry_brows'])} onClick={() => setConfig({...config, expression: 'angry_brows'})} />
+                  <ItemCard id="wide_smile_teeth" label="Rire Énorme" price={PRICES['wide_smile_teeth']} active={config.expression === 'wide_smile_teeth'} owned={inventory.includes('wide_smile_teeth')} previewConfig={{...config, expression: 'wide_smile_teeth'}} onBuy={() => handlePurchase('wide_smile_teeth', PRICES['wide_smile_teeth'])} onClick={() => setConfig({...config, expression: 'wide_smile_teeth'})} />
+                </div>
+              </OptionSection>
+              <OptionSection title="Brousaille (Barbes)">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                  <ItemCard id="none" label="Rasé" price={PRICES['none']} active={config.facialHair === 'none'} owned={inventory.includes('none')} previewConfig={{...config, facialHair: 'none'}} onBuy={() => handlePurchase('none', PRICES['none'])} onClick={() => setConfig({...config, facialHair: 'none'})} />
+                  <ItemCard id="mustache" label="Moustache" price={PRICES['mustache']} active={config.facialHair === 'mustache'} owned={inventory.includes('mustache')} previewConfig={{...config, facialHair: 'mustache'}} onBuy={() => handlePurchase('mustache', PRICES['mustache'])} onClick={() => setConfig({...config, facialHair: 'mustache'})} />
+                  <ItemCard id="handlebar" label="Guidon" price={PRICES['handlebar']} active={config.facialHair === 'handlebar'} owned={inventory.includes('handlebar')} previewConfig={{...config, facialHair: 'handlebar'}} onBuy={() => handlePurchase('handlebar', PRICES['handlebar'])} onClick={() => setConfig({...config, facialHair: 'handlebar'})} />
+                  <ItemCard id="full_bushy_beard" label="Explorateur" price={PRICES['full_bushy_beard']} active={config.facialHair === 'full_bushy_beard'} owned={inventory.includes('full_bushy_beard')} previewConfig={{...config, facialHair: 'full_bushy_beard'}} onBuy={() => handlePurchase('full_bushy_beard', PRICES['full_bushy_beard'])} onClick={() => setConfig({...config, facialHair: 'full_bushy_beard'})} />
                 </div>
               </OptionSection>
             </div>
           )}
 
+          {/* HAIR TAB */}
           {activeTab === 'hair' && (
             <div className="space-y-10 animate-in slide-in-from-right-4">
-              <OptionSection title="Couleur">
+              <OptionSection title="Encre">
                 <div className="grid grid-cols-6 gap-3">
                   {HAIR_COLORS.map(c => <ColorCircle key={c} color={c} active={config.hairColor === c} onClick={() => setConfig({...config, hairColor: c, facialHairColor: c})} />)}
                 </div>
               </OptionSection>
-              <OptionSection title="Coupes">
+              <OptionSection title="Coupes Texturées">
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                  <ItemCard label="Short" id="short" price={0} active={config.hairStyle === 'short'} owned={true} previewConfig={{...config, hairStyle: 'short'}} onClick={() => setConfig({...config, hairStyle: 'short'})} />
-                  <ItemCard label="Mullet" id="mullet" price={300} active={config.hairStyle === 'mullet'} owned={inventory.includes('mullet')} previewConfig={{...config, hairStyle: 'mullet'}} onBuy={() => handlePurchase('mullet', 300)} onClick={() => setConfig({...config, hairStyle: 'mullet'})} />
-                  <ItemCard label="Man Bun" id="man_bun" price={500} active={config.hairStyle === 'man_bun'} owned={inventory.includes('man_bun')} previewConfig={{...config, hairStyle: 'man_bun'}} onBuy={() => handlePurchase('man_bun', 500)} onClick={() => setConfig({...config, hairStyle: 'man_bun'})} />
-                  <ItemCard label="Afro" id="afro" price={800} active={config.hairStyle === 'afro'} owned={inventory.includes('afro')} previewConfig={{...config, hairStyle: 'afro'}} onBuy={() => handlePurchase('afro', 800)} onClick={() => setConfig({...config, hairStyle: 'afro'})} />
+                  <ItemCard id="short" label="Court" price={PRICES['short']} active={config.hairStyle === 'short'} owned={inventory.includes('short')} previewConfig={{...config, hairStyle: 'short'}} onBuy={() => handlePurchase('short', PRICES['short'])} onClick={() => setConfig({...config, hairStyle: 'short'})} />
+                  <ItemCard id="shaggy" label="Bordélique" price={PRICES['shaggy']} active={config.hairStyle === 'shaggy'} owned={inventory.includes('shaggy')} previewConfig={{...config, hairStyle: 'shaggy'}} onBuy={() => handlePurchase('shaggy', PRICES['shaggy'])} onClick={() => setConfig({...config, hairStyle: 'shaggy'})} />
+                  <ItemCard id="pompadour" label="Pompadour" price={PRICES['pompadour']} active={config.hairStyle === 'pompadour'} owned={inventory.includes('pompadour')} previewConfig={{...config, hairStyle: 'pompadour'}} onBuy={() => handlePurchase('pompadour', PRICES['pompadour'])} onClick={() => setConfig({...config, hairStyle: 'pompadour'})} />
+                  <ItemCard id="man_bun_thick" label="Chignon XXL" price={PRICES['man_bun_thick']} active={config.hairStyle === 'man_bun_thick'} owned={inventory.includes('man_bun_thick')} previewConfig={{...config, hairStyle: 'man_bun_thick'}} onBuy={() => handlePurchase('man_bun_thick', PRICES['man_bun_thick'])} onClick={() => setConfig({...config, hairStyle: 'man_bun_thick'})} />
                 </div>
               </OptionSection>
             </div>
           )}
 
-          {/* Répéter pour les autres onglets avec ItemCard... */}
+          {/* CLOTHING TAB */}
+          {activeTab === 'clothing' && (
+            <div className="space-y-10 animate-in slide-in-from-right-4">
+              <OptionSection title="Teinture Libre">
+                <div className="grid grid-cols-6 gap-3">
+                  {CLOTHING_COLORS.map(c => <ColorCircle key={c} color={c} active={config.clothingColor === c} onClick={() => setConfig({...config, clothingColor: c})} />)}
+                </div>
+              </OptionSection>
+              <OptionSection title="Garde-robe Éditoriale">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                  <ItemCard id="tshirt" label="T-Shirt Simple" price={PRICES['tshirt']} active={config.clothing === 'tshirt'} owned={inventory.includes('tshirt')} previewConfig={{...config, clothing: 'tshirt'}} onBuy={() => handlePurchase('tshirt', PRICES['tshirt'])} onClick={() => setConfig({...config, clothing: 'tshirt'})} />
+                  <ItemCard id="green_v_pattern_shirt" label="Chemise 'V'" price={PRICES['green_v_pattern_shirt']} active={config.clothing === 'green_v_pattern_shirt'} owned={inventory.includes('green_v_pattern_shirt')} previewConfig={{...config, clothing: 'green_v_pattern_shirt', clothingColor: "#4ADE80"}} onBuy={() => handlePurchase('green_v_pattern_shirt', PRICES['green_v_pattern_shirt'])} onClick={() => setConfig({...config, clothing: 'green_v_pattern_shirt'})} />
+                  <ItemCard id="barista_apron_over_tee" label="Tablier Barista" price={PRICES['barista_apron_over_tee']} active={config.clothing === 'barista_apron_over_tee'} owned={inventory.includes('barista_apron_over_tee')} previewConfig={{...config, clothing: 'barista_apron_over_tee'}} onBuy={() => handlePurchase('barista_apron_over_tee', PRICES['barista_apron_over_tee'])} onClick={() => setConfig({...config, clothing: 'barista_apron_over_tee'})} />
+                </div>
+              </OptionSection>
+            </div>
+          )}
+
+          {/* ACCESSORIES TAB */}
+          {activeTab === 'accessories' && (
+            <div className="space-y-10 animate-in slide-in-from-right-4">
+              <OptionSection title="Breloques & Lunettes">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                  <ItemCard id="none" label="Rien" price={0} active={config.accessory === 'none' || !config.accessory} owned={true} previewConfig={{...config, accessory: 'none'}} onClick={() => setConfig({...config, accessory: 'none'})} />
+                  <ItemCard id="glasses" label="Lunettes Épaisses" price={PRICES['glasses']} active={config.accessory === 'glasses'} owned={inventory.includes('glasses')} previewConfig={{...config, accessory: 'glasses'}} onBuy={() => handlePurchase('glasses', PRICES['glasses'])} onClick={() => setConfig({...config, accessory: 'glasses'})} />
+                  <ItemCard id="gold_earring" label="Boucle Artisan" price={PRICES['gold_earring']} active={config.accessory === 'gold_earring'} owned={inventory.includes('gold_earring')} previewConfig={{...config, accessory: 'gold_earring'}} onBuy={() => handlePurchase('gold_earring', PRICES['gold_earring'])} onClick={() => setConfig({...config, accessory: 'gold_earring'})} />
+                </div>
+              </OptionSection>
+            </div>
+          )}
+
         </div>
 
-        <div className="md:hidden fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white to-transparent pointer-events-none">
-           <button onClick={handleSave} className="w-full bg-[var(--color-primary)] text-white py-4 rounded-[2rem] font-black shadow-2xl pointer-events-auto active:scale-95 transition-transform">
-             ENREGISTRER
+        {/* MOBILE SAVE BUTTON */}
+        <div className="md:hidden fixed bottom-6 left-6 right-6 z-50">
+           <button onClick={handleSave} className="w-full bg-[#1A0F0A] text-[#EBE2D4] py-4 rounded-[2rem] font-black shadow-[0_8px_0_rgba(26,15,10,0.5)] active:translate-y-2 active:shadow-none transition-all flex items-center justify-center">
+             {isSaving ? <Loader2 className="animate-spin" /> : "SAUVEGARDER L'ARTWORK"}
            </button>
         </div>
       </div>
@@ -181,8 +251,8 @@ export default function AvatarShopPage() {
 
 function TabButton({ active, onClick, icon, label }: any) {
   return (
-    <button onClick={onClick} className={`flex items-center gap-2 px-6 py-3 rounded-2xl transition-all ${active ? 'bg-stone-900 text-white shadow-xl' : 'bg-stone-50 text-stone-400'}`}>
-      {icon}<span className="font-bold text-xs">{label}</span>
+    <button onClick={onClick} className={`flex items-center gap-2 px-6 py-3 rounded-2xl border-2 transition-all ${active ? 'bg-[#1A0F0A] text-[#EBE2D4] border-[#1A0F0A] shadow-[0_4px_0_rgba(26,15,10,0.5)]' : 'bg-transparent text-[#1A0F0A]/50 border-transparent hover:bg-stone-200'}`}>
+      {icon}<span className="font-bold text-xs uppercase tracking-wider">{label}</span>
     </button>
   );
 }
@@ -190,7 +260,7 @@ function TabButton({ active, onClick, icon, label }: any) {
 function OptionSection({ title, children }: any) {
   return (
     <div className="space-y-4">
-      <h3 className="text-[10px] font-black text-stone-300 uppercase tracking-[0.3em] ml-2">{title}</h3>
+      <h3 className="text-[10px] font-black text-[#1A0F0A]/40 uppercase tracking-[0.3em] ml-2 border-b-2 border-[#1A0F0A]/10 pb-2 inline-block">{title}</h3>
       {children}
     </div>
   );
@@ -198,27 +268,38 @@ function OptionSection({ title, children }: any) {
 
 function ColorCircle({ color, active, onClick }: any) {
   return (
-    <button onClick={onClick} className={`w-full aspect-square rounded-full border-4 transition-all ${active ? 'border-[var(--color-primary)] scale-110 shadow-lg' : 'border-white shadow-sm'}`} style={{ backgroundColor: color }} />
+    <button onClick={onClick} className={`w-full aspect-square rounded-full border-4 transition-all ${active ? 'border-[#1A0F0A] scale-110 shadow-lg' : 'border-white shadow-sm'}`} style={{ backgroundColor: color }} />
   );
 }
 
 function ItemCard({ label, price, active, owned, onClick, onBuy, previewConfig }: any) {
   return (
-    <div className={`p-4 rounded-[2.5rem] border-2 transition-all duration-500 relative flex flex-col items-center gap-3 group hover:-translate-y-1 hover:shadow-[inset_0_4px_12px_rgba(0,0,0,0.03),0_12px_24px_rgba(0,0,0,0.06)] cursor-pointer overflow-hidden ${active ? 'border-[var(--color-primary)] bg-orange-50/30' : 'border-stone-100 bg-white hover:border-stone-200'}`}>
-      <div className="w-20 h-20 transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6 origin-bottom"><CoffeeAvatar config={previewConfig} size={80} noBackground /></div>
-      <div className="text-center relative z-10">
-        <p className="text-[11px] font-black text-stone-800 uppercase tracking-tight">{label}</p>
+    <div 
+      className={`p-4 rounded-[2.5rem] border-[3px] transition-all duration-300 relative flex flex-col items-center gap-3 group overflow-hidden ${
+        active 
+          ? 'border-[#1A0F0A] bg-orange-50/50 shadow-[0_6px_0_rgba(26,15,10,1)] -translate-y-1' 
+          : 'border-[#1A0F0A]/10 bg-white hover:border-[#1A0F0A]/30 shadow-sm'
+      }`}
+    >
+      <div className="w-20 h-20 transition-transform duration-500 group-hover:scale-110 origin-bottom">
+         <CoffeeAvatar config={previewConfig} size={80} noBackground />
+      </div>
+      
+      <div className="text-center relative z-10 w-full">
+        <p className="text-[11px] font-black text-[#1A0F0A] uppercase tracking-tight truncate px-1">{label}</p>
+        
         {!owned ? (
-          <button onClick={onBuy} className="mt-2 bg-amber-100 text-amber-700 px-3 py-1 rounded-full flex items-center gap-1 text-[10px] font-black hover:bg-amber-200 transition-colors">
-            <ShoppingCart size={10} /> {price}
+          <button onClick={onBuy} className="mt-2 mx-auto bg-[#EBE2D4] text-[#B44222] border-2 border-[#B44222] w-full py-1.5 rounded-full flex justify-center items-center gap-1 text-[10px] font-black transition-colors hover:bg-[#B44222] hover:text-[#EBE2D4]">
+            <ShoppingCart size={12} /> {price} B
           </button>
         ) : (
-          <button onClick={onClick} className={`mt-2 px-4 py-1 rounded-full text-[10px] font-black transition-colors ${active ? 'bg-[var(--color-primary)] text-white' : 'bg-stone-200 text-stone-500'}`}>
+          <button onClick={onClick} className={`mt-2 w-full py-1.5 rounded-full text-[10px] border-2 font-black transition-colors ${active ? 'bg-[#1A0F0A] text-white border-[#1A0F0A]' : 'bg-[#FAFAF8] text-[#1A0F0A] border-[#1A0F0A]/20 hover:border-[#1A0F0A]/50'}`}>
             {active ? 'ÉQUIPÉ' : 'CHOISIR'}
           </button>
         )}
       </div>
-      {owned && !active && <div className="absolute top-3 right-3 text-green-500"><Check size={14} strokeWidth={4} /></div>}
+      
+      {owned && !active && <div className="absolute top-4 right-4 text-[#4ADE80] bg-white rounded-full shadow-sm p-0.5"><Check size={14} strokeWidth={4} /></div>}
     </div>
   );
 }

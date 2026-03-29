@@ -22,21 +22,19 @@ interface CoffeeAvatarProps {
   noBackground?: boolean;
 }
 
-// Valeurs par défaut "Fallbacks" si la config est vide ou incomplète
 const DEFAULT_CONFIG = {
   skinColor: "#F3D2B3",
-  hairColor: "#4B2C20",
-  clothingColor: "#E5E7EB",
-  hairStyle: "short",
-  facialHair: "none",
-  facialHairColor: "#4B2C20",
-  clothing: "tshirt",
-  accessory: "none",
-  expression: "smile"
+  hairColor: "#1A1A1A",
+  clothingColor: "#4ADE80",
+  hairStyle: "man_bun_thick",
+  facialHair: "full_bushy_beard",
+  facialHairColor: "#1A1A1A",
+  clothing: "green_v_pattern_shirt",
+  accessory: "gold_earring",
+  expression: "wide_smile_teeth"
 };
 
 export default function CoffeeAvatar({ config, size = 100, className = "", noBackground = false }: CoffeeAvatarProps) {
-  // Fusion de la config reçue avec les valeurs par défaut
   const safeConfig = { ...DEFAULT_CONFIG, ...config };
   
   const { 
@@ -51,174 +49,135 @@ export default function CoffeeAvatar({ config, size = 100, className = "", noBac
     expression
   } = safeConfig;
 
-  const id = React.useId().replace(/:/g, "");
-
-  // Renderers
   const renderHair = () => {
     switch (hairStyle) {
-      case 'buzz_cut':
-        return <path d="M25 45 Q25 22 50 22 Q75 22 75 45 L78 52 Q50 48 22 52 Z" fill={hairColor} opacity="0.4" />;
-      case 'bowl_cut':
-        return <path d="M18 45 Q18 15 50 15 Q82 15 82 45 L84 52 Q50 48 16 52 Z" fill={hairColor} />;
-      case 'mullet':
+      case 'man_bun_thick':
         return (
-          <g>
-            <path d="M22 45 L18 80 Q20 88 40 88 L60 88 Q80 88 82 80 L78 45 Z" fill={hairColor} />
-            <path d="M22 42 Q22 20 50 20 Q78 20 78 42 L80 50 Q50 46 20 50 Z" fill={hairColor} />
+          <g fill={hairColor} stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+            {/* Top Bun */}
+            <path d="M45 10 C35 5 50 0 60 5 C75 10 50 20 45 10 Z" />
+            <path d="M55 12 C65 2 70 12 55 20 Z" />
+            {/* Main Hair Cutout Style */}
+            <path d="M26 40 C20 20 80 20 74 40 L70 30 C60 15 40 15 30 30 Z" />
+            <path d="M26 40 L30 20 L35 30 L45 15 L55 30 L65 15 L70 30 L74 40 Z" />
+            {/* Strands */}
+            <path d="M30 42 L35 25 M40 40 L45 20 M50 38 L55 20 M60 40 L65 25 M70 42 L72 30" stroke={hairColor} strokeWidth="4" />
           </g>
         );
-      case 'man_bun':
+      case 'pompadour':
         return (
-          <g>
-            <circle cx="50" cy="15" r="10" fill={hairColor} />
-            <path d="M22 42 Q22 20 50 20 Q78 20 78 42 L80 52 Q50 48 20 52 Z" fill={hairColor} />
+          <g fill={hairColor} stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+            <path d="M24 45 C10 10 90 10 76 45 C75 30 60 10 50 10 C40 10 25 30 24 45 Z" />
+            <path d="M25 40 Q40 5 60 20 Q50 -5 25 40 Z" />
           </g>
         );
-      case 'long_wavy':
-        return <path d="M15 45 Q10 70 15 90 Q30 100 50 95 Q70 100 85 90 Q90 70 85 45 Q85 15 50 15 Q15 15 15 45 Z" fill={hairColor} />;
-      case 'ponytail':
+      case 'shaggy':
         return (
-          <g>
-            <path d="M75 40 Q95 40 95 70 Q90 85 75 80" fill={hairColor} />
-            <path d="M20 45 Q20 18 50 18 Q80 18 80 45 L82 52 Q50 48 18 52 Z" fill={hairColor} />
+          <g fill={hairColor} stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+            <path d="M22 55 L20 40 L25 30 L30 35 L40 15 L50 25 L60 15 L70 35 L75 30 L80 40 L78 55 Z" />
+            <path d="M26 35 L30 50 M40 25 L35 45 M60 25 L65 45 M74 35 L70 50" stroke="#1A0F0A" />
           </g>
         );
-      case 'afro':
-        return <circle cx="50" cy="40" r="35" fill={hairColor} />;
-      case 'mohawk':
-        return <path d="M40 45 L42 8 Q50 2 58 8 L60 45 Z" fill={hairColor} />;
-      case 'bob_cut':
-        return <path d="M18 45 Q18 18 50 18 Q82 18 82 45 L85 75 Q85 80 75 80 Q50 75 25 80 Q15 80 15 75 Z" fill={hairColor} />;
-      case 'spiky':
-        return (
-          <g fill={hairColor}>
-            <path d="M20 45 Q20 20 50 20 Q80 20 80 45 L82 50 Q50 45 18 50 Z" />
-            <path d="M25 25 L30 10 L40 22 Z" />
-            <path d="M40 20 L50 5 L60 20 Z" />
-            <path d="M60 22 L70 10 L75 25 Z" />
-          </g>
-        );
-      case 'pixie':
-        return <path d="M22 45 Q22 25 50 25 Q78 25 78 45 L82 55 L70 45 L50 48 L30 45 L18 55 Z" fill={hairColor} />;
-      case 'bald':
-        return null;
       case 'short':
       default:
-        return <path d="M24 45 Q24 22 50 22 Q76 22 76 45 L78 52 L22 52 Z" fill={hairColor} />;
+        return (
+          <g fill={hairColor} stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+            <path d="M25 40 C25 20 75 20 75 40 L78 45 L22 45 Z" />
+            <path d="M28 42 L30 25 M40 40 L45 20 M60 40 L65 20 M72 42 L70 25" stroke="#1A0F0A" strokeWidth="1" />
+          </g>
+        );
     }
   };
 
   const renderFacialHair = () => {
     switch (facialHair) {
+      case 'full_bushy_beard':
+        return (
+          <g fill={facialHairColor} stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+            <path d="M24 55 Q20 75 30 85 Q40 95 50 95 Q60 95 70 85 Q80 75 76 55 L70 70 Q50 85 30 70 Z" />
+            <path d="M30 85 L35 100 L45 85 L55 100 L65 85" stroke="#1A0F0A" strokeWidth="2.5" fill="none" />
+          </g>
+        );
+      case 'handlebar':
+        return (
+          <g fill={facialHairColor} stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+            <path d="M35 65 Q50 60 65 65 Q75 55 60 62 Q50 58 40 62 Q25 55 35 65 Z" />
+          </g>
+        );
       case 'mustache':
-        return <path d="M35 72 Q50 65 65 72 Q68 75 62 76 Q50 72 38 76 Q32 75 35 72" fill={facialHairColor} filter="url(#shadow-small)" />;
-      case 'beard':
-        return <path d="M25 60 Q50 100 75 60 L78 50 Q50 68 22 50 Z" fill={facialHairColor} opacity="0.9" />;
-      case 'goatee':
-        return <path d="M42 78 Q50 95 58 78 L55 75 Q50 78 45 75 Z" fill={facialHairColor} />;
-      case 'stubble':
-        return <path d="M28 60 Q50 90 72 60" stroke={facialHairColor} strokeWidth="8" fill="none" opacity="0.2" strokeDasharray="1 2" />;
+        return (
+          <g fill={facialHairColor} stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+            <path d="M40 65 Q50 63 60 65 Q65 68 50 68 Q35 68 40 65 Z" />
+          </g>
+        );
       default:
         return null;
     }
   };
 
   const renderClothing = () => {
-    const grad = `url(#clothGrad-${id})`;
     switch (clothing) {
-      case 'hoodie':
+      case 'green_v_pattern_shirt':
         return (
-          <g>
-            <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={clothingColor} />
-            <path d="M30 100 Q50 115 70 100 L75 130 Q50 140 25 130 Z" fill="rgba(0,0,0,0.1)" />
+          <g stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+            {/* Cou / Col */}
+            <path d="M35 80 L50 95 L65 80 L75 80 L70 110 L30 110 L25 80 Z" fill={clothingColor} />
+            <path d="M35 80 L50 95 L65 80" fill="none" stroke="#1A0F0A" strokeWidth="3" />
+            <circle cx="50" cy="85" r="2" fill="#1A0F0A" />
+            <circle cx="50" cy="98" r="2" fill="#1A0F0A" />
+            <circle cx="50" cy="111" r="2" fill="#1A0F0A" />
+            {/* Shoulders */}
+            <path d="M25 80 Q10 85 5 110 L95 110 Q90 85 75 80 Z" fill={clothingColor} />
+            {/* Patterns V */}
+            <g stroke="#1A0F0A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.6">
+              <path d="M20 90 L25 95 L30 90" />
+              <path d="M15 100 L20 105 L25 100" />
+              <path d="M35 100 L40 105 L45 100" />
+              <path d="M60 90 L65 95 L70 90" />
+              <path d="M75 100 L80 105 L85 100" />
+              <path d="M55 105 L60 110 L65 105" />
+            </g>
           </g>
         );
-      case 'jacket':
+      case 'barista_apron_over_tee':
         return (
-          <g>
-            <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={clothingColor} />
-            <path d="M48 95 L52 95 L52 150 L48 150 Z" fill="rgba(0,0,0,0.2)" />
-            <path d="M35 100 L50 120 L65 100" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="3" />
-          </g>
-        );
-      case 'shirt':
-        return (
-          <g>
-            <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={clothingColor} />
-            <path d="M35 95 L50 110 L65 95" fill="white" opacity="0.9" />
-          </g>
-        );
-      case 'sweater':
-        return (
-          <g>
-            <path d="M10 100 Q50 85 90 100 L115 150 L-15 150 Z" fill={clothingColor} />
-            <path d="M25 100 Q50 108 75 100" fill="none" stroke="rgba(0,0,0,0.1)" strokeWidth="4" />
-          </g>
-        );
-      case 'turtleneck':
-        return (
-          <g>
-            <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={clothingColor} />
-            <rect x="35" y="90" width="30" height="15" rx="4" fill={clothingColor} stroke="rgba(0,0,0,0.1)" />
-          </g>
-        );
-      case 'apron':
-        return (
-          <g>
-            <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill="#f5f5f5" />
-            <path d="M30 90 L70 90 L80 150 L20 150 Z" fill="#3d231a" />
-            <rect x="42" y="115" width="16" height="12" rx="2" fill="rgba(0,0,0,0.2)" />
+          <g stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+            <path d="M10 110 Q20 85 35 80 L65 80 Q80 85 90 110 Z" fill={clothingColor} />
+            {/* Tablier en Cuir */}
+            <path d="M30 85 L70 85 L75 110 L25 110 Z" fill="#6B4226" />
+            <path d="M35 90 L65 90" stroke="#8B5A2B" strokeWidth="2" />
+            {/* Sangles */}
+            <path d="M30 85 L20 70 M70 85 L80 70" fill="none" stroke="#1A0F0A" strokeWidth="3" />
           </g>
         );
       case 'tshirt':
       default:
-        return <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={clothingColor} />;
+        return (
+          <g stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+            <path d="M10 110 Q20 85 35 80 L65 80 Q80 85 90 110 Z" fill={clothingColor} />
+            <path d="M35 80 C40 90 60 90 65 80" fill="none" />
+          </g>
+        );
     }
   };
 
   const renderAccessory = () => {
     switch (accessory) {
-      case 'glasses':
+      case 'gold_earring':
         return (
-          <g stroke="#333" strokeWidth="2" fill="none">
-            <rect x="28" y="52" width="18" height="12" rx="4" />
-            <rect x="54" y="52" width="18" height="12" rx="4" />
-            <path d="M46 58 L54 58" />
+          <g stroke="#1A0F0A" strokeWidth="2">
+            <circle cx="82" cy="62" r="4" fill="#FFD700" />
+            <circle cx="82" cy="62" r="1.5" fill="#1A0F0A" stroke="none" />
           </g>
         );
-      case 'round_glasses':
-        return (
-          <g stroke="#1a1a1a" strokeWidth="2" fill="rgba(255,255,255,0.1)">
-            <circle cx="35" cy="58" r="10" />
-            <circle cx="65" cy="58" r="10" />
-            <path d="M45 58 L55 58" fill="none" />
-          </g>
-        );
-      case 'sunglasses':
-        return (
-          <g fill="#1a1a1a">
-            <rect x="28" y="52" width="20" height="10" rx="2" />
-            <rect x="52" y="52" width="20" height="10" rx="2" />
-            <path d="M48 56 L52 56" stroke="#1a1a1a" strokeWidth="2" />
-          </g>
-        );
-      case 'beanie':
-        return <path d="M22 40 Q22 10 50 10 Q78 10 78 40 L82 48 Q50 45 18 48 Z" fill="#2d3748" filter="url(#shadow-small)" />;
-      case 'cap':
-        return (
-          <g>
-            <path d="M22 40 Q22 15 50 15 Q78 15 78 40 L82 45 L18 45 Z" fill={clothingColor} />
-            <path d="M78 40 L95 45 L95 50 L78 45 Z" fill={adjustColor(clothingColor || "#E5E7EB", -40)} />
-          </g>
-        );
-      case 'headphones':
-        return (
-          <g stroke="#333" strokeWidth="6" fill="none">
-            <path d="M20 55 Q20 15 50 15 Q80 15 80 55" />
-            <rect x="15" y="50" width="8" height="15" rx="4" fill="#1a1a1a" stroke="none" />
-            <rect x="77" y="50" width="8" height="15" rx="4" fill="#1a1a1a" stroke="none" />
-          </g>
-        );
+        case 'glasses':
+          return (
+            <g stroke="#1A0F0A" strokeWidth="2" fill="none">
+              <rect x="25" y="42" width="22" height="15" rx="2" fill="rgba(255,255,255,0.4)" />
+              <rect x="53" y="42" width="22" height="15" rx="2" fill="rgba(255,255,255,0.4)" />
+              <path d="M47 48 L53 48 M25 45 L15 42 M75 45 L85 42" strokeWidth="3" />
+            </g>
+          );
       default:
         return null;
     }
@@ -226,50 +185,90 @@ export default function CoffeeAvatar({ config, size = 100, className = "", noBac
 
   const renderExpression = () => {
     switch (expression) {
-      case 'neutral':
-        return <path d="M44 80 L56 80" stroke="rgba(0,0,0,0.4)" strokeWidth="2.5" fill="none" strokeLinecap="round" />;
-      case 'surprised':
-        return <circle cx="50" cy="80" r="4" fill="rgba(0,0,0,0.3)" />;
-      case 'cool':
-        return <path d="M40 78 Q50 82 60 78" stroke="rgba(0,0,0,0.4)" strokeWidth="3" fill="none" strokeLinecap="round" />;
+      case 'wide_smile_teeth':
+        return (
+          <g stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+            {/* Bouche ouverte et rouge */}
+            <path d="M35 68 C45 80 55 80 65 68 C60 76 40 76 35 68 Z" fill="#FF1A1A" />
+            {/* Dents hautes */}
+            <path d="M38 70 C45 74 55 74 62 70" fill="white" />
+            <path d="M42 70 L42 72 M50 71 L50 73 M58 70 L58 72" stroke="#1A0F0A" strokeWidth="1" />
+            {/* Gros sourcils asymétriques */}
+            <path d="M28 40 L44 42 L42 36 Z" fill="#1A0F0A" stroke="none"/>
+            <path d="M72 40 L56 42 L58 36 Z" fill="#1A0F0A" stroke="none"/>
+          </g>
+        );
+      case 'angry_brows':
+        return (
+          <g stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+            <path d="M42 75 L58 75" fill="none" />
+            <path d="M25 35 L45 42 L40 38 Z" fill="#1A0F0A" stroke="none"/>
+            <path d="M75 35 L55 42 L60 38 Z" fill="#1A0F0A" stroke="none"/>
+          </g>
+        );
       case 'smile':
       default:
-        return <path d="M42 78 Q50 84 58 78" stroke="rgba(0,0,0,0.4)" strokeWidth="2.5" fill="none" strokeLinecap="round" />;
+        return (
+          <g stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+            <path d="M40 70 C45 76 55 76 60 70" fill="none" />
+            <path d="M30 38 L42 40 M70 38 L58 40" strokeWidth="3.5" strokeLinecap="round" />
+          </g>
+        );
     }
   };
 
   return (
-    <div style={{ width: size, height: size }} className={`relative overflow-hidden ${noBackground ? "" : "bg-[var(--color-background)] rounded-full border-2 border-[var(--color-primary)]"} ${className}`}>
-      <svg viewBox="0 0 100 100" className="w-full h-full">
-        {/* Tête (Face Flat Line-art) */}
-        <path d="M20 52 C20 25 30 10 50 10 C70 10 80 25 80 52 C80 82 65 92 50 92 C35 92 20 82 20 52 Z" fill={skinColor} stroke="#1A0F0A" strokeWidth="1.5" />
+    <div style={{ width: size, height: size }} className={`relative overflow-hidden ${noBackground ? "" : "bg-[#EBE2D4] rounded-full border-[3px] border-[#1A0F0A]"} ${className}`}>
+      <svg viewBox="0 0 100 100" className="w-full h-full scale-[1.05]">
+        {/* Core Head & Neck structure with Vector Outlines */}
+        <g stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+          {/* Cou Épais */}
+          <path d="M35 70 L35 90 C35 95 65 95 65 90 L65 70 Z" fill={skinColor} />
+          <path d="M35 85 L65 85" stroke="#1A0F0A" strokeWidth="1" opacity="0.2" fill="none" />
+          
+          {/* Oreilles (Grandes, circulaires comme image) */}
+          <path d="M24 50 C12 45 15 65 24 60 Z" fill={skinColor} />
+          <path d="M20 52 C18 55 18 58 20 60" fill="none" strokeWidth="1.5" />
+          <path d="M76 50 C88 45 85 65 76 60 Z" fill={skinColor} />
+          <path d="M80 52 C82 55 82 58 80 60" fill="none" strokeWidth="1.5" />
+
+          {/* Visage (Bords marqués et carrés) */}
+          <path d="M28 35 C28 20 72 20 72 35 L76 55 C76 75 65 85 50 85 C35 85 24 75 24 55 Z" fill={skinColor} />
+        </g>
         
-        {/* Yeux Flat Line-Art */}
-        <g stroke="#1A0F0A" strokeWidth="1.5">
-          <ellipse cx="38" cy="56" rx="5" ry="6" fill="transparent" />
-          <ellipse cx="62" cy="56" rx="5" ry="6" fill="transparent" />
-          <circle cx="39" cy="56" r="2.5" fill="#1A0F0A" stroke="none" />
-          <circle cx="61" cy="56" r="2.5" fill="#1A0F0A" stroke="none" />
+        {/* Tâches de rousseur (Détail rough) */}
+        <g fill="#A0522D" opacity="0.3">
+          <circle cx="34" cy="58" r="0.8" />
+          <circle cx="38" cy="56" r="0.8" />
+          <circle cx="32" cy="62" r="0.8" />
+          <circle cx="66" cy="58" r="0.8" />
+          <circle cx="62" cy="56" r="0.8" />
+          <circle cx="68" cy="62" r="0.8" />
         </g>
 
-        {/* Nez Flat Line-Art */}
-        <path d="M50 61 V65" stroke="#1A0F0A" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M48 65 Q50 67 52 65" stroke="#1A0F0A" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+        {/* Nez texturé et imposant */}
+        <g stroke="#1A0F0A" strokeWidth="2.5" strokeLinejoin="round">
+          <ellipse cx="50" cy="54" rx="4" ry="8" fill="#E6A391" />
+        </g>
 
-        {/* Expressions, Cheveux et Vêtements avec contour forcé */}
-        <g stroke="#1A0F0A" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round">
+        {/* Yeux Vector */}
+        <g fill="#1A0F0A" stroke="none">
+          <circle cx="38" cy="48" r="3.5" />
+          <circle cx="62" cy="48" r="3.5" />
+          {/* Reflet Oeil */}
+          <circle cx="39" cy="47" r="1" fill="white" />
+          <circle cx="63" cy="47" r="1" fill="white" />
+        </g>
+
+        {/* Render Layers */}
+        <g>
           {renderExpression()}
-          {renderClothing()}
           {renderFacialHair()}
-          {renderAccessory()}
           {renderHair()}
+          {renderClothing()}
+          {renderAccessory()}
         </g>
       </svg>
     </div>
   );
-}
-
-function adjustColor(color: string, amount: number) {
-  if (!color) return "#000000"; // Sécurité anti-crash
-  return '#' + color.replace(/^#/, '').replace(/../g, color => ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).slice(-2));
 }

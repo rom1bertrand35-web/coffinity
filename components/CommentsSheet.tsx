@@ -6,6 +6,8 @@ import { X, Send, Loader2, MessageCircle } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import CoffeeAvatar from "@/components/CoffeeAvatar";
 import { hapticFeedback } from "@/utils/haptics";
+import { awardBeans } from "@/lib/economy";
+import { usePoints } from "@/components/PointsFeedback";
 
 interface CommentsSheetProps {
   tastingId: number;
@@ -19,6 +21,9 @@ export default function CommentsSheet({ tastingId, isOpen, onClose, currentUserI
   const [newComment, setNewComment] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const pointsInfo = usePoints();
+  const showPoints = pointsInfo ? pointsInfo.showPoints : () => {};
 
   useEffect(() => {
     if (isOpen && tastingId) {
@@ -66,6 +71,8 @@ export default function CommentsSheet({ tastingId, isOpen, onClose, currentUserI
     if (!error && data) {
       setComments(prev => [...prev, data]);
       setNewComment("");
+      awardBeans(currentUserId, 10);
+      showPoints(10, "Great thought!");
     } else {
       console.error(error);
     }

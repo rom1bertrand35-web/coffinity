@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Star, ArrowLeft, Camera, ImagePlus, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { usePoints } from "@/components/PointsFeedback";
+import { awardBeans } from "@/lib/economy";
 
 function RateCoffeeForm() {
   const router = useRouter();
@@ -124,12 +125,9 @@ function RateCoffeeForm() {
       }
 
       // Update user points (+20 for a review)
-      const { error: rpcError } = await supabase.rpc('increment_points', { user_id_param: user.id, points_to_add: 20 });
-      if (rpcError) {
-         console.error("Supabase RPC Error details:", JSON.stringify(rpcError, null, 2));
-      }
-
+      await awardBeans(user.id, 20);
       showPoints(20, "Expert ! You shared a new tasting.");
+      
       router.push('/');
       router.refresh();
 

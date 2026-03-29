@@ -10,6 +10,7 @@ import { FeedSkeleton } from "@/components/Skeletons";
 import { hapticFeedback } from "@/utils/haptics";
 import TastingActions from "@/components/TastingActions";
 import CommentsSheet from "@/components/CommentsSheet";
+import { awardBeans } from "@/lib/economy";
 
 export default function FeedPage() {
   const router = useRouter();
@@ -190,6 +191,8 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
     try {
       if (newIsLiked) {
         await supabase.from('likes').insert({ user_id: currentUserId, tasting_id: post.id });
+        awardBeans(currentUserId, 5); // +5 Beans
+        showPoints(5, "Tasting liked!");
       } else {
         await supabase.from('likes').delete().match({ user_id: currentUserId, tasting_id: post.id });
       }
@@ -210,7 +213,8 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
       } else {
         await supabase.from('follows').insert({ follower_id: currentUserId, following_id: post.user_id });
         onFollowToggle(true);
-        showPoints(10, "Explorer ! You followed someone.");
+        awardBeans(currentUserId, 15); // +15 Beans for following
+        showPoints(15, "Explorer ! You followed someone.");
       }
     } catch (err) {
       console.error(err);

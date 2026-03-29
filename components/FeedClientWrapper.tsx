@@ -42,8 +42,13 @@ export default function FeedClientWrapper({
   useEffect(() => {
     async function checkOnboarding() {
       if (!currentUserId) return;
-      const { data } = await supabase.from('profiles').select('avatar_config, inventory').eq('id', currentUserId).maybeSingle();
-      if (data && (!data.inventory || data.inventory.length === 0)) {
+      const { data } = await supabase
+        .from('profiles')
+        .select('has_onboarded')
+        .eq('id', currentUserId)
+        .maybeSingle();
+      
+      if (data && data.has_onboarded === false) {
         setShowOnboarding(true);
       }
     }
@@ -64,7 +69,8 @@ export default function FeedClientWrapper({
         barista_type: data.baristaType,
         preferences: data.preferences,
         inventory: initialInventory,
-        points: 100 // Unifié sur points (Beans)
+        points: 100, // Les 100 Beans promis par Baristo
+        has_onboarded: true // Flag terminé
       }).eq('id', currentUserId);
       setShowOnboarding(false);
       router.refresh();

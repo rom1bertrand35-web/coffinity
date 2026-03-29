@@ -2,7 +2,7 @@
 
 import { useState, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Star, ArrowLeft, Camera, ImagePlus, Loader2 } from "lucide-react";
+import { Star, ArrowLeft, Camera, ImagePlus, Loader2, Bean, Thermometer, Zap, Wind } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { usePoints } from "@/components/PointsFeedback";
 import { awardBeans } from "@/lib/economy";
@@ -21,6 +21,13 @@ function RateCoffeeForm() {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  
+  // New specific criteria
+  const [intensity, setIntensity] = useState(3);
+  const [acidity, setAcidity] = useState(3);
+  const [body, setBody] = useState(3);
+  const [aroma, setAroma] = useState(3);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -115,6 +122,10 @@ function RateCoffeeForm() {
             tags: selectedTags,
             review: review,
             image_url: finalImageUrl,
+            intensity: intensity,
+            acidity: acidity,
+            body: body,
+            aroma: aroma
           }
         ])
         .select();
@@ -138,24 +149,46 @@ function RateCoffeeForm() {
     }
   };
 
+  const RatingSlider = ({ label, icon, value, onChange, low, high }: any) => (
+    <div className="flex flex-col gap-2 bg-white/50 p-4 rounded-3xl border border-[#1A0F0A]/5">
+      <div className="flex justify-between items-center px-1">
+        <div className="flex items-center gap-2">
+          {icon}
+          <span className="font-black text-[10px] uppercase tracking-widest text-[#1A0F0A]">{label}</span>
+        </div>
+        <span className="font-black text-xs text-[var(--color-accent)]">{value}/5</span>
+      </div>
+      <input 
+        type="range" min="1" max="5" step="1" 
+        value={value} 
+        onChange={(e) => onChange(parseInt(e.target.value))}
+        className="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-[#1A0F0A]"
+      />
+      <div className="flex justify-between px-1 text-[8px] font-bold text-stone-400 uppercase tracking-tighter">
+        <span>{low}</span>
+        <span>{high}</span>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-[var(--color-background)] flex flex-col p-4 pb-24">
       <style dangerouslySetInnerHTML={{__html: `nav { display: none !important; }`}} />
 
       <header className="flex items-center gap-4 py-4 mb-4">
-        <button onClick={() => router.back()} className="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors">
-          <ArrowLeft size={24} />
+        <button onClick={() => router.back()} className="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors text-[#1A0F0A]">
+          <ArrowLeft size={24} strokeWidth={3} />
         </button>
-        <h1 className="text-xl font-bold">Rate this Coffee</h1>
+        <h1 className="text-xl font-black uppercase tracking-tighter text-[#1A0F0A] font-serif italic">Archive de Dégustation</h1>
       </header>
 
       {error && (
-        <div className="w-full p-3 mb-4 text-sm text-red-500 bg-red-50 border border-red-200 rounded-xl">
-          {error}
+        <div className="w-full p-4 mb-6 text-sm font-bold text-red-600 bg-red-50 border-2 border-red-200 rounded-2xl animate-bounce">
+          ⚠️ {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-8 animate-in fade-in slide-in-from-bottom-4">
 
         {/* Photo Upload Area */}
         <div className="flex flex-col items-center gap-3">
@@ -170,8 +203,8 @@ function RateCoffeeForm() {
 
           <div 
             onClick={() => fileInputRef.current?.click()}
-            className={`w-full h-64 rounded-[2.5rem] border-4 border-dashed transition-all flex flex-col items-center justify-center cursor-pointer overflow-hidden relative group shadow-inner ${
-              userPhoto ? "border-[var(--color-primary)] bg-white" : "border-stone-200 bg-stone-100 hover:border-[var(--color-primary)]"
+            className={`w-full h-64 rounded-[2.5rem] border-4 transition-all flex flex-col items-center justify-center cursor-pointer overflow-hidden relative group shadow-[0_10px_0_rgba(26,15,10,0.05)] ${
+              userPhoto ? "border-[#1A0F0A] bg-white" : "border-dashed border-stone-200 bg-stone-100 hover:border-[#1A0F0A]"
             }`}
           >
             {userPhoto ? (
@@ -180,87 +213,89 @@ function RateCoffeeForm() {
               <>
                 <img src={initialImage} alt="Database coffee" className="w-full h-full object-contain p-8 opacity-40 group-hover:opacity-20 transition-opacity" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="bg-white/90 backdrop-blur-md p-4 rounded-full shadow-xl mb-3">
-                    <Camera size={32} className="text-[var(--color-primary)]" />
+                  <div className="bg-white/90 backdrop-blur-md p-4 rounded-full shadow-xl mb-3 border-2 border-[#1A0F0A]">
+                    <Camera size={32} className="text-[#1A0F0A]" />
                   </div>
-                  <span className="font-black text-[var(--color-primary)] uppercase tracking-widest text-xs">Prendre ma propre photo</span>
+                  <span className="font-black text-[#1A0F0A] uppercase tracking-widest text-[10px]">Utiliser ma propre photo</span>
                 </div>
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center text-stone-400 group-hover:text-[var(--color-primary)] transition-colors p-6">
-                <div className="bg-white p-5 rounded-full shadow-sm mb-4">
-                  <ImagePlus size={40} className="text-stone-300 group-hover:text-[var(--color-primary)] transition-colors" />
+              <div className="flex flex-col items-center justify-center text-stone-400 group-hover:text-[#1A0F0A] transition-colors p-6">
+                <div className="bg-white p-5 rounded-3xl border-2 border-[#1A0F0A]/5 shadow-sm mb-4">
+                  <ImagePlus size={40} className="text-stone-300 group-hover:text-[#1A0F0A] transition-colors" />
                 </div>
-                <span className="font-black uppercase tracking-widest text-xs mb-1">Ajouter une photo</span>
-                <span className="text-[10px] font-bold text-stone-400">Montrez-nous vos grains ou votre tasse !</span>
+                <span className="font-black uppercase tracking-widest text-[10px] mb-1">Prendre un cliché</span>
+                <span className="text-[9px] font-bold text-stone-400 uppercase tracking-tighter">Immortalisez vos grains</span>
               </div>
             )}
 
             {userPhoto && (
-              <div className="absolute bottom-4 right-4 bg-[var(--color-primary)] text-white p-3 rounded-2xl shadow-xl animate-in zoom-in">
+              <div className="absolute bottom-4 right-4 bg-[#1A0F0A] text-[#EBE2D4] p-3 rounded-2xl shadow-xl animate-in zoom-in border-2 border-[#EBE2D4]">
                 <Camera size={20} />
               </div>
             )}
           </div>
         </div>
-        {/* Détails du produit (si on a scanné) */}
-        {(initialName || initialBrand) && (
-          <div className="flex flex-col items-center text-center px-4">
-               <h2 className="font-bold text-2xl leading-tight text-[var(--color-primary)]">{coffeeName}</h2>
-               <p className="text-sm font-medium text-gray-500 uppercase tracking-widest mt-1">{brand}</p>
-          </div>
-        )}
 
-        {/* Si c'est un ajout manuel */}
-        {(!initialName && !initialBrand) && (
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-gray-700 pl-1">Coffee Name *</label>
-              <input 
-                type="text" 
-                value={coffeeName}
-                onChange={(e) => setCoffeeName(e.target.value)}
-                placeholder="e.g. Kenya Yirgacheffe Beans" 
-                className="w-full bg-white border border-[var(--color-border)] rounded-2xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-sm shadow-sm"
-                required
-              />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-gray-700 pl-1">Roaster / Brand</label>
-              <input 
-                type="text" 
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-                placeholder="e.g. L'Arbre à Café" 
-                className="w-full bg-white border border-[var(--color-border)] rounded-2xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-sm shadow-sm"
-              />
-            </div>
+        {/* Product Identity */}
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] font-black uppercase tracking-widest text-[#1A0F0A]/40 pl-1">Nom du Café</label>
+            <input 
+              type="text" 
+              value={coffeeName}
+              onChange={(e) => setCoffeeName(e.target.value)}
+              placeholder="Ex: Yirgacheffe Grains" 
+              className="w-full bg-white border-3 border-[#1A0F0A] rounded-2xl py-4 px-5 focus:outline-none focus:translate-y-[-2px] focus:translate-x-[-2px] text-sm shadow-[0_4px_0_#1A0F0A] transition-all font-bold"
+              required
+            />
           </div>
-        )}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] font-black uppercase tracking-widest text-[#1A0F0A]/40 pl-1">Torréfacteur / Marque</label>
+            <input 
+              type="text" 
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
+              placeholder="Ex: Terres de Café" 
+              className="w-full bg-white border-3 border-[#1A0F0A] rounded-2xl py-4 px-5 focus:outline-none focus:translate-y-[-2px] focus:translate-x-[-2px] text-sm shadow-[0_4px_0_#1A0F0A] transition-all font-bold"
+            />
+          </div>
+        </div>
 
-        <div className="flex flex-col items-center gap-2 py-2">
-          <label className="text-sm font-medium text-gray-500">Your Rating</label>
+        {/* Main Rating */}
+        <div className="flex flex-col items-center gap-3 py-4 bg-white rounded-[2rem] border-3 border-[#1A0F0A] shadow-[0_6px_0_#1A0F0A]">
+          <label className="text-[10px] font-black uppercase tracking-[0.3em] text-[#1A0F0A]/60">Note Globale</label>
           <div className="flex gap-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <button 
                 key={star}
                 type="button"
                 onClick={() => setRating(star)}
-                className="focus:outline-none hover:scale-110 transition-transform"
+                className="focus:outline-none hover:scale-110 transition-transform active:scale-90"
               >
                 <Star 
-                  size={44} 
-                  className={star <= rating ? "fill-[var(--color-accent)] text-[var(--color-accent)] drop-shadow-sm" : "text-gray-200"} 
+                  size={40} 
+                  strokeWidth={2.5}
+                  className={star <= rating ? "fill-[#B44222] text-[#1A0F0A]" : "text-stone-200 fill-stone-50"} 
                 />
               </button>
             ))}
           </div>
         </div>
 
-        <div className="flex flex-col gap-2">
+        {/* Detailed Criteria */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <RatingSlider label="Intensité" icon={<Zap size={14} className="text-[#B44222]" />} value={intensity} onChange={setIntensity} low="Léger" high="Puissant" />
+          <RatingSlider label="Acidité" icon={<Thermometer size={14} className="text-blue-500" />} value={acidity} onChange={setAcidity} low="Douce" high="Vive" />
+          <RatingSlider label="Corps" icon={<Bean size={14} className="text-amber-800" />} value={body} onChange={setBody} low="Fluide" high="Onctueux" />
+          <RatingSlider label="Arôme" icon={<Wind size={14} className="text-purple-500" />} value={aroma} onChange={setAroma} low="Discret" high="Explosif" />
+        </div>
+
+        {/* Flavor Tags */}
+        <div className="flex flex-col gap-3">
           <div className="flex justify-between items-end pl-1 pr-1">
-             <label className="text-sm font-medium text-gray-700">Flavor Profile</label>
-             <span className="text-xs text-gray-400">Max 3</span>
+             <label className="text-[10px] font-black uppercase tracking-widest text-[#1A0F0A]">Profil Aromatique</label>
+             <span className="text-[9px] font-bold text-stone-400 uppercase">Max 3</span>
           </div>
           <div className="flex flex-wrap gap-2">
             {ALL_TAGS.map(tag => {
@@ -270,10 +305,10 @@ function RateCoffeeForm() {
                   key={tag}
                   type="button"
                   onClick={() => toggleTag(tag)}
-                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors border ${
+                  className={`px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all border-2 ${
                     isSelected 
-                      ? "bg-[var(--color-secondary)] border-[var(--color-secondary)] text-[var(--color-secondary-foreground)]" 
-                      : "bg-white border-[var(--color-border)] text-gray-500 hover:border-gray-300"
+                      ? "bg-[#1A0F0A] border-[#1A0F0A] text-[#EBE2D4] shadow-md -translate-y-0.5" 
+                      : "bg-white border-[#1A0F0A]/10 text-[#1A0F0A]/60 hover:border-[#1A0F0A]/30"
                   }`}
                 >
                   {tag}
@@ -283,25 +318,26 @@ function RateCoffeeForm() {
           </div>
         </div>
 
+        {/* Review Text */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-gray-700 pl-1">Review</label>
+          <label className="text-[10px] font-black uppercase tracking-widest text-[#1A0F0A]/40 pl-1">Notes de dégustation</label>
           <textarea 
             value={review}
             onChange={(e) => setReview(e.target.value)}
-            placeholder="How did you brew it? What are your thoughts?" 
-            className="w-full bg-white border border-[var(--color-border)] rounded-2xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-sm shadow-sm min-h-[120px] resize-y"
+            placeholder="Décrivez votre expérience..." 
+            className="w-full bg-white border-3 border-[#1A0F0A] rounded-2xl py-4 px-5 focus:outline-none focus:translate-y-[-2px] focus:translate-x-[-2px] text-sm shadow-[0_4px_0_#1A0F0A] transition-all font-bold min-h-[140px]"
           />
         </div>
 
         <button 
           type="submit" 
           disabled={isSubmitting}
-          className="w-full mt-2 bg-[var(--color-primary)] text-white font-bold py-4 rounded-2xl shadow-[0_8px_20px_rgb(64,53,40,0.2)] hover:scale-[1.02] transition-transform disabled:opacity-70 flex items-center justify-center h-14"
+          className="w-full bg-[#1A0F0A] text-[#EBE2D4] font-black py-5 rounded-[2rem] shadow-[0_10px_0_rgba(26,15,10,1)] hover:translate-y-1 hover:shadow-[0_6px_0_rgba(26,15,10,1)] active:translate-y-2 active:shadow-none transition-all flex items-center justify-center h-16 uppercase tracking-[0.2em] text-xs"
         >
           {isSubmitting ? (
-             <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+             <Loader2 className="animate-spin" size={20} />
           ) : (
-             "Publish Tasting"
+             "Publier l'Archive"
           )}
         </button>
 
@@ -313,9 +349,9 @@ function RateCoffeeForm() {
 export default function RateCoffeePage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex flex-col items-center justify-center p-4">
-        <Loader2 className="animate-spin text-[var(--color-primary)] mb-2" size={40} />
-        <p className="text-gray-500 animate-pulse">Loading rating form...</p>
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-[#EBE2D4]">
+        <Loader2 className="animate-spin text-[#1A0F0A] mb-2" size={40} />
+        <p className="text-[#1A0F0A]/40 font-black uppercase tracking-widest text-[10px] animate-pulse">Chargement de l'atelier...</p>
       </div>
     }>
       <RateCoffeeForm />

@@ -5,7 +5,6 @@ const PAGE_SIZE = 10;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const tab = searchParams.get('tab') || 'global';
   const page = parseInt(searchParams.get('page') || '1');
   const supabase = await createClient();
 
@@ -13,8 +12,23 @@ export async function GET(request: Request) {
   const { data: { user } } = await supabase.auth.getUser();
   const currentUserId = user?.id || null;
 
-  // 2. Construction de la requête
-  let query = supabase
+  if (!currentUserId) {
+    return NextResponse.json({ posts: [] });
+  }
+
+  // 2. Get Following IDs
+  const { data: followsData } = await supabase
+    .from('follows')
+    .select('following_id')
+    .eq('follower_id', currentUserId);
+  
+  const followingIds = followsData?.map(f => f.following_id) || [];
+  
+  // 3. Query: My posts OR following posts
+  // Note: We include currentUserId in the list
+  const allowedUserIds = [currentUserId, ...followingIds];
+
+  const { data: tastings, error } = await supabase
     .from('tastings')
     .select(`
       *,
@@ -29,25 +43,9 @@ export async function GET(request: Request) {
         user_id
       )
     `)
+    .in('user_id', allowedUserIds)
     .order('created_at', { ascending: false })
     .range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1);
-
-  // 3. Filtrage "Following"
-  if (tab === 'following' && currentUserId) {
-    const { data: followsData } = await supabase
-      .from('follows')
-      .select('following_id')
-      .eq('follower_id', currentUserId);
-    
-    const followingIds = followsData?.map(f => f.following_id) || [];
-    if (followingIds.length > 0) {
-      query = query.in('user_id', followingIds);
-    } else {
-      return NextResponse.json({ posts: [] });
-    }
-  }
-
-  const { data: tastings, error } = await query;
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

@@ -10,19 +10,30 @@ export default async function FeedPage() {
   const { data: { user } } = await supabase.auth.getUser();
   const currentUserId = user?.id || null;
 
-  // 2. Initial fetch of following IDs
-  let initialFollowingIds: string[] = [];
-  if (currentUserId) {
-    const { data: followsData } = await supabase
-      .from('follows')
-      .select('following_id')
-      .eq('follower_id', currentUserId);
-    
-    initialFollowingIds = followsData?.map(f => f.following_id) || [];
+  if (!currentUserId) {
+    // If not logged in, we could redirect or show a different state
+    // For now, let's just return the component which might handle the empty state
+    return (
+      <div className="p-4 pt-10 pb-32 flex flex-col gap-6">
+        <header className="flex flex-col gap-2">
+          <h1 className="text-5xl text-[var(--color-primary)] font-serif font-black tracking-tighter">Coffinity</h1>
+          <p className="text-[var(--color-muted-foreground)] text-sm italic font-medium uppercase tracking-[0.2em] opacity-60">Barista Social Club</p>
+        </header>
+        <FeedClientWrapper initialPosts={[]} currentUserId={null} initialFollowingIds={[]} />
+      </div>
+    );
   }
 
-  // 3. Initial fetch of first 10 posts (Global)
-  // On récupère les 10 premiers posts côté serveur pour le SEO
+  // 2. Initial fetch of following IDs
+  const { data: followsData } = await supabase
+    .from('follows')
+    .select('following_id')
+    .eq('follower_id', currentUserId);
+  
+  const initialFollowingIds = followsData?.map(f => f.following_id) || [];
+  const allowedUserIds = [currentUserId, ...initialFollowingIds];
+
+  // 3. Initial fetch of first 10 posts (My feed)
   const { data: tastings, error } = await supabase
     .from('tastings')
     .select(`
@@ -38,6 +49,7 @@ export default async function FeedPage() {
         user_id
       )
     `)
+    .in('user_id', allowedUserIds)
     .order('created_at', { ascending: false })
     .range(0, 9);
 
@@ -57,7 +69,6 @@ export default async function FeedPage() {
         <p className="text-[var(--color-muted-foreground)] text-sm italic font-medium uppercase tracking-[0.2em] opacity-60">Barista Social Club</p>
       </header>
 
-      {/* Le Wrapper Client gère l'interactivité (tabs, onboarding, infinite scroll) */}
       <FeedClientWrapper 
         initialPosts={initialPosts} 
         currentUserId={currentUserId}

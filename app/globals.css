@@ -1,35 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: hsl(40 33% 98%); /* Crème très pâle */
-  --color-foreground: hsl(20 14% 4%);
+  --color-background: #EBE2D4; /* Beige vintage intense */
+  --color-foreground: #1A0F0A; /* Noir Brun Profond */
   
-  --color-card: hsl(0 0% 100%);
-  --color-card-foreground: hsl(20 14% 4%);
+  --color-card: #EBE2D4; /* Les cartes ont la même couleur */
+  --color-card-foreground: #1A0F0A;
   
-  --color-primary: hsl(20 50% 18%); /* Rich Dark Espresso */
-  --color-primary-foreground: hsl(60 9% 98%);
+  --color-primary: #1A0F0A; /* Très profond */
+  --color-primary-foreground: #EBE2D4;
   
-  --color-secondary: hsl(30 15% 92%); /* Taupe léger */
-  --color-secondary-foreground: hsl(24 10% 10%);
+  --color-secondary: #EBE2D4; 
+  --color-secondary-foreground: #1A0F0A;
   
-  --color-accent: hsl(20 80% 50%); /* Cuivre */
-  --color-accent-foreground: hsl(60 9% 98%);
+  --color-accent: #B44222; /* Rouille (Rust/Copper) */
+  --color-accent-foreground: #ffffff;
   
-  --color-muted: hsl(60 5% 96%);
-  --color-muted-foreground: hsl(25 5% 45%);
+  --color-muted: #D1C5B4;
+  --color-muted-foreground: #7C6D60;
 
-  --color-border: hsl(20 6% 92%);
-  --color-input: hsl(20 6% 92%);
+  --color-border: #D1C5B4; /* Ligne fine beige plus foncé */
+  --color-input: #D1C5B4;
   
-  --radius: 1.5rem;
-
-  /* DARK MODE COLORS - Midnight Espresso / Deep Mocha */
-  --color-dark-bg: hsl(220 20% 7%);
-  --color-dark-card: hsl(220 22% 10%);
-  --color-dark-primary: hsl(30 70% 60%); /* Sharp Copper */
-  --color-dark-border: hsl(220 20% 14%);
-  --color-dark-text: hsl(40 30% 92%);
+  --radius: 2rem;
+  
+  --font-sans: var(--font-outfit), sans-serif;
+  --font-serif: var(--font-playfair), serif;
 }
 
 @layer base {
@@ -38,54 +34,38 @@
   }
   body {
     background-color: var(--color-background);
-    background-image: radial-gradient(at 0% 0%, hsla(25, 100%, 77%, 0.1) 0px, transparent 50%),
-                      radial-gradient(at 100% 0%, hsla(40, 100%, 80%, 0.1) 0px, transparent 50%);
-    background-attachment: fixed;
+    background-image: none; /* Uniform flat color */
     color: var(--color-foreground);
-    transition: background-color 0.4s ease, color 0.4s ease;
+    font-family: var(--font-sans);
   }
-
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 800;
+  }
+  
+  /* Désactivation complète des comportements de Dark Mode natifs dans l'UI */
   @media (prefers-color-scheme: dark) {
     :root {
-      --color-background: var(--color-dark-bg);
-      --color-foreground: var(--color-dark-text);
-      --color-card: var(--color-dark-card);
-      --color-border: var(--color-dark-border);
-      --color-secondary: hsl(220 14% 10%);
-    }
-    body {
-      background-image: radial-gradient(at 0% 0%, hsla(220, 50%, 40%, 0.05) 0px, transparent 50%),
-                        radial-gradient(at 100% 0%, hsla(30, 80%, 60%, 0.05) 0px, transparent 50%);
-    }
-    .bento-card {
-      background-color: var(--color-card);
-      border-color: var(--color-border);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-    }
-    .skeleton {
-      background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
-      background-size: 200% 100%;
+      /* Ne fait rien pour garder le CSS bloqué sur Light Vintage */
     }
   }
 }
 
 @layer utilities {
   .bento-card {
-    background-color: var(--color-card);
-    border-radius: 2.5rem;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.03);
-    border-width: 1.5px;
-    border-color: var(--color-border);
-    overflow: hidden;
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+    background-color: var(--color-background);
+    border-radius: 0;
+    box-shadow: none;
+    border-color: rgba(0,0,0,0.08); /* Ligne très fine */
+    border-width: 0 0 1px 0;
   }
 
   .bento-card:active {
-    transform: scale(0.98);
+    transform: none; /* Pas d'effet 3D */
   }
 
   .skeleton {
-    background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg, #EBE2D4 25%, #f4eade 50%, #EBE2D4 75%);
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s infinite linear;
     border-radius: 0.75rem;

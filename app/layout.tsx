@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Outfit, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import NavigationBar from "@/components/NavigationBar";
 import { PointsProvider } from "@/components/PointsFeedback";
 
-const outfit = Outfit({ subsets: ["latin"] });
+const outfit = Outfit({ subsets: ["latin"], variable: '--font-outfit' });
+const playfair = Playfair_Display({ subsets: ["latin"], variable: '--font-playfair' });
 
 export const metadata: Metadata = {
   title: "Coffinity - Your Coffee Tasting App",
@@ -18,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.className} pb-20 bg-[var(--color-background)] min-h-screen text-[var(--color-foreground)]`}>
+      <body className={`${outfit.variable} ${playfair.variable} font-sans pb-20 bg-[var(--color-background)] min-h-screen text-[var(--color-foreground)]`}>
         <PointsProvider>
           <main className="max-w-md mx-auto min-h-screen relative">
             {children}

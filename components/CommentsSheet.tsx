@@ -75,16 +75,16 @@ export default function CommentsSheet({ tastingId, isOpen, onClose, currentUserI
   return (
     <Drawer.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 bg-black/40 z-[100] backdrop-blur-sm" />
-        <Drawer.Content className="bg-stone-50 flex flex-col rounded-t-[2.5rem] h-[85%] fixed bottom-0 left-0 right-0 z-[100] outline-none">
-          <div className="p-5 bg-white rounded-t-[2.5rem] flex-1 flex flex-col overflow-hidden">
-            <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-stone-200 mb-6" />
+        <Drawer.Overlay className="fixed inset-0 bg-black/60 z-[100] backdrop-blur-sm" />
+        <Drawer.Content className="bg-[var(--color-primary)] flex flex-col rounded-t-[3rem] h-[85%] fixed bottom-0 left-0 right-0 z-[100] outline-none">
+          <div className="p-6 bg-[var(--color-primary)] text-[var(--color-background)] rounded-t-[3rem] flex-1 flex flex-col overflow-hidden">
+            <div className="mx-auto w-12 h-1 flex-shrink-0 rounded-full bg-[var(--color-background)] opacity-20 mb-8" />
             
             <div className="flex justify-between items-center mb-6 px-2 tracking-tight">
-              <Drawer.Title className="text-xl font-black text-[var(--color-primary)] flex items-center gap-2">
-                <MessageCircle size={24} /> Commentaires
+              <Drawer.Title className="text-3xl font-serif text-[var(--color-background)] flex items-center gap-3">
+                <MessageCircle size={28} strokeWidth={1.5} /> Comments
               </Drawer.Title>
-              <button onClick={onClose} className="p-2 bg-stone-100 rounded-full text-stone-400 hover:text-stone-600 transition-colors">
+              <button onClick={onClose} className="p-2 border border-[var(--color-background)]/20 rounded-full text-[var(--color-background)] hover:bg-[var(--color-background)] hover:text-[var(--color-primary)] transition-colors">
                 <X size={20} />
               </button>
             </div>
@@ -100,13 +100,13 @@ export default function CommentsSheet({ tastingId, isOpen, onClose, currentUserI
                 </div>
               ) : (
                 comments.map((comment) => (
-                  <div key={comment.id} className="flex gap-3 animate-in fade-in slide-in-from-bottom-2">
-                    <div className="w-10 h-10 shrink-0">
+                  <div key={comment.id} className="flex gap-4 animate-in fade-in slide-in-from-bottom-2">
+                    <div className="w-10 h-10 shrink-0 rounded-full border border-[var(--color-background)]/20 overflow-hidden">
                       <CoffeeAvatar config={comment.profiles?.avatar_config || {}} size={40} />
                     </div>
-                    <div className="bg-stone-50 rounded-2xl rounded-tl-none p-3 max-w-[85%] border border-[var(--color-border)] shadow-sm">
-                      <p className="font-bold text-[11px] text-[var(--color-primary)] uppercase tracking-tight mb-1">{comment.profiles?.username || "Anonyme"}</p>
-                      <p className="text-sm text-stone-700 leading-relaxed break-words">{comment.content}</p>
+                    <div className="flex flex-col pt-1">
+                      <p className="font-bold text-[11px] text-[var(--color-background)]/60 uppercase tracking-widest mb-1">{comment.profiles?.username || "Anonyme"}</p>
+                      <p className="text-[15px] font-medium text-[var(--color-background)] leading-relaxed">{comment.content}</p>
                     </div>
                   </div>
                 ))
@@ -115,26 +115,26 @@ export default function CommentsSheet({ tastingId, isOpen, onClose, currentUserI
 
             {/* Input Area */}
             {currentUserId ? (
-              <form onSubmit={handleSubmit} className="mt-auto pt-4 border-t border-[var(--color-border)] pb-safe relative">
+              <form onSubmit={handleSubmit} className="mt-auto pt-4 pb-safe relative">
                 <div className="relative flex items-center">
                   <input
                     type="text"
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Ajouter un commentaire..."
-                    className="w-full bg-stone-100/80 border-none rounded-full py-4 pl-6 pr-14 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:bg-white transition-colors text-sm font-medium shadow-inner"
+                    placeholder="Add a comment..."
+                    className="w-full bg-[var(--color-primary)] border border-[var(--color-background)]/30 rounded-full py-4 pl-6 pr-14 focus:outline-none focus:border-[var(--color-accent)] text-sm font-medium text-[var(--color-background)] placeholder-[var(--color-background)]/40 transition-colors"
                   />
                   <button 
                     type="submit" 
                     disabled={!newComment.trim() || isSubmitting}
-                    className="absolute right-2 p-2.5 bg-[var(--color-primary)] text-white rounded-full disabled:opacity-50 disabled:bg-stone-300 hover:scale-110 active:scale-95 transition-all shadow-md"
+                    className="absolute right-2 p-2.5 bg-[var(--color-background)] text-[var(--color-primary)] rounded-full disabled:opacity-30 hover:scale-110 active:scale-95 transition-all"
                   >
-                    {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} className="ml-px" />}
+                    {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} strokeWidth={2} className="ml-px" />}
                   </button>
                 </div>
               </form>
             ) : (
-              <div className="mt-auto pt-4 pb-safe text-center text-sm font-bold text-stone-400">
+              <div className="mt-auto pt-4 pb-safe text-center text-sm font-bold text-[var(--color-background)]/50">
                 Vous devez être connecté pour commenter.
               </div>
             )}

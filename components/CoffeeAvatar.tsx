@@ -59,39 +59,39 @@ export default function CoffeeAvatar({ config, size = 100, className = "", noBac
       case 'buzz_cut':
         return <path d="M25 45 Q25 22 50 22 Q75 22 75 45 L78 52 Q50 48 22 52 Z" fill={hairColor} opacity="0.4" />;
       case 'bowl_cut':
-        return <path d="M18 45 Q18 15 50 15 Q82 15 82 45 L84 52 Q50 48 16 52 Z" fill={`url(#hairGrad-${id})`} />;
+        return <path d="M18 45 Q18 15 50 15 Q82 15 82 45 L84 52 Q50 48 16 52 Z" fill={hairColor} />;
       case 'mullet':
         return (
           <g>
-            <path d="M22 45 L18 80 Q20 88 40 88 L60 88 Q80 88 82 80 L78 45 Z" fill={`url(#hairGrad-${id})`} />
-            <path d="M22 42 Q22 20 50 20 Q78 20 78 42 L80 50 Q50 46 20 50 Z" fill={`url(#hairGrad-${id})`} />
+            <path d="M22 45 L18 80 Q20 88 40 88 L60 88 Q80 88 82 80 L78 45 Z" fill={hairColor} />
+            <path d="M22 42 Q22 20 50 20 Q78 20 78 42 L80 50 Q50 46 20 50 Z" fill={hairColor} />
           </g>
         );
       case 'man_bun':
         return (
           <g>
-            <circle cx="50" cy="15" r="10" fill={`url(#hairGrad-${id})`} />
-            <path d="M22 42 Q22 20 50 20 Q78 20 78 42 L80 52 Q50 48 20 52 Z" fill={`url(#hairGrad-${id})`} />
+            <circle cx="50" cy="15" r="10" fill={hairColor} />
+            <path d="M22 42 Q22 20 50 20 Q78 20 78 42 L80 52 Q50 48 20 52 Z" fill={hairColor} />
           </g>
         );
       case 'long_wavy':
-        return <path d="M15 45 Q10 70 15 90 Q30 100 50 95 Q70 100 85 90 Q90 70 85 45 Q85 15 50 15 Q15 15 15 45 Z" fill={`url(#hairGrad-${id})`} />;
+        return <path d="M15 45 Q10 70 15 90 Q30 100 50 95 Q70 100 85 90 Q90 70 85 45 Q85 15 50 15 Q15 15 15 45 Z" fill={hairColor} />;
       case 'ponytail':
         return (
           <g>
-            <path d="M75 40 Q95 40 95 70 Q90 85 75 80" fill={`url(#hairGrad-${id})`} />
-            <path d="M20 45 Q20 18 50 18 Q80 18 80 45 L82 52 Q50 48 18 52 Z" fill={`url(#hairGrad-${id})`} />
+            <path d="M75 40 Q95 40 95 70 Q90 85 75 80" fill={hairColor} />
+            <path d="M20 45 Q20 18 50 18 Q80 18 80 45 L82 52 Q50 48 18 52 Z" fill={hairColor} />
           </g>
         );
       case 'afro':
-        return <circle cx="50" cy="40" r="35" fill={`url(#hairGrad-${id})`} />;
+        return <circle cx="50" cy="40" r="35" fill={hairColor} />;
       case 'mohawk':
-        return <path d="M40 45 L42 8 Q50 2 58 8 L60 45 Z" fill={`url(#hairGrad-${id})`} />;
+        return <path d="M40 45 L42 8 Q50 2 58 8 L60 45 Z" fill={hairColor} />;
       case 'bob_cut':
-        return <path d="M18 45 Q18 18 50 18 Q82 18 82 45 L85 75 Q85 80 75 80 Q50 75 25 80 Q15 80 15 75 Z" fill={`url(#hairGrad-${id})`} />;
+        return <path d="M18 45 Q18 18 50 18 Q82 18 82 45 L85 75 Q85 80 75 80 Q50 75 25 80 Q15 80 15 75 Z" fill={hairColor} />;
       case 'spiky':
         return (
-          <g fill={`url(#hairGrad-${id})`}>
+          <g fill={hairColor}>
             <path d="M20 45 Q20 20 50 20 Q80 20 80 45 L82 50 Q50 45 18 50 Z" />
             <path d="M25 25 L30 10 L40 22 Z" />
             <path d="M40 20 L50 5 L60 20 Z" />
@@ -99,12 +99,12 @@ export default function CoffeeAvatar({ config, size = 100, className = "", noBac
           </g>
         );
       case 'pixie':
-        return <path d="M22 45 Q22 25 50 25 Q78 25 78 45 L82 55 L70 45 L50 48 L30 45 L18 55 Z" fill={`url(#hairGrad-${id})`} />;
+        return <path d="M22 45 Q22 25 50 25 Q78 25 78 45 L82 55 L70 45 L50 48 L30 45 L18 55 Z" fill={hairColor} />;
       case 'bald':
         return null;
       case 'short':
       default:
-        return <path d="M24 45 Q24 22 50 22 Q76 22 76 45 L78 52 L22 52 Z" fill={`url(#hairGrad-${id})`} />;
+        return <path d="M24 45 Q24 22 50 22 Q76 22 76 45 L78 52 L22 52 Z" fill={hairColor} />;
     }
   };
 
@@ -129,14 +129,14 @@ export default function CoffeeAvatar({ config, size = 100, className = "", noBac
       case 'hoodie':
         return (
           <g>
-            <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={grad} />
+            <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={clothingColor} />
             <path d="M30 100 Q50 115 70 100 L75 130 Q50 140 25 130 Z" fill="rgba(0,0,0,0.1)" />
           </g>
         );
       case 'jacket':
         return (
           <g>
-            <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={grad} />
+            <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={clothingColor} />
             <path d="M48 95 L52 95 L52 150 L48 150 Z" fill="rgba(0,0,0,0.2)" />
             <path d="M35 100 L50 120 L65 100" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="3" />
           </g>
@@ -144,22 +144,22 @@ export default function CoffeeAvatar({ config, size = 100, className = "", noBac
       case 'shirt':
         return (
           <g>
-            <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={grad} />
+            <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={clothingColor} />
             <path d="M35 95 L50 110 L65 95" fill="white" opacity="0.9" />
           </g>
         );
       case 'sweater':
         return (
           <g>
-            <path d="M10 100 Q50 85 90 100 L115 150 L-15 150 Z" fill={grad} />
+            <path d="M10 100 Q50 85 90 100 L115 150 L-15 150 Z" fill={clothingColor} />
             <path d="M25 100 Q50 108 75 100" fill="none" stroke="rgba(0,0,0,0.1)" strokeWidth="4" />
           </g>
         );
       case 'turtleneck':
         return (
           <g>
-            <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={grad} />
-            <rect x="35" y="90" width="30" height="15" rx="4" fill={grad} stroke="rgba(0,0,0,0.1)" />
+            <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={clothingColor} />
+            <rect x="35" y="90" width="30" height="15" rx="4" fill={clothingColor} stroke="rgba(0,0,0,0.1)" />
           </g>
         );
       case 'apron':
@@ -172,7 +172,7 @@ export default function CoffeeAvatar({ config, size = 100, className = "", noBac
         );
       case 'tshirt':
       default:
-        return <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={grad} />;
+        return <path d="M10 100 Q50 85 90 100 L110 150 L-10 150 Z" fill={clothingColor} />;
     }
   };
 
@@ -239,70 +239,25 @@ export default function CoffeeAvatar({ config, size = 100, className = "", noBac
   };
 
   return (
-    <div style={{ width: size, height: size }} className={`relative overflow-hidden ${noBackground ? "" : "bg-stone-100 dark:bg-stone-900 rounded-[2.5rem] border border-white/50 shadow-inner"} ${className}`}>
+    <div style={{ width: size, height: size }} className={`relative overflow-hidden ${noBackground ? "" : "bg-[var(--color-background)] rounded-full border-2 border-[var(--color-primary)]"} ${className}`}>
       <svg viewBox="0 0 100 100" className="w-full h-full">
-        <defs>
-          <radialGradient id={`skinGrad-${id}`} cx="35%" cy="30%" r="75%">
-            <stop offset="0%" stopColor={adjustColor(skinColor || "#F3D2B3", 30)} />
-            <stop offset="40%" stopColor={skinColor} />
-            <stop offset="85%" stopColor={adjustColor(skinColor || "#F3D2B3", -30)} />
-            <stop offset="100%" stopColor={adjustColor(skinColor || "#F3D2B3", -50)} />
-          </radialGradient>
-          <linearGradient id={`hairGrad-${id}`} x1="10%" y1="0%" x2="90%" y2="100%">
-            <stop offset="0%" stopColor={adjustColor(hairColor || "#4B2C20", 40)} />
-            <stop offset="50%" stopColor={hairColor} />
-            <stop offset="100%" stopColor={adjustColor(hairColor || "#4B2C20", -40)} />
-          </linearGradient>
-          <linearGradient id={`clothGrad-${id}`} x1="20%" y1="0%" x2="80%" y2="100%">
-            <stop offset="0%" stopColor={adjustColor(clothingColor || "#E5E7EB", 20)} />
-            <stop offset="50%" stopColor={clothingColor} />
-            <stop offset="100%" stopColor={adjustColor(clothingColor || "#E5E7EB", -40)} />
-          </linearGradient>
-          <radialGradient id={`eyeGrad-${id}`} cx="50%" cy="50%" r="50%">
-            <stop offset="70%" stopColor="white" />
-            <stop offset="100%" stopColor="#e0e0e0" />
-          </radialGradient>
-          {/* Filtres 3D Pixar */}
-          <filter id="shadow-small" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#2c1e16" floodOpacity="0.15"/>
-          </filter>
-          <filter id="shadow-medium" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#2c1e16" floodOpacity="0.25"/>
-          </filter>
-          <filter id="blur-blush" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="3" />
-          </filter>
-        </defs>
-
-        {/* Tête (Face 3D Mesh) */}
-        <path d="M20 52 C20 25 30 10 50 10 C70 10 80 25 80 52 C80 82 65 92 50 92 C35 92 20 82 20 52 Z" fill={`url(#skinGrad-${id})`} filter="url(#shadow-small)" />
+        {/* Tête (Face Flat Line-art) */}
+        <path d="M20 52 C20 25 30 10 50 10 C70 10 80 25 80 52 C80 82 65 92 50 92 C35 92 20 82 20 52 Z" fill={skinColor} stroke="#1A0F0A" strokeWidth="1.5" />
         
-        {/* Blush (Subsurface scattering) */}
-        <ellipse cx="30" cy="65" rx="6" ry="4" fill="#ff4d4d" opacity="0.3" filter="url(#blur-blush)" />
-        <ellipse cx="70" cy="65" rx="6" ry="4" fill="#ff4d4d" opacity="0.3" filter="url(#blur-blush)" />
-        
-        {/* Yeux Pixar (Glazed / Specular) */}
-        <g filter="url(#shadow-small)">
-          {/* Blanc de l'oeil avec relief */}
-          <ellipse cx="38" cy="56" rx="7" ry="8.5" fill={`url(#eyeGrad-${id})`} />
-          <ellipse cx="62" cy="56" rx="7" ry="8.5" fill={`url(#eyeGrad-${id})`} />
-          
-          {/* Iris & Pupille */}
-          <circle cx="39" cy="56" r="4.5" fill="#2c1e16" />
-          <circle cx="61" cy="56" r="4.5" fill="#2c1e16" />
-          
-          {/* Brillance (Specular highlights) */}
-          <circle cx="37.5" cy="54" r="1.8" fill="white" />
-          <circle cx="59.5" cy="54" r="1.8" fill="white" />
-          <circle cx="40.5" cy="57.5" r="0.8" fill="white" opacity="0.7" />
-          <circle cx="62.5" cy="57.5" r="0.8" fill="white" opacity="0.7" />
+        {/* Yeux Flat Line-Art */}
+        <g stroke="#1A0F0A" strokeWidth="1.5">
+          <ellipse cx="38" cy="56" rx="5" ry="6" fill="transparent" />
+          <ellipse cx="62" cy="56" rx="5" ry="6" fill="transparent" />
+          <circle cx="39" cy="56" r="2.5" fill="#1A0F0A" stroke="none" />
+          <circle cx="61" cy="56" r="2.5" fill="#1A0F0A" stroke="none" />
         </g>
 
-        {/* Nez 3D */}
-        <ellipse cx="50" cy="64" rx="4.5" ry="3.5" fill={adjustColor(skinColor || "#F3D2B3", -15)} opacity="0.8" />
-        <ellipse cx="50" cy="63.2" rx="2.5" ry="1.5" fill="white" opacity="0.3" />
+        {/* Nez Flat Line-Art */}
+        <path d="M50 61 V65" stroke="#1A0F0A" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M48 65 Q50 67 52 65" stroke="#1A0F0A" strokeWidth="1.5" strokeLinecap="round" fill="none" />
 
-        <g filter="url(#shadow-medium)">
+        {/* Expressions, Cheveux et Vêtements avec contour forcé */}
+        <g stroke="#1A0F0A" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round">
           {renderExpression()}
           {renderClothing()}
           {renderFacialHair()}

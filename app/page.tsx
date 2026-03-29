@@ -91,8 +91,8 @@ export default function FeedPage() {
     <div className="p-4 pt-10 pb-32 flex flex-col gap-6">
       <header className="flex flex-col gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-[var(--color-primary)]">Coffinity</h1>
-          <p className="text-gray-500 text-sm">Discover what the community is brewing.</p>
+          <h1 className="text-4xl text-[var(--color-primary)] mb-2 font-serif font-bold">Coffinity</h1>
+          <p className="text-[var(--color-muted-foreground)] text-sm">Discover what the community is brewing.</p>
         </div>
 
         {/* Onglets Global / Following */}
@@ -294,15 +294,12 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
       </div>
 
       {/* IMAGE (INSTA STYLE) */}
-      <div className="w-full aspect-[4/5] bg-[var(--color-secondary)] relative overflow-hidden group border-y border-[var(--color-border)]">
+      <div className="w-full aspect-[4/5] bg-[var(--color-background)] relative overflow-hidden group border-y border-black/5">
         {post.image_url ? (
           <img src={post.image_url} alt="bag" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#fdfbfb] to-[#ebedee] opacity-80 mix-blend-multiply">
-             <div className="w-full h-full absolute inset-0 bg-gradient-to-tr from-[var(--color-primary)] to-[var(--color-accent)] opacity-10"></div>
-             <div className="z-10 bg-white/50 backdrop-blur-md p-6 rounded-3xl shadow-sm border border-white/50 animate-pulse">
-                <CoffeeAvatar config={post.profiles?.avatar_config || {}} size={80} noBackground className="opacity-80" />
-             </div>
+          <div className="w-full h-full flex items-center justify-center p-8 bg-[var(--color-background)]">
+             <img src="/vintage_branch.png" alt="vintage coffee branch" className="w-full h-full object-contain opacity-80 mix-blend-multiply" />
           </div>
         )}
       </div>
@@ -325,8 +322,8 @@ function PostCard({ post, currentUserId, router, isFollowing, onFollowToggle, on
       {/* CONTENT (Name, Brand, Review) */}
       <div className="px-4 pb-5 pt-2 flex flex-col gap-2">
         <div>
-          <h3 className="font-extrabold text-lg leading-tight tracking-tight text-[var(--color-foreground)] inline mr-2">{post.coffee_name}</h3>
-          <span className="text-sm text-[var(--color-muted-foreground)] font-medium">{post.brand}</span>
+          <h3 className="text-2xl font-serif text-[var(--color-foreground)] inline mr-2 font-bold">{post.coffee_name}</h3>
+          <span className="text-sm text-[var(--color-muted-foreground)] uppercase tracking-wider font-semibold">{post.brand}</span>
         </div>
         
         <div className="flex gap-1 my-1">

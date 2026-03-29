@@ -20,7 +20,6 @@ export default function FeedClientWrapper({
   initialFollowingIds 
 }: FeedClientWrapperProps) {
   const router = useRouter();
-  
   const [posts, setPosts] = useState<any[]>(initialPosts);
   const [followingIds, setFollowingIds] = useState<string[]>(initialFollowingIds);
   const [showOnboarding, setShowOnboarding] = useState(false);

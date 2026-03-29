@@ -89,13 +89,16 @@ export async function GET(request: Request) {
       if (statsData && statsData.length > 0) {
         const avgRating = statsData.reduce((acc, curr) => acc + curr.rating, 0) / statsData.length;
         const lastComments = statsData
-          .filter(t => t.review) // Uniquement ceux avec un texte
+          .filter(t => t.review)
           .slice(0, 5)
-          .map(t => ({
-            username: t.profiles?.username || 'Anonyme',
-            text: t.review,
-            rating: t.rating
-          }));
+          .map(t => {
+            const profile = Array.isArray(t.profiles) ? t.profiles[0] : t.profiles;
+            return {
+              username: profile?.username || 'Anonyme',
+              text: t.review,
+              rating: t.rating
+            };
+          });
 
         return {
           ...product,

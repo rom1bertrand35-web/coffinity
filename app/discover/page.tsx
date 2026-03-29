@@ -7,6 +7,7 @@ import SearchHeader from "@/components/SearchHeader";
 import CoffeeResultCard from "@/components/CoffeeResultCard";
 import BaristaResultCard from "@/components/BaristaResultCard";
 import { useSearchParams } from "next/navigation";
+import { Loader2, Plus } from "lucide-react";
 
 type Mode = 'coffee' | 'people';
 
@@ -16,8 +17,12 @@ function DiscoverContent() {
   
   const [mode, setMode] = useState<Mode>(initialMode);
   const [searchTerm, setSearchTerm] = useState("");
+  const [category, setCategory] = useState("All");
   const [results, setResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [followingIds, setFollowingIds] = useState<string[]>([]);
 
@@ -36,16 +41,23 @@ function DiscoverContent() {
     });
   }, []);
 
-  const performSearch = useCallback(async (term: string, currentMode: Mode) => {
-    setIsLoading(true);
+  const performSearch = useCallback(async (term: string, currentMode: Mode, currentCat: string, currentPage: number, append = false) => {
+    if (append) setIsLoadingMore(true);
+    else setIsLoading(true);
+
     try {
       if (currentMode === 'coffee') {
-        // Utiliser notre nouvelle API de recherche hybride
-        const res = await fetch(`/api/search?q=${encodeURIComponent(term || 'café')}`);
+        const res = await fetch(`/api/search?q=${encodeURIComponent(term)}&category=${currentCat}&page=${currentPage}`);
         const data = await res.json();
-        setResults(data.products || []);
+        
+        if (append) {
+          setResults(prev => [...prev, ...(data.products || [])]);
+        } else {
+          setResults(data.products || []);
+        }
+        setHasMore(data.hasMore || false);
       } else {
-        // Recherche de profils via Supabase
+        // Baristas search
         let query = supabase
           .from('profiles')
           .select('id, username, level, avatar_config, followers_count');
@@ -58,21 +70,31 @@ function DiscoverContent() {
         
         const { data } = await query;
         setResults(data || []);
+        setHasMore(false);
       }
     } catch (err) {
       console.error(err);
     } finally {
       setIsLoading(false);
+      setIsLoadingMore(false);
     }
   }, []);
 
+  // Effect pour la recherche initiale ou le changement de filtres
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      performSearch(searchTerm, mode);
+      setPage(1);
+      performSearch(searchTerm, mode, category, 1, false);
     }, 400);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm, mode, performSearch]);
+  }, [searchTerm, mode, category, performSearch]);
+
+  const handleLoadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    performSearch(searchTerm, mode, category, nextPage, true);
+  };
 
   const handleBrandClick = (brand: string) => {
     if (searchTerm === brand) {
@@ -92,6 +114,8 @@ function DiscoverContent() {
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         onBrandClick={handleBrandClick}
+        category={category}
+        setCategory={setCategory}
       />
 
       <div className="space-y-4">
@@ -102,24 +126,39 @@ function DiscoverContent() {
         {isLoading ? (
           <DiscoverSkeleton />
         ) : results.length === 0 ? (
-          <div className="text-center py-20 bg-white rounded-[3rem] border border-dashed border-stone-200">
-            <p className="text-stone-400 font-medium">Aucun résultat trouvé pour "{searchTerm}"</p>
+          <div className="text-center py-20 bg-white rounded-[3rem] border-4 border-dashed border-[#1A0F0A]/10">
+            <p className="text-[#1A0F0A]/40 font-serif italic text-lg">Aucun grain trouvé pour cette quête...</p>
           </div>
         ) : (
-          <div className={mode === 'coffee' ? "grid grid-cols-2 gap-4" : "flex flex-col gap-3"}>
-            {results.map(item => (
-              mode === 'coffee' ? (
-                <CoffeeResultCard key={item.id} coffee={item} />
-              ) : (
-                <BaristaResultCard 
-                  key={item.id} 
-                  profile={item} 
-                  currentUserId={currentUserId}
-                  initialIsFollowing={followingIds.includes(item.id)}
-                />
-              )
-            ))}
-          </div>
+          <>
+            <div className={mode === 'coffee' ? "grid grid-cols-2 gap-4" : "flex flex-col gap-3"}>
+              {results.map((item, index) => (
+                mode === 'coffee' ? (
+                  <CoffeeResultCard key={`${item.id}-${index}`} coffee={item} />
+                ) : (
+                  <BaristaResultCard 
+                    key={item.id} 
+                    profile={item} 
+                    currentUserId={currentUserId}
+                    initialIsFollowing={followingIds.includes(item.id)}
+                  />
+                )
+              ))}
+            </div>
+
+            {hasMore && mode === 'coffee' && (
+              <div className="pt-8 flex justify-center">
+                <button 
+                  onClick={handleLoadMore}
+                  disabled={isLoadingMore}
+                  className="bg-[#1A0F0A] text-[#EBE2D4] px-8 py-4 rounded-full font-black text-xs uppercase tracking-widest hover:-translate-y-1 shadow-[0_6px_0_rgba(26,15,10,1)] active:translate-y-0 active:shadow-none transition-all flex items-center gap-3"
+                >
+                  {isLoadingMore ? <Loader2 className="animate-spin" size={16} /> : <Plus size={16} />}
+                  Appuyer pour découvrir
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

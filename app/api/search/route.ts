@@ -2,13 +2,13 @@ import { NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
+const PAGE_SIZE = 10;
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const query = searchParams.get('q');
-
-  if (!query || query.length < 2) {
-    return NextResponse.json({ products: [] });
-  }
+  const query = searchParams.get('q') || '';
+  const category = searchParams.get('category') || '';
+  const page = parseInt(searchParams.get('page') || '1');
 
   try {
     const cookieStore = await cookies();
@@ -23,21 +23,32 @@ export async function GET(request: Request) {
       }
     );
 
-    // 1. Recherche dans notre base "Premium"
+    // 1. Construction de la requête Supabase
     let dbQuery = supabase
       .from('coffees')
-      .select('name, brand, image_url, id, url');
+      .select('name, brand, image_url, id, url, category', { count: 'exact' });
 
-    if (query.toLowerCase() === 'café' || query.toLowerCase() === 'coffee') {
-      // Pour une recherche générique (accueil de l'onglet), on montre les plus récents
-      dbQuery = dbQuery.order('created_at', { ascending: false });
-    } else {
-      const cleanQuery = query.replace(/[']/g, '%');
-      dbQuery = dbQuery.or(`name.ilike.%${cleanQuery}%,brand.ilike.%${cleanQuery}%`)
-                       .order('brand', { ascending: true });
+    // Filtrage par catégorie
+    if (category && category !== 'All') {
+      dbQuery = dbQuery.eq('category', category);
     }
+
+    // Filtrage par texte (si présent)
+    if (query && query.length >= 2 && query.toLowerCase() !== 'café' && query.toLowerCase() !== 'coffee') {
+      const cleanQuery = query.replace(/[']/g, '%');
+      dbQuery = dbQuery.or(`name.ilike.%${cleanQuery}%,brand.ilike.%${cleanQuery}%`);
+    }
+
+    // IMPORTANT: On ne veut QUE des cafés avec photo
+    dbQuery = dbQuery.not('image_url', 'is', null).neq('image_url', '');
+
+    // Pagination
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
     
-    const { data: dbCoffees, error: dbError } = await dbQuery.limit(50);
+    const { data: dbCoffees, error: dbError, count } = await dbQuery
+      .order('brand', { ascending: true })
+      .range(from, to);
 
     let premiumProducts = dbCoffees?.map(c => ({
       id: c.id,
@@ -45,25 +56,23 @@ export async function GET(request: Request) {
       brand: c.brand || '',
       image_url: c.image_url || '',
       url: c.url || '',
+      category: c.category,
       source: 'premium'
     })) || [];
 
+    // 2. FALLBACK OpenFoodFacts (uniquement si on a peu de résultats et qu'on est sur la page 1)
     let allProducts = [...premiumProducts];
-
-    // 2. FALLBACK / COMPLÉMENT : OpenFoodFacts
-    // On ne va chercher sur OFF que si on a moins de 50 résultats premium
-    if (allProducts.length < 50) {
+    
+    if (allProducts.length < PAGE_SIZE && page === 1 && query.length >= 2) {
       try {
-        const searchUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&tagtype_0=categories&tag_contains_0=contains&tag_0=coffee&search_simple=1&action=process&json=1&page_size=50&fields=code,product_name,brands,image_url,categories`;
-        
-        const response = await fetch(searchUrl, { next: { revalidate: 3600 } });
+        const offUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&tagtype_0=categories&tag_contains_0=contains&tag_0=coffee&search_simple=1&action=process&json=1&page_size=20&fields=code,product_name,brands,image_url,categories`;
+        const response = await fetch(offUrl);
         const data = await response.json();
         
         const offProducts = (data.products || [])
           .filter((p: any) => {
-             if (!p.product_name) return false;
+             if (!p.product_name || !p.image_url) return false; // On force l'image ici aussi
              const name = p.product_name.toLowerCase();
-             // S'assurer que ce n'est pas déjà dans nos résultats premium (via le nom ou la marque approximative)
              const isDuplicate = premiumProducts.some(pp => pp.name.toLowerCase() === p.product_name.toLowerCase());
              return !isDuplicate && (name.includes("coffee") || name.includes("café") || name.includes("cafe"));
           })
@@ -75,13 +84,11 @@ export async function GET(request: Request) {
             source: 'off'
           }));
 
-        allProducts = [...allProducts, ...offProducts].slice(0, 50);
-      } catch (offErr) {
-        console.error("OpenFoodFacts search failed:", offErr);
-      }
+        allProducts = [...allProducts, ...offProducts].slice(0, PAGE_SIZE);
+      } catch (e) {}
     }
 
-    // 3. ENRICHISSEMENT : Note moyenne et derniers commentaires
+    // 3. ENRICHISSEMENT (Note moyenne)
     const enrichedProducts = await Promise.all(allProducts.map(async (product) => {
       const { data: statsData } = await supabase
         .from('tastings')
@@ -103,26 +110,17 @@ export async function GET(request: Request) {
             };
           });
 
-        return {
-          ...product,
-          avg_rating: parseFloat(avgRating.toFixed(1)),
-          reviews_count: statsData.length,
-          last_comments: lastComments
-        };
+        return { ...product, avg_rating: parseFloat(avgRating.toFixed(1)), reviews_count: statsData.length, last_comments: lastComments };
       }
-
-      return {
-        ...product,
-        avg_rating: null,
-        reviews_count: 0,
-        last_comments: []
-      };
+      return { ...product, avg_rating: null, reviews_count: 0, last_comments: [] };
     }));
 
-    return NextResponse.json({ products: enrichedProducts });
+    return NextResponse.json({ 
+      products: enrichedProducts,
+      hasMore: (count || 0) > to
+    });
 
   } catch (error) {
-    console.error('Search API error:', error);
     return NextResponse.json({ products: [], error: 'Search failed' }, { status: 500 });
   }
 }

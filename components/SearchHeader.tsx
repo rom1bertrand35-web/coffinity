@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Coffee, Users, X } from "lucide-react";
+import { Search, Coffee, Users, X, Bean, Thermometer, Zap } from "lucide-react";
 import { hapticFeedback } from "@/utils/haptics";
 
 interface SearchHeaderProps {
@@ -9,6 +9,8 @@ interface SearchHeaderProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   onBrandClick: (brand: string) => void;
+  category: string;
+  setCategory: (cat: string) => void;
 }
 
 const POPULAR_BRANDS = [
@@ -24,7 +26,22 @@ const POPULAR_BRANDS = [
   { name: "Belleville", icon: "🗼" },
 ];
 
-export default function SearchHeader({ mode, setMode, searchTerm, setSearchTerm, onBrandClick }: SearchHeaderProps) {
+const CATEGORIES = [
+  { name: "All", label: "Tout", icon: <Coffee size={14} /> },
+  { name: "Grains", label: "Grains", icon: <Bean size={14} /> },
+  { name: "Moulu", label: "Moulu", icon: <Thermometer size={14} /> },
+  { name: "Capsules", label: "Capsules", icon: <Zap size={14} /> },
+];
+
+export default function SearchHeader({ 
+  mode, 
+  setMode, 
+  searchTerm, 
+  setSearchTerm, 
+  onBrandClick,
+  category,
+  setCategory
+}: SearchHeaderProps) {
   
   const handleModeChange = (newMode: 'coffee' | 'people') => {
     setMode(newMode);
@@ -33,6 +50,11 @@ export default function SearchHeader({ mode, setMode, searchTerm, setSearchTerm,
 
   const handleBrandClick = (brand: string) => {
     onBrandClick(brand);
+    hapticFeedback(10);
+  };
+
+  const handleCategoryClick = (cat: string) => {
+    setCategory(cat);
     hapticFeedback(10);
   };
 
@@ -76,6 +98,26 @@ export default function SearchHeader({ mode, setMode, searchTerm, setSearchTerm,
           </button>
         )}
       </div>
+
+      {/* Categories Chips */}
+      {mode === 'coffee' && (
+        <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat.name}
+              onClick={() => handleCategoryClick(cat.name)}
+              className={`flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl border-2 font-black text-[9px] uppercase tracking-wider transition-all ${
+                category === cat.name
+                  ? "bg-[#1A0F0A] text-[#EBE2D4] border-[#1A0F0A] shadow-md"
+                  : "bg-white/50 border-[#1A0F0A]/10 text-[#1A0F0A]/60 hover:border-[#1A0F0A]/30"
+              }`}
+            >
+              {cat.icon}
+              {cat.label}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Horizontal Brands Chips Brutaliste */}
       {mode === 'coffee' && (

@@ -23,6 +23,14 @@ export async function GET(request: Request) {
       }
     );
 
+    // 0. Get user profile for personalization
+    const { data: { user } } = await supabase.auth.getUser();
+    let baristaType = null;
+    if (user) {
+      const { data: profile } = await supabase.from('profiles').select('barista_type').eq('id', user.id).maybeSingle();
+      baristaType = profile?.barista_type;
+    }
+
     // 1. Construction de la requête Supabase
     let dbQuery = supabase
       .from('coffees')
@@ -36,12 +44,20 @@ export async function GET(request: Request) {
       dbQuery = dbQuery.eq('category', category);
     }
 
+    // Filtrage par texte
     if (query && query.length >= 2 && query.toLowerCase() !== 'café' && query.toLowerCase() !== 'coffee') {
       const cleanQuery = query.replace(/[']/g, '%');
       dbQuery = dbQuery.or(`name.ilike.%${cleanQuery}%,brand.ilike.%${cleanQuery}%`);
       dbQuery = dbQuery.order('brand', { ascending: true });
     } else {
-      dbQuery = dbQuery.order('created_at', { ascending: false });
+      // Personnalisation : On boost les catégories qui matchent le type de barista
+      if (baristaType === 'espresso_purist') {
+        dbQuery = dbQuery.order('category', { ascending: true }); // Boost 'Grains'
+      } else if (baristaType === 'capsule_explorer') {
+        dbQuery = dbQuery.order('category', { ascending: false }); // Boost 'Capsules'
+      } else {
+        dbQuery = dbQuery.order('created_at', { ascending: false });
+      }
     }
 
     // Pagination
@@ -60,7 +76,7 @@ export async function GET(request: Request) {
       source: 'premium'
     })) || [];
 
-    // 2. FALLBACK OpenFoodFacts (uniquement si on a peu de résultats et qu'on est sur la page 1)
+    // 2. FALLBACK OpenFoodFacts
     let allProducts = [...premiumProducts];
     
     if (allProducts.length < PAGE_SIZE && page === 1 && query.length >= 2) {
@@ -71,7 +87,7 @@ export async function GET(request: Request) {
         
         const offProducts = (data.products || [])
           .filter((p: any) => {
-             if (!p.product_name || !p.image_url) return false; // On force l'image ici aussi
+             if (!p.product_name || !p.image_url) return false;
              const name = p.product_name.toLowerCase();
              const isDuplicate = premiumProducts.some(pp => pp.name.toLowerCase() === p.product_name.toLowerCase());
              return !isDuplicate && (name.includes("coffee") || name.includes("café") || name.includes("cafe"));
@@ -88,7 +104,7 @@ export async function GET(request: Request) {
       } catch (e) {}
     }
 
-    // 3. ENRICHISSEMENT (Note moyenne)
+    // 3. ENRICHISSEMENT
     const enrichedProducts = await Promise.all(allProducts.map(async (product) => {
       const { data: statsData } = await supabase
         .from('tastings')

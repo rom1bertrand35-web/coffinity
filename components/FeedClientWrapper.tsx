@@ -50,13 +50,19 @@ export default function FeedClientWrapper({
     checkOnboarding();
   }, [currentUserId]);
 
-  const handleOnboardingComplete = async (selectedConfig: AvatarConfig) => {
+  const handleOnboardingComplete = async (data: { 
+    avatarConfig: AvatarConfig, 
+    baristaType: string, 
+    preferences: any 
+  }) => {
     if (!currentUserId) return;
     setIsOnboardingSaving(true);
     const initialInventory = ['short', 'none', 'tshirt', 'smile'];
     try {
       await supabase.from('profiles').update({
-        avatar_config: selectedConfig,
+        avatar_config: data.avatarConfig,
+        barista_type: data.baristaType,
+        preferences: data.preferences,
         inventory: initialInventory,
         points: 100 // Unifié sur points (Beans)
       }).eq('id', currentUserId);

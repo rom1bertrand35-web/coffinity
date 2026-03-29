@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import FeedClientWrapper from "@/components/FeedClientWrapper";
+import WeeklySelection from "@/components/WeeklySelection";
 
 export const dynamic = "force-dynamic";
 
@@ -11,8 +12,6 @@ export default async function FeedPage() {
   const currentUserId = user?.id || null;
 
   if (!currentUserId) {
-    // If not logged in, we could redirect or show a different state
-    // For now, let's just return the component which might handle the empty state
     return (
       <div className="p-4 pt-10 pb-32 flex flex-col gap-6">
         <header className="flex flex-col gap-2">
@@ -69,6 +68,10 @@ export default async function FeedPage() {
         <p className="text-[var(--color-muted-foreground)] text-sm italic font-medium uppercase tracking-[0.2em] opacity-60">Barista Social Club</p>
       </header>
 
+      {/* 🌟 Pinned Weekly Selection */}
+      <WeeklySelection />
+
+      {/* Le Wrapper Client gère l'interactivité (onboarding, infinite scroll) */}
       <FeedClientWrapper 
         initialPosts={initialPosts} 
         currentUserId={currentUserId}

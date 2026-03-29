@@ -25,6 +25,22 @@ function DiscoverContent() {
   const [hasMore, setHasMore] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [followingIds, setFollowingIds] = useState<string[]>([]);
+  const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false);
+
+  // Scroll Listener for Collapsible Header
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPos = window.scrollY;
+      if (scrollPos > 80 && !isHeaderCollapsed) {
+        setIsHeaderCollapsed(true);
+      } else if (scrollPos <= 80 && isHeaderCollapsed) {
+        setIsHeaderCollapsed(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isHeaderCollapsed]);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -116,6 +132,7 @@ function DiscoverContent() {
         onBrandClick={handleBrandClick}
         category={category}
         setCategory={setCategory}
+        isCollapsed={isHeaderCollapsed}
       />
 
       <div className="space-y-4">

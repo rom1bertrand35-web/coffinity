@@ -165,7 +165,7 @@ export default function FeedPostCard({
       {/* IMAGE (INSTA STYLE) */}
       <div 
         onClick={() => router.push(`/tasting/${post.id}`)}
-        className="w-full aspect-[4/5] bg-[var(--color-background)] relative overflow-hidden group border-y-2 border-[#1A0F0A] cursor-pointer"
+        className="w-full aspect-[4/3] bg-[var(--color-background)] relative overflow-hidden group border-y-2 border-[#1A0F0A] cursor-pointer"
       >
         {post.image_url ? (
           <img src={post.image_url} alt="bag" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />

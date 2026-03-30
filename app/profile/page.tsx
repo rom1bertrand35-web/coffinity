@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Settings, Coffee, Star, Trophy, Loader2, LogOut, Palette, Users, Grid, List, X } from "lucide-react";
+import { Settings, Coffee, Star, Trophy, Loader2, LogOut, Palette, Users, Grid, List, X, Medal } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import CoffeeAvatar from "@/components/CoffeeAvatar";
@@ -15,6 +15,7 @@ export default function ProfilePage() {
   const [tastings, setTastings] = useState<any[]>([]);
   const [following, setFollowing] = useState<any[]>([]);
   const [followers, setFollowers] = useState<any[]>([]);
+  const [badges, setBadges] = useState<any[]>([]);
   const [stats, setStats] = useState({ count: 0, avgRating: 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [isFollowingOpen, setIsFollowingOpen] = useState(false);
@@ -31,11 +32,12 @@ export default function ProfilePage() {
 
       const userId = session.user.id;
 
-      const [pRes, tRes, followingRes, followersRes] = await Promise.all([
+      const [pRes, tRes, followingRes, followersRes, badgesRes] = await Promise.all([
         supabase.from('profiles').select('*').eq('id', userId).maybeSingle(),
         supabase.from('tastings').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
         supabase.from('follows').select('*, profiles:following_id(*)').eq('follower_id', userId),
-        supabase.from('follows').select('*, profiles:follower_id(*)').eq('following_id', userId)
+        supabase.from('follows').select('*, profiles:follower_id(*)').eq('following_id', userId),
+        supabase.from('user_badges').select('*, badges(*)').eq('user_id', userId)
       ]);
 
       if (pRes.data) setProfile(pRes.data);
@@ -50,6 +52,7 @@ export default function ProfilePage() {
 
       if (followingRes.data) setFollowing(followingRes.data.map(f => f.profiles));
       if (followersRes.data) setFollowers(followersRes.data.map(f => f.profiles));
+      if (badgesRes.data) setBadges(badgesRes.data.map(b => b.badges));
 
     } catch (err: any) {
       console.error("Critical Load Error:", err);
@@ -145,6 +148,24 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
+
+        {/* Badges Section */}
+        {badges.length > 0 && (
+          <div className="space-y-4">
+            <h3 className="font-black text-[#1A0F0A] text-xs uppercase tracking-[0.3em] ml-2">Succès Débloqués</h3>
+            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2">
+              {badges.map((badge) => (
+                <div 
+                  key={badge.id}
+                  className="flex-shrink-0 bg-white border-3 border-[#1A0F0A] p-4 rounded-[2rem] shadow-[4px_4px_0_#1A0F0A] flex flex-col items-center gap-2 min-w-[100px] animate-in zoom-in duration-500"
+                >
+                  <span className="text-3xl">{badge.icon}</span>
+                  <p className="text-[8px] font-black uppercase text-center leading-tight tracking-tighter">{badge.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* View Mode Toggle */}
         <div className="flex border-4 border-[#1A0F0A] bg-white rounded-2xl p-1 overflow-hidden shadow-[4px_4px_0_#1A0F0A]">

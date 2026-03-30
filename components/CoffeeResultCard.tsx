@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ShoppingBag, Coffee, Plus, Star, MessageSquareQuote } from "lucide-react";
+import { ShoppingBag, Coffee, Plus, Star, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface Comment {
@@ -21,6 +21,7 @@ interface CoffeeResultCardProps {
     avg_rating?: number | null;
     reviews_count?: number;
     last_comments?: Comment[];
+    match_score?: number | null;
   };
 }
 
@@ -31,6 +32,12 @@ export default function CoffeeResultCard({ coffee }: CoffeeResultCardProps) {
   const handleRate = (e: React.MouseEvent) => {
     e.stopPropagation();
     router.push(`/scan/rate?name=${encodeURIComponent(coffee.name)}&brand=${encodeURIComponent(coffee.brand)}&image=${encodeURIComponent(coffee.image_url || '')}`);
+  };
+
+  const getMatchColor = (score: number) => {
+    if (score >= 90) return "text-green-600 bg-green-50 border-green-200";
+    if (score >= 70) return "text-orange-600 bg-orange-50 border-orange-200";
+    return "text-stone-500 bg-stone-50 border-stone-200";
   };
 
   return (
@@ -47,6 +54,14 @@ export default function CoffeeResultCard({ coffee }: CoffeeResultCardProps) {
           <div className="flex flex-col items-center justify-center opacity-20 group-hover:opacity-40 transition-opacity">
             <Coffee size={32} />
             <p className="text-[8px] font-black uppercase mt-1">Image Archives</p>
+          </div>
+        )}
+        
+        {/* Match Badge */}
+        {coffee.match_score && (
+          <div className={`absolute top-2 left-2 flex items-center gap-1 px-2 py-1 rounded-full border text-[8px] font-black uppercase tracking-widest shadow-sm animate-in slide-in-from-left-2 duration-500 ${getMatchColor(coffee.match_score)}`}>
+            <Sparkles size={8} fill="currentColor" />
+            {coffee.match_score}% Match
           </div>
         )}
         
@@ -104,9 +119,6 @@ export default function CoffeeResultCard({ coffee }: CoffeeResultCardProps) {
                 </p>
               </div>
             ))}
-            {coffee.last_comments.length > 2 && (
-              <p className="text-[8px] font-bold text-[#1A0F0A]/40 text-right">+ {coffee.last_comments.length - 2} autres avis</p>
-            )}
           </div>
         )}
         

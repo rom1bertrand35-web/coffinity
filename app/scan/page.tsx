@@ -1,9 +1,11 @@
 "use client";
 
-import { ScanLine, Search, Hand, Camera, X, Zap, ZapOff, Coffee } from "lucide-react";
+import { ScanLine, Search, Hand, Camera, X, Zap, ZapOff, Coffee, Clock } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { BrowserMultiFormatReader, Exception } from '@zxing/library';
+import { supabase } from "@/lib/supabase";
+import { checkTastingLimit } from "@/lib/economy";
 
 // Types pour OpenFoodFacts
 interface OFFProduct {
@@ -24,9 +26,26 @@ export default function ScanPage() {
   const [hasTorch, setHasTorch] = useState(false);
   const [isTorchOn, setIsTorchOn] = useState(false);
   
+  // Rate limiting state
+  const [limitInfo, setLimitInfo] = useState<{ allowed: boolean, remaining: number, isDiscoveryMode: boolean } | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const codeReaderRef = useRef<BrowserMultiFormatReader | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+
+  // Check limits on mount
+  useEffect(() => {
+    async function init() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUserId(user.id);
+        const info = await checkTastingLimit(user.id);
+        setLimitInfo(info);
+      }
+    }
+    init();
+  }, []);
 
   // Fonction pour chercher le produit sur OpenFoodFacts
   const fetchProductFromOFF = async (barcode: string) => {
@@ -82,6 +101,11 @@ export default function ScanPage() {
 
   // Gestion du scanner de code-barres
   const startScanning = useCallback(async () => {
+    if (limitInfo && !limitInfo.allowed) {
+      setError("Pause café ! Vous avez atteint votre limite journalière.");
+      return;
+    }
+
     setIsScanning(true);
     setScannedCode(null);
     setProductData(null);
@@ -141,7 +165,7 @@ export default function ScanPage() {
       }
       setIsScanning(false);
     }
-  }, []);
+  }, [limitInfo]);
 
   const stopScanning = useCallback(() => {
     if (codeReaderRef.current) {
@@ -179,6 +203,25 @@ export default function ScanPage() {
            </button>
          )}
       </header>
+
+      {/* Info Limit Section */}
+      {!isScanning && !scannedCode && limitInfo && (
+        <div className="flex justify-center mb-6 animate-in fade-in slide-in-from-top-4">
+          {limitInfo.isDiscoveryMode ? (
+            <div className="bg-amber-400/20 border border-amber-400/50 rounded-full px-4 py-1.5 flex items-center gap-2">
+              <Zap size={14} className="text-amber-400 fill-amber-400" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-amber-200">Mode Découverte : ILLIMITÉ (1h)</span>
+            </div>
+          ) : (
+            <div className="bg-white/10 border border-white/20 rounded-full px-4 py-1.5 flex items-center gap-2">
+              <Clock size={14} className="text-white/60" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-white/60">
+                Quota du jour : <span className={limitInfo.remaining === 0 ? "text-red-400" : "text-white"}>{limitInfo.remaining}/2 archives restantes</span>
+              </span>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="flex-1 flex flex-col items-center justify-center relative">
         
@@ -252,12 +295,21 @@ export default function ScanPage() {
           <div className="text-center mb-12 animate-in fade-in zoom-in-95">
             <button 
               onClick={startScanning}
-              className="w-40 h-40 bg-[var(--color-accent)] rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(204,85,0,0.4)] hover:scale-105 active:scale-90 transition-all mb-8 mx-auto group"
+              disabled={limitInfo?.allowed === false}
+              className={`w-40 h-40 rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(204,85,0,0.4)] transition-all mb-8 mx-auto group ${
+                limitInfo?.allowed === false ? "bg-stone-600 grayscale cursor-not-allowed opacity-50" : "bg-[var(--color-accent)] hover:scale-105 active:scale-90"
+              }`}
             >
               <Camera size={56} className="text-white group-hover:rotate-12 transition-transform" />
             </button>
-            <h2 className="text-3xl font-black mb-3 uppercase tracking-tight">Prêt à goûter ?</h2>
-            <p className="text-white/60 font-medium">Scannez le code-barres de votre sachet</p>
+            <h2 className="text-3xl font-black mb-3 uppercase tracking-tight">
+              {limitInfo?.allowed === false ? "Repos Barista !" : "Prêt à goûter ?"}
+            </h2>
+            <p className="text-white/60 font-medium px-8">
+              {limitInfo?.allowed === false 
+                ? "Vous avez atteint votre limite journalière. Savourez votre café et revenez demain !" 
+                : "Scannez le code-barres de votre sachet"}
+            </p>
           </div>
         )}
 
@@ -268,14 +320,20 @@ export default function ScanPage() {
         <div className="flex flex-col w-full gap-4 pb-10 px-4">
           <button 
             onClick={() => router.push('/scan/search')}
-            className="w-full bg-white text-[var(--color-primary)] font-black uppercase tracking-widest py-4 rounded-2xl flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-all"
+            disabled={limitInfo?.allowed === false}
+            className={`w-full font-black uppercase tracking-widest py-4 rounded-2xl flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-all ${
+              limitInfo?.allowed === false ? "bg-stone-800/50 text-white/30 cursor-not-allowed" : "bg-white text-[var(--color-primary)]"
+            }`}
           >
             <Search size={20} />
             Chercher par nom
           </button>
           <button 
             onClick={() => router.push('/scan/rate')}
-            className="w-full bg-transparent border-2 border-white/20 text-white/80 font-bold uppercase tracking-widest py-4 rounded-2xl flex items-center justify-center gap-3 hover:bg-white/5 active:scale-95 transition-all"
+            disabled={limitInfo?.allowed === false}
+            className={`w-full font-bold uppercase tracking-widest py-4 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all ${
+              limitInfo?.allowed === false ? "bg-transparent border-2 border-white/5 text-white/10 cursor-not-allowed" : "bg-transparent border-2 border-white/20 text-white/80 hover:bg-white/5"
+            }`}
           >
             <Hand size={20} />
             Saisie manuelle

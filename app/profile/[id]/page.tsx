@@ -113,11 +113,29 @@ export default function UserProfilePage() {
             </div>
           </div>
 
-          <div className="mt-8 space-y-2">
-            <h2 className="text-3xl font-black text-[#1A0F0A] tracking-tighter uppercase font-serif">{profile?.username}</h2>
-            <div className="inline-flex items-center gap-2 bg-[#1A0F0A] text-[#EBE2D4] px-6 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border-2 border-[#1A0F0A]">
-              <Trophy size={14} className="text-amber-400" />
-              {profile?.level || "Apprenti"}
+          <div className="mt-8 space-y-4 w-full">
+            <div className="space-y-1">
+              <h2 className="text-3xl font-black text-[#1A0F0A] tracking-tighter uppercase font-serif">{profile?.username}</h2>
+              <div className="inline-flex items-center gap-2 bg-[#1A0F0A] text-[#EBE2D4] px-6 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border-2 border-[#1A0F0A]">
+                <Trophy size={14} className="text-amber-400" />
+                {profile?.level || "Grain Vert 🌱"}
+              </div>
+            </div>
+
+            {/* XP PROGRESS BAR */}
+            <div className="w-full max-w-[200px] mx-auto space-y-1.5">
+              <div className="flex justify-between text-[8px] font-black uppercase tracking-widest text-[#1A0F0A]/40">
+                <span>XP: {profile?.points || 0}</span>
+                <span>Next Level</span>
+              </div>
+              <div className="w-full h-3 bg-stone-100 border-2 border-[#1A0F0A] rounded-full overflow-hidden shadow-[2px_2px_0_#1A0F0A]">
+                <div 
+                  className="h-full bg-[#B44222] transition-all duration-1000 ease-out"
+                  style={{ 
+                    width: `${Math.min(100, ((profile?.points || 0) % 500) / 5)}%` 
+                  }}
+                ></div>
+              </div>
             </div>
           </div>
 

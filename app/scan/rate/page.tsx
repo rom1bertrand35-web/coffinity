@@ -79,17 +79,11 @@ function RateCoffeeForm() {
     try {
       // 1. Modération globale
       const textToModerate = `${coffeeName} ${review}`;
-      const entryType = (!initialName && !initialBrand) ? 'manual_entry' : 'review';
 
       const modRes = await fetch('/api/moderate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          text: textToModerate, 
-          type: entryType,
-          coffeeName: coffeeName,
-          brand: brand
-        })
+        body: JSON.stringify({ text: textToModerate })
       });
       const modData = await modRes.json();
 

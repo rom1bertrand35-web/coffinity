@@ -57,26 +57,46 @@ export default function CommentsSheet({ tastingId, isOpen, onClose, currentUserI
 
     setIsSubmitting(true);
     hapticFeedback(5);
-    
-    const { data, error } = await supabase
-      .from("comments")
-      .insert({
-        tasting_id: tastingId,
-        user_id: currentUserId,
-        content: newComment.trim()
-      })
-      .select(`*, profiles:user_id(username, avatar_config)`)
-      .single();
 
-    if (!error && data) {
-      setComments(prev => [...prev, data]);
-      setNewComment("");
-      awardBeans(currentUserId, 10);
-      showPoints(10, "Great thought!");
-    } else {
-      console.error(error);
+    try {
+      // 1. Modération du contenu
+      const modRes = await fetch('/api/moderate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: newComment.trim() })
+      });
+      const modData = await modRes.json();
+
+      if (!modData.isSafe) {
+        alert(modData.reason);
+        setIsSubmitting(false);
+        return;
+      }
+
+      // 2. Enregistrement Supabase
+      const { data, error } = await supabase
+        .from("comments")
+        .insert({
+          tasting_id: tastingId,
+          user_id: currentUserId,
+          content: newComment.trim()
+        })
+        .select(`*, profiles:user_id(username, avatar_config)`)
+        .single();
+
+      if (!error && data) {
+        setComments(prev => [...prev, data]);
+        setNewComment("");
+        awardBeans(currentUserId, 10);
+        showPoints(10, "Great thought!");
+      } else {
+        console.error(error);
+      }
+    } catch (err) {
+      console.error("Comment submission error:", err);
+    } finally {
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   };
 
   return (

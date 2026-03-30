@@ -45,6 +45,36 @@ export default function AuthPage() {
         }
         
       } else {
+        // --- VALIDATIONS AVANT INSCRIPTION ---
+        
+        // 1. Validation Pseudo
+        if (username.length < 3 || username.length > 20) {
+          setError("Le pseudo doit faire entre 3 et 20 caractères.");
+          setIsLoading(false);
+          return;
+        }
+
+        // 2. Vérification disponibilité Pseudo
+        const { data: existingUser } = await supabase
+          .from('profiles')
+          .select('id')
+          .ilike('username', username)
+          .maybeSingle();
+
+        if (existingUser) {
+          setError("Ce pseudo est déjà pris par un autre barista.");
+          setIsLoading(false);
+          return;
+        }
+
+        // 3. Validation Mot de Passe
+        if (password.length < 8) {
+          setError("Le mot de passe doit faire au moins 8 caractères pour plus de sécurité.");
+          setIsLoading(false);
+          return;
+        }
+
+        // --- PROCÉDURE SIGNUP ---
         const { data, error } = await supabase.auth.signUp({
           email,
           password,

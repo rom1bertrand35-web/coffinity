@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.svg" />
       </head>
       <body className={`${outfit.variable} ${playfair.variable} font-sans pb-20 bg-[var(--color-background)] min-h-screen text-[var(--color-foreground)]`}>
         <PointsProvider>

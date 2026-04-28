@@ -60,19 +60,21 @@ export default function NavigationBar() {
   // Hide on certain pages
   if (pathname === "/profile/avatar") return null;
 
+  const isDiscover = pathname === "/discover";
+
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
-      <nav className="w-full max-w-md bg-[var(--color-primary)] text-[var(--color-background)] rounded-t-[3rem] px-6 pt-6 pb-6 flex items-center justify-between pointer-events-auto relative border-t-[4px] border-[#1A0F0A] shadow-[0_-8px_0_rgba(26,15,10,0.1)]">
-        <NavItem href="/" icon={<Home size={24} strokeWidth={2.5} />} isActive={pathname === "/"} label="Feed" onClick={() => hapticFeedback(5)} />
-        <NavItem href="/discover" icon={<Compass size={24} strokeWidth={2.5} />} isActive={pathname === "/discover"} label="Explorer" onClick={() => hapticFeedback(5)} />
+      <nav className={`w-full max-w-md bg-[var(--color-primary)] text-[var(--color-background)] rounded-t-[3rem] px-6 flex items-center justify-between pointer-events-auto relative border-t-[4px] border-[#1A0F0A] shadow-[0_-8px_0_rgba(26,15,10,0.1)] transition-all duration-500 ${isDiscover ? 'pt-4 pb-4 scale-95 origin-bottom opacity-90' : 'pt-6 pb-6'}`}>
+        <NavItem href="/" icon={<Home size={isDiscover ? 20 : 24} strokeWidth={2.5} />} isActive={pathname === "/"} label="Feed" onClick={() => hapticFeedback(5)} />
+        <NavItem href="/discover" icon={<Compass size={isDiscover ? 20 : 24} strokeWidth={2.5} />} isActive={pathname === "/discover"} label="Explorer" onClick={() => hapticFeedback(5)} />
         
         {/* Scan Button */}
         <Link 
           href="/scan" 
           onClick={() => hapticFeedback([10, 50, 10])}
-          className="relative -top-6 bg-[var(--color-background)] text-[var(--color-primary)] p-4 rounded-[1.2rem] flex items-center justify-center hover:scale-105 transition-all duration-300 group border-2 border-transparent hover:border-[var(--color-accent)] shadow-xl"
+          className={`relative bg-[var(--color-background)] text-[var(--color-primary)] rounded-[1.2rem] flex items-center justify-center hover:scale-105 transition-all duration-300 group border-2 border-transparent hover:border-[var(--color-accent)] shadow-xl ${isDiscover ? '-top-3 p-3' : '-top-6 p-4'}`}
         >
-          <ScanLine size={28} strokeWidth={2.5} className="group-hover:rotate-12 transition-transform duration-300" />
+          <ScanLine size={isDiscover ? 24 : 28} strokeWidth={2.5} className="group-hover:rotate-12 transition-transform duration-300" />
         </Link>
         
         <button 
@@ -80,7 +82,7 @@ export default function NavigationBar() {
           className={`flex flex-col items-center gap-1.5 transition-all duration-300 hover:scale-105 relative ${isNotifsOpen ? "text-[var(--color-background)] opacity-100" : "text-[var(--color-background)] opacity-40 hover:opacity-80"}`}
         >
           <div className="relative">
-            <Bell size={24} strokeWidth={2.5} />
+            <Bell size={isDiscover ? 20 : 24} strokeWidth={2.5} />
             {unreadCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-[#B44222] text-white text-[8px] font-black w-4 h-4 flex items-center justify-center rounded-full border-2 border-[var(--color-primary)] animate-in zoom-in duration-300">
                 {unreadCount > 9 ? '9+' : unreadCount}

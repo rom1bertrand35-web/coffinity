@@ -66,8 +66,8 @@ export default function SearchHeader({
       layout
       className={`sticky top-0 z-20 bg-[#EBE2D4]/95 backdrop-blur-md px-4 -mx-4 border-b-2 border-[#1A0F0A]/10 shadow-sm`}
       animate={{ 
-        paddingTop: isCollapsed ? 12 : 40,
-        paddingBottom: isCollapsed ? 8 : 16,
+        paddingTop: isCollapsed ? 8 : 40,
+        paddingBottom: isCollapsed ? 6 : 16,
       }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >

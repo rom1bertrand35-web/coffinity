@@ -148,10 +148,10 @@ function DiscoverContent() {
           </div>
         ) : (
           <>
-            <div className={mode === 'coffee' ? "grid grid-cols-2 gap-4" : "flex flex-col gap-3"}>
+            <div className={mode === 'coffee' ? "grid grid-cols-2 gap-3" : "flex flex-col gap-3"}>
               {results.map((item, index) => (
                 mode === 'coffee' ? (
-                  <CoffeeResultCard key={`${item.id}-${index}`} coffee={item} />
+                  <CoffeeResultCard key={`${item.id}-${index}`} coffee={item} useIllustration={true} compact={true} />
                 ) : (
                   <BaristaResultCard 
                     key={item.id} 

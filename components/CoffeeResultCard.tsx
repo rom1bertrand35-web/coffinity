@@ -28,6 +28,7 @@ interface CoffeeResultCardProps {
     match_score?: number | null;
   };
   useIllustration?: boolean;
+  compact?: boolean;
 }
 
 export default function CoffeeResultCard({ coffee, useIllustration = false, compact = false }: CoffeeResultCardProps) {

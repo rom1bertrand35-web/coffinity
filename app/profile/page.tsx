@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import CoffeeAvatar from "@/components/CoffeeAvatar";
 import { ProfileSkeleton } from "@/components/Skeletons";
 import TastingActions from "@/components/TastingActions";
+import TasteRadar from "@/components/TasteRadar";
 import { Drawer } from "vaul";
 
 export default function ProfilePage() {
@@ -18,6 +19,7 @@ export default function ProfilePage() {
   const [badges, setBadges] = useState<any[]>([]);
   const [stats, setStats] = useState({ count: 0, avgRating: 0 });
   const [isLoading, setIsLoading] = useState(true);
+  const [userId, setUserId] = useState<string | null>(null);
   const [isFollowingOpen, setIsFollowingOpen] = useState(false);
   const [isFollowersOpen, setIsFollowersOpen] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -30,6 +32,7 @@ export default function ProfilePage() {
         return;
       }
 
+      setUserId(session.user.id);
       const userId = session.user.id;
 
       const [pRes, tRes, followingRes, followersRes, badgesRes] = await Promise.all([
@@ -166,6 +169,9 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
+
+        {/* Profil Aromatique (Radar) */}
+        {userId && <TasteRadar userId={userId} />}
 
         {/* Badges Section */}
         {badges.length > 0 && (

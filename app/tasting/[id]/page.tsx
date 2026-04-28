@@ -1,8 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Star, Zap, Thermometer, Bean, Wind, Quote, Calendar, User, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Star, Zap, Thermometer, Bean, Wind, Quote, Calendar, User, ShieldCheck, Share2 } from "lucide-react";
 import Link from "next/link";
 import CoffeeAvatar from "@/components/CoffeeAvatar";
+import TastingShareButton from "@/components/TastingShareButton";
+import { getAmazonAffiliateUrl } from "@/lib/affiliate";
+import { ShoppingBag, ExternalLink } from "lucide-react";
 
 export default async function TastingDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -20,6 +23,17 @@ export default async function TastingDetailPage({ params }: { params: Promise<{ 
   if (error || !post) {
     notFound();
   }
+
+  // Chercher si ce café a des infos d'affiliation en base
+  const { data: coffeeInfo } = await supabase
+    .from('coffees')
+    .select('amazon_asin, maxicoffee_url')
+    .ilike('name', `%${post.coffee_name}%`)
+    .maybeSingle();
+
+  const affiliateUrl = coffeeInfo?.amazon_asin 
+    ? getAmazonAffiliateUrl(coffeeInfo.amazon_asin) 
+    : coffeeInfo?.maxicoffee_url;
 
   const CriteriaBar = ({ label, icon, value, color }: any) => (
     <div className="flex flex-col gap-2">
@@ -128,13 +142,29 @@ export default async function TastingDetailPage({ params }: { params: Promise<{ 
           </div>
         </div>
 
-        {/* Back Button Bottom */}
-        <Link 
-          href="/"
-          className="w-full bg-[#1A0F0A] text-[#EBE2D4] py-5 rounded-full font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 hover:-translate-y-1 shadow-[0_8px_0_rgba(26,15,10,0.3)] transition-all active:translate-y-0 active:shadow-none"
-        >
-          Retour au Flux <ArrowLeft size={18} strokeWidth={3} />
-        </Link>
+        {/* Action Buttons */}
+        <div className="space-y-4 pt-4">
+          
+          {affiliateUrl && (
+            <a 
+              href={affiliateUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full bg-[#B44222] text-[#EBE2D4] py-5 rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:-translate-y-1 shadow-[0_8px_0_rgba(180,66,34,0.3)] transition-all active:translate-y-0 active:shadow-none border-4 border-[#1A0F0A]"
+            >
+              <ShoppingBag size={20} /> Commander ce café <ExternalLink size={14} className="opacity-40" />
+            </a>
+          )}
+
+          <TastingShareButton post={post} />
+          
+          <Link 
+            href="/"
+            className="w-full bg-[#1A0F0A] text-[#EBE2D4] py-5 rounded-full font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 hover:-translate-y-1 shadow-[0_8px_0_rgba(26,15,10,0.3)] transition-all active:translate-y-0 active:shadow-none"
+          >
+            Retour au Flux <ArrowLeft size={18} strokeWidth={3} />
+          </Link>
+        </div>
 
       </div>
     </div>

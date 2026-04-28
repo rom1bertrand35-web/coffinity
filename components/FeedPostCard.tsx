@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Heart, Star, Loader2, UserPlus, UserCheck, MoreHorizontal, MessageCircle } from "lucide-react";
+import { Heart, Star, Loader2, UserPlus, UserCheck, MoreHorizontal, MessageCircle, Share2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { usePoints } from "@/components/PointsFeedback";
 import CoffeeAvatar from "@/components/CoffeeAvatar";
 import { hapticFeedback } from "@/utils/haptics";
 import TastingActions from "@/components/TastingActions";
 import CommentsSheet from "@/components/CommentsSheet";
+import ShareStorySheet from "@/components/ShareStorySheet";
 import { awardBeans } from "@/lib/economy";
 
 export default function FeedPostCard({ 
@@ -24,6 +25,7 @@ export default function FeedPostCard({
   const [likesCount, setLikesCount] = useState(post.likes_count || 0);
   const [isFollowLoading, setIsFollowLoading] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+  const [isShareOpen, setIsShareOpen] = useState(false);
 
   const isOwnPost = post.user_id === currentUserId;
 
@@ -184,6 +186,9 @@ export default function FeedPostCard({
         <button onClick={() => { hapticFeedback(5); setIsCommentsOpen(true); }} className="flex items-center gap-1.5 text-[#1A0F0A] hover:text-stone-500 transition-colors hover:scale-110 active:scale-90">
           <MessageCircle size={26} strokeWidth={2.5} />
         </button>
+        <button onClick={() => { hapticFeedback(5); setIsShareOpen(true); }} className="flex items-center gap-1.5 text-[#1A0F0A] hover:text-stone-500 transition-colors hover:scale-110 active:scale-90 ml-auto">
+          <Share2 size={24} strokeWidth={2.5} />
+        </button>
       </div>
       
       {/* LIKES COUNT */}
@@ -230,6 +235,12 @@ export default function FeedPostCard({
         isOpen={isCommentsOpen} 
         onClose={() => setIsCommentsOpen(false)} 
         currentUserId={currentUserId} 
+      />
+
+      <ShareStorySheet 
+        post={post}
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
       />
     </article>
   );

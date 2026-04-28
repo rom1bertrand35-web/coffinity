@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { ShoppingBag, Coffee, Plus, Star, Sparkles } from "lucide-react";
+import { ShoppingBag, Coffee, Plus, Star, Sparkles, ExternalLink } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { getAmazonAffiliateUrl } from "@/lib/affiliate";
 
 interface Comment {
   username: string;
@@ -17,6 +18,8 @@ interface CoffeeResultCardProps {
     brand: string;
     image_url?: string;
     url?: string;
+    amazon_asin?: string;
+    maxicoffee_url?: string;
     price?: string;
     avg_rating?: number | null;
     reviews_count?: number;
@@ -29,9 +32,21 @@ export default function CoffeeResultCard({ coffee }: CoffeeResultCardProps) {
   const router = useRouter();
   const [imgError, setImgError] = useState(false);
 
+  // Generate affiliate link
+  const affiliateUrl = coffee.amazon_asin 
+    ? getAmazonAffiliateUrl(coffee.amazon_asin) 
+    : coffee.maxicoffee_url || coffee.url;
+
   const handleRate = (e: React.MouseEvent) => {
     e.stopPropagation();
     router.push(`/scan/rate?name=${encodeURIComponent(coffee.name)}&brand=${encodeURIComponent(coffee.brand)}&image=${encodeURIComponent(coffee.image_url || '')}`);
+  };
+
+  const handleBuy = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (affiliateUrl) {
+      window.open(affiliateUrl, '_blank');
+    }
   };
 
   const getMatchColor = (score: number) => {
@@ -122,17 +137,20 @@ export default function CoffeeResultCard({ coffee }: CoffeeResultCardProps) {
           </div>
         )}
         
-        <div className="mt-auto pt-4 flex items-center justify-between">
-          {coffee.url ? (
+        <div className="mt-auto pt-4 flex flex-col gap-2">
+          {affiliateUrl ? (
             <button 
-              onClick={() => window.open(coffee.url, '_blank')} 
-              className="text-[9px] font-black uppercase tracking-wider text-[#1A0F0A]/40 flex items-center gap-1.5 hover:text-[#1A0F0A] transition-colors"
+              onClick={handleBuy} 
+              className="w-full bg-[#1A0F0A] text-[#EBE2D4] text-[10px] font-black uppercase tracking-widest py-3 rounded-2xl flex items-center justify-center gap-2 hover:bg-[#B44222] transition-colors border-2 border-transparent active:scale-[0.98]"
             >
-              <ShoppingBag size={12} />
-              Acheter
+              <ShoppingBag size={14} />
+              {coffee.amazon_asin ? "Voir sur Amazon" : "Commander"}
+              <ExternalLink size={10} className="opacity-40" />
             </button>
           ) : (
-            <div></div>
+            <div className="text-center py-2 opacity-20">
+               <p className="text-[8px] font-black uppercase tracking-tighter">Épuisé ou indisponible</p>
+            </div>
           )}
         </div>
       </div>

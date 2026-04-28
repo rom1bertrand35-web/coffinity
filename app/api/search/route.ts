@@ -44,7 +44,7 @@ export async function GET(request: Request) {
     // 1. Construction de la requête Supabase
     let dbQuery = supabase
       .from('coffees')
-      .select('name, brand, image_url, id, url, category', { count: 'exact' });
+      .select('name, brand, image_url, id, url, category, amazon_asin, maxicoffee_url', { count: 'exact' });
 
     dbQuery = dbQuery.not('image_url', 'is', null).neq('image_url', '');
 
@@ -71,6 +71,8 @@ export async function GET(request: Request) {
       brand: c.brand || '',
       image_url: c.image_url || '',
       url: c.url || '',
+      amazon_asin: c.amazon_asin,
+      maxicoffee_url: c.maxicoffee_url,
       category: c.category,
       source: 'premium'
     })) || [];

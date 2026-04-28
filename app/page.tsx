@@ -3,6 +3,7 @@ import FeedClientWrapper from "@/components/FeedClientWrapper";
 import WeeklySelection from "@/components/WeeklySelection";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 60; // Met à jour le cache toutes les 60 secondes
 
 export default async function FeedPage() {
   const supabase = await createClient();

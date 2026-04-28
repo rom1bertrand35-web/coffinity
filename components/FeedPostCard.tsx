@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Heart, Star, Loader2, UserPlus, UserCheck, MoreHorizontal, MessageCircle, Share2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { usePoints } from "@/components/PointsFeedback";
@@ -170,10 +171,22 @@ export default function FeedPostCard({
         className="w-full aspect-[4/3] bg-[var(--color-background)] relative overflow-hidden group border-y-2 border-[#1A0F0A] cursor-pointer"
       >
         {post.image_url ? (
-          <img src={post.image_url} alt="bag" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <Image 
+            src={post.image_url} 
+            alt={post.coffee_name} 
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 400px"
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center p-8 bg-[#EBE2D4]">
-             <img src="/vintage_branch.png" alt="vintage coffee branch" className="w-full h-full object-contain opacity-80 mix-blend-multiply" />
+             <Image 
+              src="/vintage_branch.png" 
+              alt="vintage coffee branch" 
+              fill
+              className="object-contain opacity-80 mix-blend-multiply" 
+              sizes="(max-width: 768px) 100vw, 400px"
+            />
           </div>
         )}
       </div>

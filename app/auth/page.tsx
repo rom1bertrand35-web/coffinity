@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Coffee, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { loginWithServerAction } from "./actions";
+import { loginWithServerAction, resetPasswordAction } from "./actions";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
 export default function AuthPage() {
@@ -20,6 +20,28 @@ export default function AuthPage() {
   
   const router = useRouter();
   const turnstileRef = useRef<TurnstileInstance>(null);
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setError("Veuillez saisir votre adresse email d'abord.");
+      return;
+    }
+    setIsLoading(true);
+    setError(null);
+    setMessage(null);
+    try {
+      const result = await resetPasswordAction(email);
+      if (result.success) {
+        setMessage("Lien de réinitialisation envoyé ! Vérifiez votre boîte mail.");
+      } else {
+        setError(result.error || "Erreur lors de l'envoi du mail.");
+      }
+    } catch (err) {
+      setError("Une erreur est survenue.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -164,7 +186,11 @@ export default function AuthPage() {
             <div className="flex justify-between items-center pl-1 pr-1">
               <label className="text-sm font-medium text-gray-700">Password</label>
               {isLogin && (
-                <button type="button" className="text-xs text-[var(--color-accent)] font-semibold hover:underline">
+                <button 
+                  type="button" 
+                  onClick={handleForgotPassword}
+                  className="text-xs text-[var(--color-accent)] font-semibold hover:underline"
+                >
                   Forgot password?
                 </button>
               )}

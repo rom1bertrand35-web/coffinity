@@ -122,7 +122,7 @@ function DiscoverContent() {
   };
 
   return (
-    <div className="p-4 pb-32 flex flex-col gap-6 bg-stone-50 min-h-screen">
+    <div className="max-w-md mx-auto p-4 pb-32 flex flex-col gap-6 bg-stone-50 min-h-screen">
       
       <SearchHeader 
         mode={mode}

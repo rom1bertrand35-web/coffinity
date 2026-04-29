@@ -187,7 +187,7 @@ export default function ScanPage() {
 
 
   return (
-    <div className="p-4 pt-10 min-h-screen flex flex-col bg-[var(--color-primary)] text-white">
+    <div className="max-w-md mx-auto p-4 pt-10 min-h-screen flex flex-col bg-[var(--color-primary)] text-white">
       
       <header className="flex justify-between items-center mb-8 relative z-10">
          {isScanning ? (

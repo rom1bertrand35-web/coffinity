@@ -40,7 +40,7 @@ export default function RootLayout({
       </head>
       <body className={`${outfit.variable} ${playfair.variable} font-sans pb-20 bg-[var(--color-background)] min-h-screen text-[var(--color-foreground)]`}>
         <PointsProvider>
-          <main className="max-w-md mx-auto min-h-screen relative">
+          <main className="min-h-screen relative">
             {children}
             <NavigationBar />
           </main>

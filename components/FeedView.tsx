@@ -40,7 +40,7 @@ export default async function FeedView({ currentUserId }: { currentUserId: strin
   })) || [];
 
   return (
-    <div className="p-4 pt-10 pb-32 flex flex-col gap-6">
+    <div className="max-w-md mx-auto p-4 pt-10 pb-32 flex flex-col gap-6">
       <header className="flex flex-col gap-2">
         <h1 className="text-5xl text-[var(--color-primary)] font-serif font-black tracking-tighter italic">Coffinity</h1>
         <p className="text-[var(--color-muted-foreground)] text-sm italic font-medium uppercase tracking-[0.2em] opacity-60">Barista Social Club</p>

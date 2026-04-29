@@ -127,6 +127,7 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center justify-center p-6 pb-24">
+      <div className="w-full max-w-md mx-auto flex flex-col items-center">
       {/* Cacher la barre de navigation sur cette page via CSS */}
       <style dangerouslySetInnerHTML={{__html: `
         nav { display: none !important; }

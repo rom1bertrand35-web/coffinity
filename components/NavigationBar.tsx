@@ -158,7 +158,6 @@ function SidebarItem({ href, icon, isActive, label }: { href: string; icon: Reac
     </Link>
   );
 }
-}
 
 function NavItem({ href, icon, isActive, label, onClick }: { href: string; icon: React.ReactNode; isActive: boolean; label: string; onClick?: () => void }) {
   return (

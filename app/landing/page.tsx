@@ -319,16 +319,3 @@ function StatItem({ value, label }: { value: string, label: string }) {
     </div>
   );
 }
-
-function BentoCard({ title, desc, icon, illustration, accent = false }: any) {
-  return (
-    <div className={`p-8 rounded-[2.5rem] border-3 border-[#1A0F0A] relative overflow-hidden transition-all hover:shadow-[8px_8px_0_#1A0F0A] group ${accent ? 'bg-white' : 'bg-transparent'}`}>
-      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 border-2 border-[#1A0F0A] transition-transform group-hover:-rotate-6 ${accent ? 'bg-[#B44222] text-white shadow-[4px_4px_0_#1A0F0A]' : 'bg-white shadow-[4px_4px_0_#B44222]'}`}>
-        {icon}
-      </div>
-      <h3 className="text-2xl font-serif font-black italic mb-4 tracking-tighter">{title}</h3>
-      <p className="text-sm font-medium text-[#1A0F0A]/70 leading-relaxed relative z-10">{desc}</p>
-      {illustration}
-    </div>
-  );
-}

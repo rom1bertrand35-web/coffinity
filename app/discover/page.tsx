@@ -122,7 +122,7 @@ function DiscoverContent() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 pb-32 flex flex-col gap-6 bg-stone-50 min-h-screen">
+    <div className="max-w-7xl mx-auto p-4 md:p-8 lg:p-12 pb-32 flex flex-col gap-8 bg-stone-50 min-h-screen relative">
       
       <SearchHeader 
         mode={mode}
@@ -148,7 +148,7 @@ function DiscoverContent() {
           </div>
         ) : (
           <>
-            <div className={mode === 'coffee' ? "grid grid-cols-2 gap-3" : "flex flex-col gap-3"}>
+            <div className={mode === 'coffee' ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6" : "flex flex-col gap-3 max-w-2xl mx-auto w-full"}>
               {results.map((item, index) => (
                 mode === 'coffee' ? (
                   <CoffeeResultCard key={`${item.id}-${index}`} coffee={item} useIllustration={true} compact={true} />

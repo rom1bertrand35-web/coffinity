@@ -23,7 +23,7 @@ export default function NavigationBar() {
         
         // Subscribe to new notifications
         const channel = supabase
-          .channel('schema-db-changes')
+          .channel(`user-notifs-${user.id}`)
           .on(
             'postgres_changes',
             {
@@ -32,12 +32,15 @@ export default function NavigationBar() {
               table: 'notifications',
               filter: `user_id=eq.${user.id}`
             },
-            () => {
+            (payload) => {
+              console.log("New notification received!", payload);
               fetchUnreadCount(user.id);
               hapticFeedback([10, 30, 10]);
             }
           )
-          .subscribe();
+          .subscribe((status) => {
+            console.log("Subscription status:", status);
+          });
 
         return () => {
           supabase.removeChannel(channel);

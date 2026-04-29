@@ -58,7 +58,7 @@ export default function NavigationBar() {
   };
 
   // Hide on certain pages
-  if (pathname === "/profile/avatar") return null;
+  if (pathname === "/profile/avatar" || !userId) return null;
 
   const isDiscover = pathname === "/discover";
 

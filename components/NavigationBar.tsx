@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Compass, ScanLine, User, Bell } from "lucide-react";
+import { Home, Compass, ScanLine, User, Bell, Coffee } from "lucide-react";
 import { hapticFeedback } from "@/utils/haptics";
 import NotificationsSheet from "./NotificationsSheet";
 import { supabase } from "@/lib/supabase";

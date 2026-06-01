@@ -41,7 +41,7 @@ export default function LandingPage() {
       </div>
 
       {/* HEADER / NAV */}
-      <nav className="p-6 md:px-12 md:py-10 flex justify-between items-center max-w-7xl mx-auto relative z-10">
+      <nav className="p-6 md:px-12 md:py-10 flex justify-between items-center max-w-7xl 2xl:max-w-screen-2xl mx-auto relative z-10">
         <div className="flex items-center gap-3">
           <motion.div 
             whileHover={{ rotate: 10, scale: 1.1 }}
@@ -163,7 +163,7 @@ export default function LandingPage() {
       </div>
 
       {/* FEATURES BENTO - ENHANCED FOR DESKTOP */}
-      <section className="px-6 py-32 max-w-7xl mx-auto space-y-20 relative z-10">
+      <section className="px-6 py-32 max-w-7xl 2xl:max-w-screen-2xl mx-auto space-y-20 relative z-10">
         <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-6">
           <div className="space-y-4 text-left">
             <h2 className="text-5xl md:text-7xl font-serif font-black italic tracking-tighter leading-none">Plus qu'une application.</h2>
@@ -174,7 +174,7 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 2xl:gap-16">
           {/* Card 1: 7 columns */}
           <BentoCard 
             className="md:col-span-7"
@@ -305,7 +305,7 @@ function BentoCard({ title, desc, icon, illustration, className = "", accent = f
         {icon}
       </div>
       <h3 className="text-4xl font-serif font-black italic mb-6 tracking-tighter leading-none">{title}</h3>
-      <p className="text-lg font-medium text-[#1A0F0A]/70 leading-relaxed relative z-10 max-w-sm">{desc}</p>
+      <p className="text-lg font-medium text-[#1A0F0A]/70 leading-relaxed relative z-10 max-w-sm 2xl:max-w-lg">{desc}</p>
       {illustration}
     </motion.div>
   );

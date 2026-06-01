@@ -6,6 +6,19 @@ export async function proxy(request: NextRequest) {
     request,
   })
 
+  const { pathname } = request.nextUrl
+
+  // 1. BYPASS COMPLET pour les assets statiques et Next.js interne
+  // Indispensable pour éviter les erreurs "fetch failed" sur les styles/images
+  if (
+    pathname.startsWith('/_next') || 
+    pathname.includes('.') || 
+    pathname.startsWith('/api')
+  ) {
+    return supabaseResponse
+  }
+
+  // 2. Initialisation Supabase (uniquement si nécessaire)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -27,15 +40,13 @@ export async function proxy(request: NextRequest) {
     }
   )
 
+  // 3. Vérification de l'utilisateur
   const { data: { user } } = await supabase.auth.getUser()
-  const { pathname } = request.nextUrl
 
-  // --- ROUTES PUBLIQUES ---
-  // On laisse passer tout ce qui est statique, auth, landing ou API
-  const isStatic = pathname.startsWith('/_next') || pathname.includes('.')
-  const isPublicPage = pathname === '/' || pathname.startsWith('/auth') || pathname.startsWith('/landing') || pathname.startsWith('/api')
+  // 4. Autoriser les pages publiques sans redirection
+  const isPublicPage = pathname === '/' || pathname.startsWith('/auth') || pathname.startsWith('/landing')
 
-  if (!user && !isStatic && !isPublicPage) {
+  if (!user && !isPublicPage) {
     const url = request.nextUrl.clone()
     url.pathname = '/auth'
     return NextResponse.redirect(url)

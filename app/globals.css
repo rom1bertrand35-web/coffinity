@@ -3,25 +3,25 @@
 @theme {
   --breakpoint-2xl: 1536px;
   
-  --color-background: #EBE2D4; /* Beige vintage intense */
-  --color-foreground: #1A0F0A; /* Noir Brun Profond */
+  --color-background: #EBE2D4;
+  --color-foreground: #1A0F0A;
   
-  --color-card: #EBE2D4; /* Les cartes ont la même couleur */
+  --color-card: #EBE2D4;
   --color-card-foreground: #1A0F0A;
   
-  --color-primary: #1A0F0A; /* Très profond */
+  --color-primary: #1A0F0A;
   --color-primary-foreground: #EBE2D4;
   
   --color-secondary: #EBE2D4; 
   --color-secondary-foreground: #1A0F0A;
   
-  --color-accent: #B44222; /* Rouille (Rust/Copper) */
+  --color-accent: #B44222;
   --color-accent-foreground: #ffffff;
   
   --color-muted: #D1C5B4;
   --color-muted-foreground: #7C6D60;
 
-  --color-border: #1A0F0A; /* Ligne épaisse et pure noire type bande-dessinée/Vectoriel */
+  --color-border: #1A0F0A;
   --color-input: #1A0F0A;
   
   --radius: 2rem;
@@ -36,20 +36,12 @@
   }
   body {
     background-color: var(--color-background);
-    background-image: none; /* Uniform flat color */
     color: var(--color-foreground);
     font-family: var(--font-sans);
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
     font-weight: 800;
-  }
-  
-  /* Désactivation complète des comportements de Dark Mode natifs dans l'UI */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      /* Ne fait rien pour garder le CSS bloqué sur Light Vintage */
-    }
   }
 }
 
@@ -61,22 +53,6 @@
     border-color: #1A0F0A;
     border-width: 3px;
     border-style: solid;
-  }
-
-  .bento-card:active {
-    transform: none; /* Pas d'effet 3D */
-  }
-
-  .skeleton {
-    background: linear-gradient(90deg, #EBE2D4 25%, #f4eade 50%, #EBE2D4 75%);
-    background-size: 200% 100%;
-    animation: skeleton-loading 1.5s infinite linear;
-    border-radius: 0.75rem;
-  }
-
-  @keyframes skeleton-loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
   }
 
   .tap-haptic {

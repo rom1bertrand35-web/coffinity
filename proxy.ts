@@ -27,20 +27,15 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
+  const { data: { user } } = await supabase.auth.getUser()
   const { pathname } = request.nextUrl
 
-  // Liste des routes publiques qui ne nécessitent pas d'auth
-  const isPublicRoute = 
-    pathname === '/' || 
-    pathname.startsWith('/auth') || 
-    pathname.startsWith('/landing') ||
-    pathname.startsWith('/api')
+  // --- ROUTES PUBLIQUES ---
+  // On laisse passer tout ce qui est statique, auth, landing ou API
+  const isStatic = pathname.startsWith('/_next') || pathname.includes('.')
+  const isPublicPage = pathname === '/' || pathname.startsWith('/auth') || pathname.startsWith('/landing') || pathname.startsWith('/api')
 
-  if (!user && !isPublicRoute) {
+  if (!user && !isStatic && !isPublicPage) {
     const url = request.nextUrl.clone()
     url.pathname = '/auth'
     return NextResponse.redirect(url)
@@ -51,6 +46,13 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder files (.svg, .png, etc.)
+     */
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

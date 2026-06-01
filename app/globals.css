@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @theme {
+  --breakpoint-2xl: 1536px;
+  
   --color-background: #EBE2D4; /* Beige vintage intense */
   --color-foreground: #1A0F0A; /* Noir Brun Profond */
   

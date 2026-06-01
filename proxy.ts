@@ -8,20 +8,27 @@ export async function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  // 1. EXCLUSION TOTALE des assets et fichiers techniques
-  if (pathname.startsWith('/_next') || pathname.includes('.') || pathname.startsWith('/api')) {
+  // 1. BYPASS SYSTÈME (Crucial pour Vercel Production)
+  // On laisse passer sans AUCUNE vérification :
+  // - Les fichiers statiques (images, css, js)
+  // - Les requêtes internes de Next.js (Server Actions)
+  // - Les appels API
+  if (
+    pathname.startsWith('/_next') || 
+    pathname.includes('.') || 
+    pathname.startsWith('/api') ||
+    request.headers.has('next-action') // Autorise les Server Actions de connexion
+  ) {
     return supabaseResponse
   }
 
-  // 2. EXCLUSION DES PAGES PUBLIQUES (Bypass Supabase pour éviter fetch failed)
-  // On ne fait aucun appel Supabase si on est sur une page accessible sans compte
+  // 2. BYPASS PAGES PUBLIQUES
   const isPublicPage = pathname === '/' || pathname.startsWith('/auth') || pathname.startsWith('/landing')
-  
   if (isPublicPage) {
     return supabaseResponse
   }
 
-  // 3. PROTECTION DES PAGES PRIVÉES (Uniquement pour /profile, /scan, etc.)
+  // 3. PROTECTION PAGES PRIVÉES
   try {
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -48,7 +55,6 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(url)
     }
   } catch (e) {
-    // En cas d'erreur de réseau, on laisse passer pour éviter de bloquer l'utilisateur
     return supabaseResponse
   }
 

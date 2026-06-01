@@ -66,7 +66,7 @@ export async function resetPasswordAction(email: string) {
   )
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://coffinity-v2.vercel.app'}/auth/callback?next=/profile/settings`,
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://coffinity-orcin.vercel.app'}/auth/callback?next=/profile/settings`,
   })
 
   if (error) return { success: false, error: error.message }
